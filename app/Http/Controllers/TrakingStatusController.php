@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Institution;
+use App\Models\TrakingStatus;
 use Illuminate\Http\Request;
+use DB;
+use Crypt;
 
-class InstitutionController extends Controller
+class TrakingStatusController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,10 +16,10 @@ class InstitutionController extends Controller
      */
     public function index()
     {
-        $institutions = Institution::all();
-        $institutions = EncryptController::encryptArray($institutions, ['id']);
+        $trakingStatuses = TrakingStatus::all();
+        $trakingStatuses = EncryptController::encryptArray($trakingStatuses, ['id']);
 
-        return response()->json(['message' => 'success', 'institutions' => $institutions]);
+        return response()->json(['message' => 'success', 'trakingStatuses' => $trakingStatuses]);
     }
 
     /**
@@ -28,7 +30,7 @@ class InstitutionController extends Controller
      */
     public function store(Request $request)
     {
-         Institution::insert($request->all());
+        TrakingStatus::insert($request->all());
 
         return response()->json(['message'=>'success']);
     }
@@ -36,10 +38,10 @@ class InstitutionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Institution  $institution
+     * @param  \App\Models\TrakingStatus  $trakingStatus
      * @return \Illuminate\Http\Response
      */
-    public function show(Institution $institution)
+    public function show(TrakingStatus $trakingStatus)
     {
         //
     }
@@ -48,28 +50,28 @@ class InstitutionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Institution  $institution
+     * @param  \App\Models\TrakingStatus  $trakingStatus
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
         $data = EncryptController::decryptModel($request->all(), 'id');
 
-        Institution::where('id', $data['id'])->update($data);
+        TrakingStatus::where('id', $data['id'])->update($data);
         return response()->json(["message"=>"success"]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Institution  $institution
+     * @param  \App\Models\TrakingStatus  $trakingStatus
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-         $id = EncryptController::decryptValue($id);
+        $id = EncryptController::decryptValue($id);
 
-        Institution::where('id', $id)->delete();
+        TrakingStatus::where('id', $id)->delete();
         return response()->json(["message"=>"success"]);
     }
 }

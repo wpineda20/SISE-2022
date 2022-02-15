@@ -15,6 +15,7 @@ use App\Http\Controllers\OrganizationalUnitController;
 use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\PoaClosingController;
 use App\Http\Controllers\UnitController;
+use App\Http\Controllers\TrakingStatusController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ExcelController;
 
@@ -62,6 +63,7 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
         Route::resource('/api/period', PeriodController::class);
         Route::resource('/api/poaClosing', PoaClosingController::class);
         Route::resource('/api/unit', UnitController::class);
+        Route::resource('/api/trakingStatus', TrakingStatusController::class);
         Route::resource('/api/user', UserController::class);
         Route::resource('/api/role', RoleController::class);
 
@@ -112,6 +114,10 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
 
         Route::get('/units', function () {
             return view('unit.index');
+        });
+
+        Route::get('/trakingStatus', function () {
+            return view('traking_status.index');
         });
     });
 });

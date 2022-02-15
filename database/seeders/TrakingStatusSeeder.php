@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use App\Models\Address;
+use App\Models\TrakingStatus;
 
-class AddressSeeder extends Seeder
+class TrakingStatusSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,18 +15,22 @@ class AddressSeeder extends Seeder
      */
     public function run()
     {
-        Address::insert([
-             [
+        TrakingStatus::insert([
+            [
                 'id' => 1,
-                'address_name' => 'San Salvador',
-                'institution_id' => 1,
+                'status_name' => 'En proceso',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
-             [
+            [
                 'id' => 2,
-                'address_name' => 'San Salvador',
-                'institution_id' => 2,
+                'status_name' => 'Atrasado',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ],
+            [
+                'id' => 3,
+                'status_name' => 'Completado',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
