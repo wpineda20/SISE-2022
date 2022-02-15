@@ -6,6 +6,15 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\MunicipalityController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\AddressController;
+use App\Http\Controllers\FinancingController;
+use App\Http\Controllers\IndicatorController;
+use App\Http\Controllers\InstitutionController;
+use App\Http\Controllers\MonthlyClosingController;
+use App\Http\Controllers\OrganizationalUnitController;
+use App\Http\Controllers\PeriodController;
+use App\Http\Controllers\PoaClosingController;
+use App\Http\Controllers\UnitController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ExcelController;
 
@@ -44,6 +53,15 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
         // Apis
         Route::resource('/api/department', DepartmentController::class);
         Route::resource('/api/municipality', MunicipalityController::class);
+        Route::resource('/api/address', AddressController::class);
+        Route::resource('/api/financing', FinancingController::class);
+        Route::resource('/api/indicator', IndicatorController::class);
+        Route::resource('/api/institution', InstitutionController::class);
+        Route::resource('/api/monthlyClosing', MonthlyClosingController::class);
+        Route::resource('/api/organizationalUnit', OrganizationalUnitController::class);
+        Route::resource('/api/period', PeriodController::class);
+        Route::resource('/api/poaClosing', PoaClosingController::class);
+        Route::resource('/api/unit', UnitController::class);
         Route::resource('/api/user', UserController::class);
         Route::resource('/api/role', RoleController::class);
 
@@ -58,6 +76,42 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
        
         Route::get('/users', function () {
             return view('user.index');
+        });
+
+        Route::get('/addresses', function () {
+            return view('address.index');
+        });
+
+        Route::get('/financings', function () {
+            return view('financing.index');
+        });
+
+        Route::get('/indicators', function () {
+            return view('indicator.index');
+        });
+
+        Route::get('/institutions', function () {
+            return view('institution.index');
+        });
+        
+        Route::get('/monthlyClosings', function () {
+            return view('monthly_closing.index');
+        });
+
+        Route::get('/organizationalUnits', function () {
+            return view('organizational_unit.index');
+        });
+
+        Route::get('/periods', function () {
+            return view('period.index');
+        });
+
+        Route::get('/poaClosings', function () {
+            return view('poa_closing.index');
+        });
+
+        Route::get('/units', function () {
+            return view('unit.index');
         });
     });
 });
