@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Unit;
 use Illuminate\Http\Request;
+use DB;
+use Crypt;
 
 class UnitController extends Controller
 {
@@ -14,7 +16,10 @@ class UnitController extends Controller
      */
     public function index()
     {
-        //
+        $units = Unit::all();
+        $units = EncryptController::encryptArray($units, ['id']);
+
+        return response()->json(['message' => 'success', 'units' => $units]);
     }
 
     /**
@@ -25,7 +30,9 @@ class UnitController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Unit::insert($request->all());
+
+        return response()->json(['message'=>'success']);
     }
 
     /**
@@ -46,9 +53,12 @@ class UnitController extends Controller
      * @param  \App\Models\Unit  $unit
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Unit $unit)
+    public function update(Request $request)
     {
-        //
+        $data = EncryptController::decryptModel($request->all(), 'id');
+
+        Unit::where('id', $data['id'])->update($data);
+        return response()->json(["message"=>"success"]);
     }
 
     /**
@@ -57,8 +67,11 @@ class UnitController extends Controller
      * @param  \App\Models\Unit  $unit
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Unit $unit)
+    public function destroy($id)
     {
-        //
+        $id = EncryptController::decryptValue($id);
+
+        Unit::where('id', $id)->delete();
+        return response()->json(["message"=>"success"]);
     }
 }

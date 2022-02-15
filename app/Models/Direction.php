@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
-class Address extends Model
+class Direction extends Model
 {
+   
     use HasFactory, SoftDeletes;
 
-    protected $table = 'addresses';
+    protected $table = 'directions';
 
     public $incrementing = true;
 
@@ -18,7 +19,7 @@ class Address extends Model
 
     protected $fillable = [
         'id',
-        'address_name',
+        'direction_name',
         'institution_id',
     ];
 
@@ -33,5 +34,10 @@ class Address extends Model
     public function institution()
     {
         return $this->belongsTo(Institution::class, 'institution_id', 'id');
+    }
+
+    public function organizationalUnits()
+    {
+        return $this->hasMany(Direction::class);
     }
 }

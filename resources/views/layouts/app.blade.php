@@ -72,7 +72,7 @@
                                 <li><a href="{{ url('/municipalities') }}">Municipios</a></li>
                                 <li><a href="{{ url('/users') }}">Usuarios</a></li>
                                 <li><a href="{{ url('/institutions') }}">Instituciones</a></li>
-                                <li><a href="{{ url('/addresses') }}">Direcciones</a></li>
+                                <li><a href="{{ url('/directions') }}">Direcciones</a></li>
                                 <li><a href="{{ url('/financings') }}">Financiamientos</a></li>
                                 <li><a href="{{ url('/indicators') }}">Indicadores</a></li>
                                 <li><a href="{{ url('/periods') }}">Periodos</a></li>

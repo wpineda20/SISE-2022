@@ -6,7 +6,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\MunicipalityController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\AddressController;
+use App\Http\Controllers\DirectionController;
 use App\Http\Controllers\FinancingController;
 use App\Http\Controllers\IndicatorController;
 use App\Http\Controllers\InstitutionController;
@@ -54,7 +54,7 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
         // Apis
         Route::resource('/api/department', DepartmentController::class);
         Route::resource('/api/municipality', MunicipalityController::class);
-        Route::resource('/api/address', AddressController::class);
+        Route::resource('/api/direction', DirectionController::class);
         Route::resource('/api/financing', FinancingController::class);
         Route::resource('/api/indicator', IndicatorController::class);
         Route::resource('/api/institution', InstitutionController::class);
@@ -80,8 +80,8 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
             return view('user.index');
         });
 
-        Route::get('/addresses', function () {
-            return view('address.index');
+        Route::get('/directions', function () {
+            return view('direction.index');
         });
 
         Route::get('/financings', function () {

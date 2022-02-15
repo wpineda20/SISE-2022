@@ -15,6 +15,8 @@ class CreateFinancingsTable extends Migration
     {
         Schema::create('financings', function (Blueprint $table) {
             $table->id();
+            $table->string('financing_name');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
