@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
-class Institution extends Model
+class TrakingStatus extends Model
 {
-    use HasFactory, SoftDeletes;
+   use HasFactory, SoftDeletes;
 
-    protected $table = 'institutions';
+    protected $table = 'traking_statuses';
 
     public $incrementing = true;
 
@@ -18,10 +18,7 @@ class Institution extends Model
 
     protected $fillable = [
         'id',
-        'institution_name',
-        'description',
-        'mission',
-        'vision',
+        'status_name',
     ];
 
     public $hidden = [
@@ -32,8 +29,5 @@ class Institution extends Model
 
     public $timestamps = false;
 
-    public function addresses()
-    {
-        return $this->hasMany(Institution::class);
-    }
+    
 }

@@ -71,15 +71,16 @@
                                 <li><a href="{{ url('/departments ') }}">Departamentos</a></li>
                                 <li><a href="{{ url('/municipalities') }}">Municipios</a></li>
                                 <li><a href="{{ url('/users') }}">Usuarios</a></li>
+                                <li><a href="{{ url('/institutions') }}">Instituciones</a></li>
                                 <li><a href="{{ url('/addresses') }}">Direcciones</a></li>
                                 <li><a href="{{ url('/financings') }}">Financiamientos</a></li>
                                 <li><a href="{{ url('/indicators') }}">Indicadores</a></li>
-                                <li><a href="{{ url('/institutions') }}">Instituciones</a></li>
                                 <li><a href="{{ url('/periods') }}">Periodos</a></li>
                                 <li><a href="{{ url('/units') }}">Unidades de medida</a></li>
                                 <li><a href="{{ url('/organizationalUnits') }}">Unidades organizativas</a></li>
                                 <li><a href="{{ url('/monthlyClosings') }}">Cierres mensuales</a></li>
                                 <li><a href="{{ url('/poaClosings') }}">Cierre POA</a></li>
+                                <li><a href="{{ url('/trakingStatus') }}">Estados de seguimiento</a></li>
                             </ul>
                         </li>
                     @endif

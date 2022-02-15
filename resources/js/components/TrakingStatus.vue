@@ -14,22 +14,23 @@
     <v-data-table
       :headers="headers"
       :items="recordsFiltered"
-      sort-by="name"
+      sort-by="status_name"
       class="elevation-3 shadow p-3 mt-3"
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>Municipios</v-toolbar-title>
+          <v-toolbar-title>Estados de seguimiento</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="600px" persistent>
             <template v-slot:activator="{ on, attrs }">
               <v-row>
                 <v-col align="end">
                   <v-btn
-                    class="mb-2 btn-normal"
+                    class="mb-2 btn-normal no-uppercase"
                     v-bind="attrs"
                     v-on="on"
                     rounded
+                    @click="$v.editedItem.$reset()"
                   >
                     Agregar
                   </v-btn>
@@ -62,98 +63,22 @@
               <v-card-text>
                 <v-container>
                   <!-- Form -->
-                  <!-- Department Name -->
-                  <v-row v-if="departments.length > 0">
-                    <v-col cols="12" sm="6" md="6">
-                      <base-select
-                        label="Departamentos"
-                        v-model.trim="$v.editedItem.department_name.$model"
-                        :items="departments"
-                        item="department_name"
-                        :validation="$v.editedItem.department_name"
-                      />
-                    </v-col>
-                    <!-- Department Name -->
-                    <!-- Municipality Name-->
-                    <v-col cols="12" sm="6" md="6">
+                  <v-row>
+                    <!-- Status Name -->
+                    <v-col cols="12" sm="12" md="12">
                       <base-input
-                        label="Nombre municipio"
-                        v-model="$v.editedItem.municipality_name.$model"
-                        :validation="$v.editedItem.municipality_name"
+                        label="Estado de seguimiento"
+                        v-model="$v.editedItem.status_name.$model"
+                        :validation="$v.editedItem.status_name"
                         validationTextType="default"
                         :validationsInput="{
                           required: true,
-                          format: false,
                           minLength: true,
                           maxLength: true,
                         }"
                       />
                     </v-col>
-                    <!-- Municipality Name-->
-                    <!-- Mun min -->
-                    <v-col cols="12" sm="6" md="6">
-                      <base-input
-                        label="Nombre municipio"
-                        v-model="$v.editedItem.mun_min.$model"
-                        :validation="$v.editedItem.mun_min"
-                        validationTextType="default"
-                        :validationsInput="{
-                          required: true,
-                          format: false,
-                          minLength: true,
-                          maxLength: true,
-                        }"
-                      />
-                    </v-col>
-                    <!-- Mun min -->
-                    <!-- Mun may -->
-                    <v-col cols="12" sm="6" md="6">
-                      <base-input
-                        label="Nombre municipio"
-                        v-model="$v.editedItem.mun_may.$model"
-                        :validation="$v.editedItem.mun_may"
-                        validationTextType="default"
-                        :validationsInput="{
-                          required: true,
-                          format: false,
-                          minLength: true,
-                          maxLength: true,
-                        }"
-                      />
-                    </v-col>
-                    <!-- Mun may -->
-                    <!-- dm_cod -->
-                    <v-col cols="12" sm="6" md="6">
-                      <base-input
-                        label="Nombre municipio"
-                        v-model="$v.editedItem.dm_cod.$model"
-                        :validation="$v.editedItem.dm_cod"
-                        validationTextType="default"
-                        :validationsInput="{
-                          required: true,
-                          format: false,
-                          minLength: true,
-                          maxLength: true,
-                        }"
-                      />
-                    </v-col>
-                    <!-- dm_cod -->
-                    <!-- cod_mun -->
-                    <v-col cols="12" sm="6" md="6">
-                      <base-input
-                        label="Nombre municipio"
-                        v-model="$v.editedItem.cod_mun.$model"
-                        :validation="$v.editedItem.cod_mun"
-                        validationTextType="default"
-                        :validationsInput="{
-                          required: true,
-                          format: false,
-                          minLength: true,
-                          maxLength: true,
-                        }"
-                      />
-                    </v-col>
-                    <!-- cod_mun -->
+                    <!-- Status Name -->
                   </v-row>
                   <!-- Form -->
                   <v-row>
@@ -225,8 +150,7 @@
 </template>
 
 <script>
-import departmentApi from "../apis/departmentApi";
-import municipalityApi from "../apis/municipalityApi";
+import trakingStatusApi from "../apis/trakingStatusApi";
 import lib from "../libs/function";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
 
@@ -236,74 +160,36 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "CÓDIGO", value: "cod_mun" },
-      { text: "NOMBRE", value: "municipality_name" },
-      { text: "DEPARTAMENTO", value: "department_name" },
-      { text: "MINÚSCULAS", value: "mun_min" },
-      { text: "MAYUSCULA", value: "mun_may" },
-      { text: "DEP-MUN COD", value: "dm_cod" },
+      { text: "ESTADO", value: "status_name" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
     records: [],
     recordsFiltered: [],
     editedIndex: -1,
     editedItem: {
-      municipality_name: "",
-      department_name: "Ahuachapán",
-      mun_min: "",
-      mun_may: "",
-      dm_cod: "",
-      cod_mun: "",
+      status_name: "",
     },
     defaultItem: {
-      municipality_name: "",
-      department_name: "Ahuachapán",
-      mun_min: "",
-      mun_may: "",
-      dm_cod: "",
-      cod_mun: "",
+      status_name: "",
     },
     textAlert: "",
     alertEvent: "success",
     showAlert: false,
-    departments: [],
     redirectSessionFinished: false,
+    alertTimeOut: 0,
   }),
 
-  // Validations
+  //Validations
   validations: {
     editedItem: {
-      municipality_name: {
-        required,
-        minLength: minLength(1),
-        maxLength: maxLength(150),
-      },
-      department_name: {
-        required,
-      },
-      mun_min: {
-        required,
-        minLength: minLength(1),
-        maxLength: maxLength(150),
-      },
-      mun_may: {
-        required,
-        minLength: minLength(1),
-        maxLength: maxLength(150),
-      },
-      dm_cod: {
-        required,
-        minLength: minLength(1),
-        maxLength: maxLength(150),
-      },
-      cod_mun: {
+      status_name: {
         required,
         minLength: minLength(1),
         maxLength: maxLength(150),
       },
     },
   },
-  // Validations
+  //Validations
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "Nuevo registro" : "Editar registro";
@@ -328,8 +214,7 @@ export default {
       this.records = [];
       this.recordsFiltered = [];
 
-      let requests = [municipalityApi.get(), departmentApi.get()];
-      let responses = await Promise.all(requests).catch((error) => {
+      const res = await trakingStatusApi.get().catch((error) => {
         this.updateAlert(true, "No fue posible obtener los registros.", "fail");
         this.redirectSessionFinished = lib.verifySessionFinished(
           error.response.status,
@@ -337,18 +222,15 @@ export default {
         );
       });
 
-      this.records = responses[0].data.municipalities;
-      this.departments = responses[1].data.departments;
-
-      this.recordsFiltered = this.records;
+      this.records = res.data.trakingStatuses;
+      this.recordsFiltered = res.data.trakingStatuses;
     },
 
     editItem(item) {
-      this.dialog = true;
       this.editedIndex = this.recordsFiltered.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.$v.editedItem.department_name.$model =
-        this.editedItem.department_name;
+      this.dialog = true;
+      this.$v.editedItem.$reset();
     },
 
     deleteItem(item) {
@@ -358,7 +240,7 @@ export default {
     },
 
     async deleteItemConfirm() {
-      const res = await municipalityApi
+      const res = await trakingStatusApi
         .delete(`/${this.editedItem.id}`)
         .catch((error) => {
           this.updateAlert(
@@ -367,6 +249,10 @@ export default {
             "fail"
           );
           this.close();
+          this.redirectSessionFinished = lib.verifySessionFinished(
+            error.response.status,
+            419
+          );
         });
 
       if (res.data.message == "success") {
@@ -375,8 +261,6 @@ export default {
           200
         );
         this.updateAlert(true, "Registro eliminado.", "success");
-      } else {
-        this.updateAlert(true, "No se pudo eliminar el registro.", "fail");
       }
 
       this.initialize();
@@ -386,30 +270,57 @@ export default {
     close() {
       this.dialog = false;
       this.$nextTick(() => {
-        this.editedItem = this.defaultItem;
+        this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
       });
     },
 
     closeDelete() {
+      this.dialogDelete = false;
       this.$nextTick(() => {
-        this.editedItem = this.defaultItem;
+        this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
       });
-
-      this.dialogDelete = false;
     },
 
     async save() {
       this.$v.$touch();
-      if (this.$v.$invalid || this.editedItem.department_name == "") {
+      if (this.$v.$invalid) {
         this.updateAlert(true, "Campos obligatorios.", "fail");
         return;
       }
 
       if (this.editedIndex > -1) {
-        const res = await municipalityApi
+        const edited = Object.assign(
+          this.recordsFiltered[this.editedIndex],
+          this.editedItem
+        );
+
+        const res = await trakingStatusApi
           .put(`/${this.editedItem.id}`, this.editedItem)
+          .catch((error) => {
+            this.updateAlert(
+              true,
+              "No fue posible actualizar el registro.",
+              "fail"
+            );
+
+            this.redirectSessionFinished = lib.verifySessionFinished(
+              error.response.status,
+              419
+            );
+          });
+
+        if (res.data.message == "success") {
+          this.redirectSessionFinished = lib.verifySessionFinished(
+            res.status,
+            200
+          );
+          this.updateAlert(true, "Registro actualizado.", "success");
+        }
+      } else {
+        const res = await trakingStatusApi
+          .post(null, this.editedItem)
           .catch((error) => {
             this.updateAlert(true, "No fue posible crear el registro.", "fail");
             this.close();
@@ -420,21 +331,10 @@ export default {
           });
 
         if (res.data.message == "success") {
-          this.updateAlert(
-            true,
-            "Registro almacenado correctamente.",
-            "success"
+          this.redirectSessionFinished = lib.verifySessionFinished(
+            res.status,
+            200
           );
-        }
-      } else {
-        const res = await municipalityApi
-          .post(null, this.editedItem)
-          .catch((error) => {
-            this.updateAlert(true, "No fue posible crear el registro.", "fail");
-            this.close();
-          });
-
-        if (res.data.message == "success") {
           this.updateAlert(
             true,
             "Registro almacenado correctamente.",
@@ -442,8 +342,10 @@ export default {
           );
         }
       }
+
       this.close();
       this.initialize();
+      return;
     },
 
     searchValue() {
@@ -452,8 +354,8 @@ export default {
       if (this.search != "") {
         this.records.forEach((record) => {
           let searchConcat = "";
-          for (let i = 0; i < record.municipality_name.length; i++) {
-            searchConcat += record.municipality_name[i].toUpperCase();
+          for (let i = 0; i < record.status_name.length; i++) {
+            searchConcat += record.status_name[i].toUpperCase();
             if (
               searchConcat === this.search.toUpperCase() &&
               !this.recordsFiltered.some((rec) => rec == record)
