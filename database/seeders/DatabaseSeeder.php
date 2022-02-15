@@ -20,7 +20,11 @@ class DatabaseSeeder extends Seeder
             MunicipalitiesSeeder::class,
             TrakingStatusSeeder::class,
             InstitutionSeeder::class,
-            AddressSeeder::class,
+            DirectionSeeder::class,
+            FinancingSeeder::class,
+            PeriodSeeder::class,
+            UnitSeeder::class,
+            OrganizationalUnitSeeder::class,
         ]);
     }
 }

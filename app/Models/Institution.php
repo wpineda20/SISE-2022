@@ -32,7 +32,7 @@ class Institution extends Model
 
     public $timestamps = false;
 
-    public function addresses()
+    public function directions()
     {
         return $this->hasMany(Institution::class);
     }

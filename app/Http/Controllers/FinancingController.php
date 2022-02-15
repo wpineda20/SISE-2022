@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Financing;
 use Illuminate\Http\Request;
+use DB;
+use Crypt;
+
 
 class FinancingController extends Controller
 {
@@ -14,7 +17,10 @@ class FinancingController extends Controller
      */
     public function index()
     {
-        //
+        $financings = Financing::all();
+        $financings = EncryptController::encryptArray($financings, ['id']);
+
+        return response()->json(['message' => 'success', 'financings' => $financings]);
     }
 
     /**
@@ -25,7 +31,9 @@ class FinancingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Financing::insert($request->all());
+
+        return response()->json(['message'=>'success']);
     }
 
     /**
@@ -46,9 +54,12 @@ class FinancingController extends Controller
      * @param  \App\Models\Financing  $financing
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Financing $financing)
+    public function update(Request $request)
     {
-        //
+        $data = EncryptController::decryptModel($request->all(), 'id');
+
+        Financing::where('id', $data['id'])->update($data);
+        return response()->json(["message"=>"success"]);
     }
 
     /**
@@ -57,8 +68,11 @@ class FinancingController extends Controller
      * @param  \App\Models\Financing  $financing
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Financing $financing)
+    public function destroy($id)
     {
-        //
+         $id = EncryptController::decryptValue($id);
+
+        Financing::where('id', $id)->delete();
+        return response()->json(["message"=>"success"]);
     }
 }

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Institution;
 use Illuminate\Http\Request;
+use DB;
+use Crypt;
+
 
 class InstitutionController extends Controller
 {

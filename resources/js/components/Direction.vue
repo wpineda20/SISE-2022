@@ -14,7 +14,7 @@
     <v-data-table
       :headers="headers"
       :items="recordsFiltered"
-      sort-by="address_name"
+      sort-by="direction_name"
       class="elevation-3 shadow p-3 mt-3"
     >
       <template v-slot:top>
@@ -74,12 +74,12 @@
                       />
                     </v-col>
                     <!-- Institution Name -->
-                    <!-- Address -->
+                    <!-- Direction -->
                     <v-col cols="12" sm="6" md="12">
                       <base-text-area
                         label="Dirección"
-                        v-model.trim="$v.editedItem.address_name.$model"
-                        :validation="$v.editedItem.address_name"
+                        v-model.trim="$v.editedItem.direction_name.$model"
+                        :validation="$v.editedItem.direction_name"
                         validationTextType="default"
                         :validationsInput="{
                           required: true,
@@ -91,7 +91,7 @@
                         :rows="3"
                       />
                     </v-col>
-                    <!-- Address -->
+                    <!-- Direction -->
                   </v-row>
                   <!-- Form -->
                   <v-row>
@@ -164,7 +164,7 @@
 
 <script>
 import institutionApi from "../apis/institutionApi";
-import addressApi from "../apis/addressApi";
+import directionApi from "../apis/directionApi";
 import lib from "../libs/function";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
 
@@ -174,7 +174,7 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "DIRECCIÓN", value: "address_name" },
+      { text: "DIRECCIÓN", value: "direction_name" },
       { text: "INSTITUCIÓN", value: "institution_name" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
@@ -182,11 +182,11 @@ export default {
     recordsFiltered: [],
     editedIndex: -1,
     editedItem: {
-      address_name: "",
+      direction_name: "",
       institution_name: "Ministerio de Cultura",
     },
     defaultItem: {
-      address_name: "",
+      direction_name: "",
       institution_name: "Ministerio de Cultura",
     },
     textAlert: "",
@@ -199,7 +199,7 @@ export default {
   // Validations
   validations: {
     editedItem: {
-      address_name: {
+      direction_name: {
         required,
         minLength: minLength(1),
         maxLength: maxLength(150),
@@ -234,7 +234,7 @@ export default {
       this.records = [];
       this.recordsFiltered = [];
 
-      let requests = [addressApi.get(), institutionApi.get()];
+      let requests = [directionApi.get(), institutionApi.get()];
       let responses = await Promise.all(requests).catch((error) => {
         this.updateAlert(true, "No fue posible obtener los registros.", "fail");
         this.redirectSessionFinished = lib.verifySessionFinished(
@@ -243,7 +243,7 @@ export default {
         );
       });
 
-      this.records = responses[0].data.addresses;
+      this.records = responses[0].data.directions;
       this.institutions = responses[1].data.institutions;
 
       this.recordsFiltered = this.records;
@@ -264,7 +264,7 @@ export default {
     },
 
     async deleteItemConfirm() {
-      const res = await addressApi
+      const res = await directionApi
         .delete(`/${this.editedItem.id}`)
         .catch((error) => {
           this.updateAlert(
@@ -314,7 +314,7 @@ export default {
       }
 
       if (this.editedIndex > -1) {
-        const res = await addressApi
+        const res = await directionApi
           .put(`/${this.editedItem.id}`, this.editedItem)
           .catch((error) => {
             this.updateAlert(true, "No fue posible crear el registro.", "fail");
@@ -333,7 +333,7 @@ export default {
           );
         }
       } else {
-        const res = await addressApi
+        const res = await directionApi
           .post(null, this.editedItem)
           .catch((error) => {
             this.updateAlert(true, "No fue posible crear el registro.", "fail");
@@ -358,8 +358,8 @@ export default {
       if (this.search != "") {
         this.records.forEach((record) => {
           let searchConcat = "";
-          for (let i = 0; i < record.address_name.length; i++) {
-            searchConcat += record.address_name[i].toUpperCase();
+          for (let i = 0; i < record.direction_name.length; i++) {
+            searchConcat += record.direction_name[i].toUpperCase();
             if (
               searchConcat === this.search.toUpperCase() &&
               !this.recordsFiltered.some((rec) => rec == record)

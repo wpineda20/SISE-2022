@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Period;
 use Illuminate\Http\Request;
+use DB;
+use Crypt;
+
 
 class PeriodController extends Controller
 {
@@ -14,7 +17,10 @@ class PeriodController extends Controller
      */
     public function index()
     {
-        //
+        $periods = Period::all();
+        $periods = EncryptController::encryptArray($periods, ['id']);
+
+        return response()->json(['message' => 'success', 'periods' => $periods]);
     }
 
     /**
@@ -25,7 +31,9 @@ class PeriodController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Period::insert($request->all());
+
+        return response()->json(['message'=>'success']);
     }
 
     /**
@@ -46,9 +54,12 @@ class PeriodController extends Controller
      * @param  \App\Models\Period  $period
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Period $period)
+    public function update(Request $request)
     {
-        //
+        $data = EncryptController::decryptModel($request->all(), 'id');
+
+        Period::where('id', $data['id'])->update($data);
+        return response()->json(["message"=>"success"]);
     }
 
     /**
@@ -57,8 +68,11 @@ class PeriodController extends Controller
      * @param  \App\Models\Period  $period
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Period $period)
+    public function destroy($id)
     {
-        //
+        $id = EncryptController::decryptValue($id);
+
+        Period::where('id', $id)->delete();
+        return response()->json(["message"=>"success"]);
     }
 }
