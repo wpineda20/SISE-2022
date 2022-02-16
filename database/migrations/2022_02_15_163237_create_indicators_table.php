@@ -15,6 +15,12 @@ class CreateIndicatorsTable extends Migration
     {
         Schema::create('indicators', function (Blueprint $table) {
             $table->id();
+            $table->string('indicator_name');
+            $table->tinyInteger('strategic_indicator');
+            $table->foreignId('unit_id')->references('id')->on('units');
+            $table->foreignId('institution_id')->references('id')->on('institutions');
+            $table->foreignId('organizational_unit_id')->references('id')->on('organizational_units');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -25,6 +25,10 @@ class DatabaseSeeder extends Seeder
             PeriodSeeder::class,
             UnitSeeder::class,
             OrganizationalUnitSeeder::class,
+            IndicatorSeeder::class,
+            MonthSeeder::class,
+            YearSeeder::class,
+            MonthlyClosingSeeder::class,
         ]);
     }
 }
