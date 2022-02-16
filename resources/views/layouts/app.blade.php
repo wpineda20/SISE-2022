@@ -81,6 +81,7 @@
                                 <li><a href="{{ url('/monthlyClosings') }}">Cierres mensuales</a></li>
                                 <li><a href="{{ url('/poaClosings') }}">Cierre POA</a></li>
                                 <li><a href="{{ url('/trakingStatus') }}">Estados de seguimiento</a></li>
+                                <li><a href="{{ url('/months') }}">Meses</a></li>
                             </ul>
                         </li>
                     @endif

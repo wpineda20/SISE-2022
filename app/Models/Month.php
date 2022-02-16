@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
-class Indicator extends Model
+class Month extends Model
 {
-     use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes;
 
-    protected $table = 'indicators';
+    protected $table = 'months';
 
     public $incrementing = true;
 
@@ -18,11 +18,7 @@ class Indicator extends Model
 
     protected $fillable = [
         'id',
-        'indicator_name',
-        'strategic_indicator',
-        'unit_id',
-        'institution_id',
-        'organizational_unit_id',
+        'month_name',
     ];
 
     public $hidden = [
@@ -32,5 +28,4 @@ class Indicator extends Model
     ];
 
     public $timestamps = false;
-
 }

@@ -4,9 +4,10 @@ namespace Database\Seeders;
 
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use App\Models\MonthlyClosing;
+use App\Models\Year;
 
-class MonthlyClosingSeeder extends Seeder
+
+class YearSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,8 +16,8 @@ class MonthlyClosingSeeder extends Seeder
      */
     public function run()
     {
-        MonthlyClosing::insert([
-
+        Year::insert([
+            
         ]);
     }
 }

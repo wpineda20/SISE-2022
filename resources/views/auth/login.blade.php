@@ -84,7 +84,7 @@
                         @endif
 
                         {{-- LOGIN SV --}}
-                        @if (env('LOGIN_SV_LOGIN'))
+                        {{-- @if (env('LOGIN_SV_LOGIN'))
                             <div class="form-group row-fluid mb-0">
                                 <div class="col-md-12 text-center">
                                     <a href="/redirectToProvider" class=" btn btn-normal shadow-none text-uppercase">
@@ -92,7 +92,7 @@
                                     </a>
                                 </div>
                             </div>
-                        @endif
+                        @endif --}}
                         {{-- END LOGIN SV --}}
                     </div>
                 </div>
