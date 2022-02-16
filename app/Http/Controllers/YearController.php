@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Year;
+use App\Models\Period;
 use Illuminate\Http\Request;
+use DB;
+use Crypt;
 
 class YearController extends Controller
 {
@@ -14,7 +17,16 @@ class YearController extends Controller
      */
     public function index()
     {
-        //
+        $years = Year::all();
+
+        foreach ($years as $year) {
+            $year->period_name = $year->period->period_name;
+        }
+        $years->makeHidden(['period']);
+
+        $years = EncryptController::encryptArray($years, ['id']);
+
+        return response()->json(['message' => 'success', 'years'=>$years]);
     }
 
     /**
@@ -25,7 +37,12 @@ class YearController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->except('period_name');
+        $period = Period::where('period_name', $request->period_name)->first();
+        $data['period_id'] = $period->id;
+        Year::insert($data);
+
+        return response()->json(['message'=>'success']);
     }
 
     /**
@@ -46,9 +63,16 @@ class YearController extends Controller
      * @param  \App\Models\Year  $year
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Year $year)
+    public function update(Request $request)
     {
-        //
+        $period = Period::where('period_name', $request->period_name)->first();
+        $data = EncryptController::decryptModel($request->except(['period_name']), 'id');
+        // dd($data, $period);
+
+        $data['period_id'] = $period->id;
+
+        Year::where('id', $data['id'])->update($data);
+        return response()->json(["message"=>"success"]);
     }
 
     /**
@@ -57,8 +81,11 @@ class YearController extends Controller
      * @param  \App\Models\Year  $year
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Year $year)
+    public function destroy($id)
     {
-        //
+        $id = EncryptController::decryptValue($id);
+
+        Year::where('id', $id)->delete();
+        return response()->json(["message"=>"success"]);
     }
 }

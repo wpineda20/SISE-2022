@@ -29,4 +29,9 @@ class Year extends Model
     ];
 
     public $timestamps = false;
+
+    public function period()
+    {
+        return $this->belongsTo(Period::class, 'period_id', 'id');
+    }
 }

@@ -18,9 +18,9 @@ class MonthlyClosing extends Model
 
     protected $fillable = [
         'id',
-        'end_month',
-        'month_id',
         'year_id',
+        'month_id',
+        'end_month',
     ];
 
     public $hidden = [
