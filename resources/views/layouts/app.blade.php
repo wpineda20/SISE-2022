@@ -74,7 +74,6 @@
                                 <li><a href="{{ url('/institutions') }}">Instituciones</a></li>
                                 <li><a href="{{ url('/directions') }}">Direcciones</a></li>
                                 <li><a href="{{ url('/financings') }}">Financiamientos</a></li>
-                                <li><a href="{{ url('/indicators') }}">Indicadores</a></li>
                                 <li><a href="{{ url('/periods') }}">Periodos</a></li>
                                 <li><a href="{{ url('/units') }}">Unidades de medida</a></li>
                                 <li><a href="{{ url('/organizationalUnits') }}">Unidades organizativas</a></li>
@@ -99,9 +98,25 @@
                                 <p class="link">Plan Cuscatlán</p>
                             </div>
                             <ul class="sub-menu">
-                                <li><a href="{{ url('/departments ') }}">Objetivos</a></li>
+                                <li><a href="{{ url('/departments ') }}">Objetivos Programático</a></li>
                                 <li><a href="{{ url('/municipalities') }}">Ejes</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Estrategias</a></li>
+                                <li><a href="{{ url('/indicators') }}">Indicadores</a></li>
                                 <li><a href="{{ url('/municipalities') }}">Resultados</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <div class="icon-link pb-1">
+                                <a href="#" class="arrow text-center">
+                                    <i class="bi bi-book-half md-18 mx-auto"></i>
+                                </a>
+                                <p class="link">Plan de Desarrollo Social</p>
+                            </div>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url('/departments ') }}">Resultados</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Resultados Intermedios</a></li>
                                 <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
                                 <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
                             </ul>
