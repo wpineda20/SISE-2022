@@ -249,7 +249,8 @@ footer {
 .link {
     font-size: 12px;
     color: $white;
-    text-align: center;
+    // text-align: center !important;
+    justify-content: center;
 }
 
 .sidebar {

@@ -14,12 +14,12 @@
     <v-data-table
       :headers="headers"
       :items="recordsFiltered"
-      sort-by="end_month"
+      sort-by="value"
       class="elevation-3 shadow p-3 mt-3"
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>Cierres mensuales</v-toolbar-title>
+          <v-toolbar-title>Años</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="600px" persistent>
             <template v-slot:activator="{ on, attrs }">
@@ -62,45 +62,34 @@
               <v-card-text>
                 <v-container>
                   <!-- Form -->
-                  <!-- Years -->
-                  <v-row v-if="years.length > 0">
-                    <v-col cols="12" sm="6" md="4">
+                  <!-- Period -->
+                  <v-row v-if="periods.length > 0">
+                    <v-col cols="12" sm="6" md="6">
                       <base-select
+                        label="Periodo"
+                        v-model.trim="$v.editedItem.period_name.$model"
+                        :items="periods"
+                        item="period_name"
+                        :validation="$v.editedItem.period_name"
+                      />
+                    </v-col>
+                    <!-- Period -->
+                    <!-- Year -->
+                    <v-col cols="12" sm="6" md="6">
+                      <base-input
                         label="Año"
                         v-model.trim="$v.editedItem.value.$model"
-                        :items="years"
-                        item-text="value"
                         :validation="$v.editedItem.value"
-                      />
-                    </v-col>
-                    <!-- Years -->
-                    <!-- Months -->
-                    <!-- <v-row v-if="months.length > 0"> -->
-                    <v-col cols="12" sm="6" md="4">
-                      <base-select
-                        label="Mes"
-                        v-model.trim="$v.editedItem.month_name.$model"
-                        :items="months"
-                        item="month_name"
-                        :validation="$v.editedItem.month_name"
-                      />
-                    </v-col>
-                    <!-- Months -->
-                    <!-- End Month -->
-                    <v-col cols="12" sm="6" md="4">
-                      <base-input
-                        label="Mes de cierre"
-                        v-model="$v.editedItem.end_month.$model"
-                        :validation="$v.editedItem.end_month"
-                        validationTextType="default"
+                        v-mask="'####'"
+                        type="number"
                         :validationsInput="{
                           required: true,
-                          minLength: true,
-                          maxLength: true,
                         }"
+                        :min="2000"
+                        :max="2050"
                       />
                     </v-col>
-                    <!-- End Month -->
+                    <!-- Year -->
                   </v-row>
                   <!-- Form -->
                   <v-row>
@@ -172,9 +161,8 @@
 </template>
 
 <script>
+import periodApi from "../apis/periodApi";
 import yearApi from "../apis/yearApi";
-import monthApi from "../apis/monthApi";
-import monthlyClosingApi from "../apis/monthlyClosingApi";
 import lib from "../libs/function";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
 
@@ -184,50 +172,37 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "AÑO", value: "value" },
-      { text: "MES", value: "month_name" },
-      { text: "MES DE CIERRE", value: "end_month" },
+      { text: "AÑOS", value: "value" },
+      { text: "PERIODO", value: "period_name" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
     records: [],
     recordsFiltered: [],
     editedIndex: -1,
     editedItem: {
-      end_month: "",
-      value: "2017",
-      month_name: "Enero",
+      value: "",
+      period_name: "2017 - 2019",
     },
     defaultItem: {
-      end_month: "",
-      value: "2017",
-      month_name: "Enero",
+      value: "",
+      period_name: "2017 - 2019",
     },
     textAlert: "",
     alertEvent: "success",
     showAlert: false,
-    years: [],
-    months: [],
+    periods: [],
     redirectSessionFinished: false,
   }),
 
-  //   props: {
-  //     items: {
-  //       type: Array,
-  //       default: () => [],
-  //     },
-  //   },
   // Validations
   validations: {
     editedItem: {
-      end_month: {
-        required,
-        minLength: minLength(1),
-        maxLength: maxLength(150),
-      },
       value: {
         required,
+        minLength: minLength(1),
+        maxLength: maxLength(4),
       },
-      month_name: {
+      period_name: {
         required,
       },
     },
@@ -257,7 +232,7 @@ export default {
       this.records = [];
       this.recordsFiltered = [];
 
-      let requests = [monthlyClosingApi.get(), yearApi.get(), monthApi.get()];
+      let requests = [yearApi.get(), periodApi.get()];
       let responses = await Promise.all(requests).catch((error) => {
         this.updateAlert(true, "No fue posible obtener los registros.", "fail");
         this.redirectSessionFinished = lib.verifySessionFinished(
@@ -266,9 +241,8 @@ export default {
         );
       });
 
-      this.records = responses[0].data.monthlyClosings;
-      this.years = responses[1].data.years;
-      this.months = responses[1].data.months;
+      this.records = responses[0].data.years;
+      this.periods = responses[1].data.periods;
 
       this.recordsFiltered = this.records;
     },
@@ -277,8 +251,7 @@ export default {
       this.dialog = true;
       this.editedIndex = this.recordsFiltered.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.$v.editedItem.value.$model = this.editedItem.value;
-      this.$v.editedItem.month_name.$model = this.editedItem.month_name;
+      this.$v.editedItem.period_name.$model = this.editedItem.period_name;
     },
 
     deleteItem(item) {
@@ -288,7 +261,7 @@ export default {
     },
 
     async deleteItemConfirm() {
-      const res = await monthlyClosingApi
+      const res = await yearApi
         .delete(`/${this.editedItem.id}`)
         .catch((error) => {
           this.updateAlert(
@@ -332,13 +305,13 @@ export default {
 
     async save() {
       this.$v.$touch();
-      if (this.$v.$invalid || this.editedItem.institution_name == "") {
+      if (this.$v.$invalid || this.editedItem.period_name == "") {
         this.updateAlert(true, "Campos obligatorios.", "fail");
         return;
       }
 
       if (this.editedIndex > -1) {
-        const res = await monthlyClosingApi
+        const res = await yearApi
           .put(`/${this.editedItem.id}`, this.editedItem)
           .catch((error) => {
             this.updateAlert(true, "No fue posible crear el registro.", "fail");
@@ -357,12 +330,10 @@ export default {
           );
         }
       } else {
-        const res = await monthlyClosingApi
-          .post(null, this.editedItem)
-          .catch((error) => {
-            this.updateAlert(true, "No fue posible crear el registro.", "fail");
-            this.close();
-          });
+        const res = await yearApi.post(null, this.editedItem).catch((error) => {
+          this.updateAlert(true, "No fue posible crear el registro.", "fail");
+          this.close();
+        });
 
         if (res.data.message == "success") {
           this.updateAlert(
@@ -382,8 +353,8 @@ export default {
       if (this.search != "") {
         this.records.forEach((record) => {
           let searchConcat = "";
-          for (let i = 0; i < record.end_month.length; i++) {
-            searchConcat += record.end_month[i].toUpperCase();
+          for (let i = 0; i < record.value.length; i++) {
+            searchConcat += record.value[i].toUpperCase();
             if (
               searchConcat === this.search.toUpperCase() &&
               !this.recordsFiltered.some((rec) => rec == record)

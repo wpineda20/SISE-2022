@@ -18,9 +18,9 @@ class MonthlyClosing extends Model
 
     protected $fillable = [
         'id',
-        'end_month',
-        'month_id',
         'year_id',
+        'month_id',
+        'end_month',
     ];
 
     public $hidden = [
@@ -30,4 +30,14 @@ class MonthlyClosing extends Model
     ];
 
     public $timestamps = false;
+
+   public function year()
+    {
+        return $this->belongsTo(Month::class, 'month_id', 'id');
+    }
+
+    public function month()
+    {
+        return $this->belongsTo(Year::class, 'year_id', 'id');
+    }
 }

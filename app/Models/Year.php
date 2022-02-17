@@ -29,4 +29,15 @@ class Year extends Model
     ];
 
     public $timestamps = false;
+
+    public function period()
+    {
+        return $this->belongsTo(Period::class, 'period_id', 'id');
+    }
+
+     public function monthlyClosings()
+    {
+        return $this->hasMany(Year::class);
+    }
+    
 }

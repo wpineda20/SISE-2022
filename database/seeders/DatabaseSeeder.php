@@ -15,7 +15,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RoleSeeder::class,
-            UserSeeder::class,
             DepartmentSeeder::class,
             MunicipalitiesSeeder::class,
             TrakingStatusSeeder::class,
@@ -29,6 +28,7 @@ class DatabaseSeeder extends Seeder
             MonthSeeder::class,
             YearSeeder::class,
             MonthlyClosingSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }

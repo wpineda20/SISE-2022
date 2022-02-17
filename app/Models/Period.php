@@ -30,4 +30,9 @@ class Period extends Model
     ];
 
     public $timestamps = false;
+
+    public function years()
+    {
+        return $this->hasMany(Period::class);
+    }
 }

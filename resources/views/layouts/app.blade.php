@@ -60,16 +60,16 @@
                     <!-- Settings -->
                     <!-- Administrative routes -->
                     @if (auth()->user()->hasRole('Administrador') == 'Administrador')
-                        <li>
-                            <div class="icon-link pb-1">
+                        <li class="text-center">
+                            <div class="icon-link pb-1 mx-auto">
                                 <a href="#" class="arrow text-center">
-                                    <i class="material-icons md-18 mx-auto">settings</i>
+                                    <i class="material-icons md-18 mx-auto">format_list_bulleted</i>
                                 </a>
-                                <p class="link">Administración</p>
+                                <p class="link">Catálogos</p>
                             </div>
                             <ul class="sub-menu">
-                                <li><a href="{{ url('/departments ') }}">Departamentos</a></li>
-                                <li><a href="{{ url('/municipalities') }}">Municipios</a></li>
+                                {{-- <li><a href="{{ url('/departments ') }}">Departamentos</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Municipios</a></li> --}}
                                 <li><a href="{{ url('/users') }}">Usuarios</a></li>
                                 <li><a href="{{ url('/institutions') }}">Instituciones</a></li>
                                 <li><a href="{{ url('/directions') }}">Direcciones</a></li>
@@ -82,6 +82,28 @@
                                 <li><a href="{{ url('/poaClosings') }}">Cierre POA</a></li>
                                 <li><a href="{{ url('/trakingStatus') }}">Estados de seguimiento</a></li>
                                 <li><a href="{{ url('/months') }}">Meses</a></li>
+                                <li><a href="{{ url('/years') }}">Años</a></li>
+                            </ul>
+                        </li>
+                    @endif
+                    <!-- End Administrative routes -->
+                    <!-- Settings -->
+                    <!-- Plan Cuscatlan -->
+                    <!-- Administrative routes -->
+                    @if (auth()->user()->hasRole('Administrador') == 'Administrador')
+                        <li>
+                            <div class="icon-link pb-1">
+                                <a href="#" class="arrow text-center">
+                                    <i class="material-icons md-18 mx-auto">widgets</i>
+                                </a>
+                                <p class="link">Plan Cuscatlán</p>
+                            </div>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url('/departments ') }}">Objetivos</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Ejes</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Reslutados</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
                             </ul>
                         </li>
                     @endif

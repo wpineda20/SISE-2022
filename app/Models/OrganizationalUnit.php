@@ -34,4 +34,9 @@ class OrganizationalUnit extends Model
     {
         return $this->belongsTo(Direction::class, 'direction_id', 'id');
     }
+
+    public function users()
+    {
+        return $this->hasMany(OrganizationalUnit::class);
+    }
 }

@@ -28,4 +28,9 @@ class Month extends Model
     ];
 
     public $timestamps = false;
+
+     public function monthlyClosings()
+    {
+        return $this->hasMany(Month::class);
+    }
 }
