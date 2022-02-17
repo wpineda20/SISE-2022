@@ -17,10 +17,15 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $fillable = [
         'id',
+        'user_name',
         'name',
+        'job_title',
         'dui',
+        'phone',
         'email',
         'password',
+        'ou_id',
+        'institution_id',
         'email_verified_at',
     ];
 
@@ -40,4 +45,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new \App\Notifications\VerifyEmailQueued);
     }
+
+    // public function institutions()
+    // {
+    //     return $this->belongsTo(Institution::class, 'institution_id', 'id');
+    // }
+
+    // public function organizationalUnits()
+    // {
+    //     return $this->belongsTo(OrganizationalUnit::class, 'ou_id', 'id');
+    // }
 }

@@ -37,7 +37,7 @@ class DirectionController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except('institution_name');
+       $data = $request->except('institution_name'); 
         $institution = Institution::where('institution_name', $request->institution_name)->first();
         $data['institution_id'] = $institution->id;
         Direction::insert($data);

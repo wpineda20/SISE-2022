@@ -21,25 +21,28 @@ class UserSeeder extends Seeder
 
         $admin = User::create([
             'id' => 1,
-            'name' => 'William',
-            'dui' => '06275605-7',
+            'user_name' => 'wpineda20',
+            'name' => 'William Alberto Pineda Tovar',
+            'job_title' => 'Técnico',   
+            'phone' => '7284-2854',
+            'ou_id' => 1,
+            'institution_id' => 2,
             'email' => 'willalbertopineda@gmail.com',
             'password' => Hash::make('12345678'),
-            'name' => 'William',
             'email_verified_at' => now(),
         ]);
         $admin->assignRole($roleAdmin);
 
-        $admin = User::create([
-            'id' => 2,
-            'name' => 'Tzec',
-            'dui' => '12345678-1',
-            'email' => 'giovanni.tzec@gmail.com',
-            'password' => Hash::make('12345678'),
-            'name' => 'Tzec',
-            'email_verified_at' => now(),
-        ]);
-        $admin->assignRole($roleAdmin);
+        // $admin = User::create([
+        //     'id' => 2,
+        //     'name' => 'Tzec',
+        //     'dui' => '12345678-1',
+        //     'email' => 'giovanni.tzec@gmail.com',
+        //     'password' => Hash::make('12345678'),
+        //     'name' => 'Tzec',
+        //     'email_verified_at' => now(),
+        // ]);
+        // $admin->assignRole($roleAdmin);
 
         // $user = User::create([
         //     'id' => 2,
