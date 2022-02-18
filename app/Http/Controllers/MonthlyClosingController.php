@@ -12,22 +12,18 @@ use Crypt;
 class MonthlyClosingController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    * Display a listing of the resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
     public function index()
     {
-        $monthlyClosings = MonthlyClosing::all();
+        $monthlyClosings = MonthlyClosing::select('monthly_closings.id', 'month_name', 'value', 'active')
+        ->join('years as y', 'monthly_closings.year_id', '=', 'y.id')
+        ->join('months as m', 'monthly_closings.month_id', '=', 'm.id')
+        ->get();
 
-        foreach ($monthlyClosings as $monthlyClosing) {
-            $monthlyClosing->value = $monthlyClosing->year->value;
-            $monthlyClosing->month_name = $monthlyClosing->month->month_name;
-        }
-        $monthlyClosings->makeHidden(['year', 'month']);
-        
-
-        $monthlyClosings = EncryptController::encryptArray($monthlyClosings, ['id']);
+        $monthlyClosings = EncryptController::encryptArray($monthlyClosings, ['id', 'year_id', 'month_id']);
 
         return response()->json(['message' => 'success', 'monthlyClosings'=>$monthlyClosings]);
     }
@@ -41,13 +37,13 @@ class MonthlyClosingController extends Controller
     public function store(Request $request)
     {
         $data = $request->except(['value', 'month_name']);
-        // $data = $request->except('month_name');
 
         $year = Year::where('value', $request->value)->first();
         $month = Month::where('month_name', $request->month_name)->first();
 
         $data['year_id'] = $year->id;
         $data['month_id'] = $month->id;
+        $data['active'] = ($data['active'])?"SI":"NO";
 
         MonthlyClosing::insert($data);
 
@@ -57,10 +53,10 @@ class MonthlyClosingController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\MonthlyClosing  $monthlyClosing
+     * @param  \App\Models\Municipality  $monthly
      * @return \Illuminate\Http\Response
      */
-    public function show(MonthlyClosing $monthlyClosing)
+    public function show(Municipality $monthly)
     {
         //
     }
@@ -69,20 +65,22 @@ class MonthlyClosingController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\MonthlyClosing  $monthlyClosing
+     * @param  \App\Models\Municipality  $monthly
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
+        // dd($request->all());
+        $data = $request->except(['value', 'month_name']);
+        // dd($data);
         $year = Year::where('value', $request->value)->first();
         $month = Month::where('month_name', $request->month_name)->first();
-        
         $data = EncryptController::decryptModel($request->except(['value', 'month_name']), 'id');
-        
-        // dd($data, $year);
 
         $data['year_id'] = $year->id;
         $data['month_id'] = $month->id;
+        $data['active'] = ($data['active'])?"SI":"NO";
+        // dd($data);
 
         MonthlyClosing::where('id', $data['id'])->update($data);
         return response()->json(["message"=>"success"]);
@@ -91,7 +89,7 @@ class MonthlyClosingController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\MonthlyClosing  $monthlyClosing
+     * @param  \App\Models\Municipality  $monthly
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

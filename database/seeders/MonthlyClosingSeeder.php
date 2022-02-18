@@ -20,7 +20,7 @@ class MonthlyClosingSeeder extends Seeder
                 'id' => 1,
                 'year_id' =>  1,
                 'month_id' => 1,
-                'end_month' => 'Febrero',
+                'active' => 'SI',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
@@ -28,7 +28,7 @@ class MonthlyClosingSeeder extends Seeder
                 'id' => 2,
                 'year_id' =>  2,
                 'month_id' => 2,
-                'end_month' => 'Marzo',
+                'active' => 'NO',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],

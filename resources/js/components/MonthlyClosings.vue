@@ -14,7 +14,7 @@
     <v-data-table
       :headers="headers"
       :items="recordsFiltered"
-      sort-by="end_month"
+      sort-by="active"
       class="elevation-3 shadow p-3 mt-3"
     >
       <template v-slot:top>
@@ -64,19 +64,19 @@
                   <!-- Form -->
                   <!-- Years -->
                   <v-row v-if="years.length > 0">
-                    <v-col cols="12" sm="6" md="4">
+                    <v-col cols="12" sm="6" md="6">
                       <base-select
                         label="Año"
                         v-model.trim="$v.editedItem.value.$model"
                         :items="years"
-                        item-text="value"
+                        item="value"
                         :validation="$v.editedItem.value"
                       />
                     </v-col>
                     <!-- Years -->
                     <!-- Months -->
                     <!-- <v-row v-if="months.length > 0"> -->
-                    <v-col cols="12" sm="6" md="4">
+                    <v-col cols="12" sm="6" md="6">
                       <base-select
                         label="Mes"
                         v-model.trim="$v.editedItem.month_name.$model"
@@ -87,18 +87,11 @@
                     </v-col>
                     <!-- Months -->
                     <!-- End Month -->
-                    <v-col cols="12" sm="6" md="4">
-                      <base-input
-                        label="Mes de cierre"
-                        v-model="$v.editedItem.end_month.$model"
-                        :validation="$v.editedItem.end_month"
-                        validationTextType="default"
-                        :validationsInput="{
-                          required: true,
-                          minLength: true,
-                          maxLength: true,
-                        }"
-                      />
+                    <v-col cols="12" sm="6" md="12" class="pt-0">
+                      <v-checkbox
+                        v-model="$v.editedItem.active.$model"
+                        label="Activo"
+                      ></v-checkbox>
                     </v-col>
                     <!-- End Month -->
                   </v-row>
@@ -186,19 +179,19 @@ export default {
     headers: [
       { text: "AÑO", value: "value" },
       { text: "MES", value: "month_name" },
-      { text: "MES DE CIERRE", value: "end_month" },
+      { text: "ACTIVE", value: "active" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
     records: [],
     recordsFiltered: [],
     editedIndex: -1,
     editedItem: {
-      end_month: "",
+      active: "",
       value: "2017",
       month_name: "Enero",
     },
     defaultItem: {
-      end_month: "",
+      active: "",
       value: "2017",
       month_name: "Enero",
     },
@@ -210,16 +203,10 @@ export default {
     redirectSessionFinished: false,
   }),
 
-  //   props: {
-  //     items: {
-  //       type: Array,
-  //       default: () => [],
-  //     },
-  //   },
   // Validations
   validations: {
     editedItem: {
-      end_month: {
+      active: {
         required,
         minLength: minLength(1),
         maxLength: maxLength(150),
@@ -266,11 +253,14 @@ export default {
         );
       });
 
-      this.records = responses[0].data.monthlyClosings;
-      this.years = responses[1].data.years;
-      this.months = responses[1].data.months;
+      if (responses && responses[0].data.message == "success") {
+        this.records = responses[0].data.monthlyClosings;
+        this.years = responses[1].data.years;
+        this.months = responses[2].data.months;
 
-      this.recordsFiltered = this.records;
+        this.editedItem.value = this.years[0].value;
+        this.recordsFiltered = this.records;
+      }
     },
 
     editItem(item) {
@@ -318,6 +308,7 @@ export default {
       this.$nextTick(() => {
         this.editedItem = this.defaultItem;
         this.editedIndex = -1;
+        this.editedItem.value = this.years[0].value;
       });
     },
 
@@ -325,6 +316,7 @@ export default {
       this.$nextTick(() => {
         this.editedItem = this.defaultItem;
         this.editedIndex = -1;
+        this.editedItem.value = this.years[0].value;
       });
 
       this.dialogDelete = false;
@@ -382,8 +374,8 @@ export default {
       if (this.search != "") {
         this.records.forEach((record) => {
           let searchConcat = "";
-          for (let i = 0; i < record.end_month.length; i++) {
-            searchConcat += record.end_month[i].toUpperCase();
+          for (let i = 0; i < record.active.length; i++) {
+            searchConcat += record.active[i].toUpperCase();
             if (
               searchConcat === this.search.toUpperCase() &&
               !this.recordsFiltered.some((rec) => rec == record)

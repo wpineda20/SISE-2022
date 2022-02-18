@@ -35,9 +35,8 @@ class Year extends Model
         return $this->belongsTo(Period::class, 'period_id', 'id');
     }
 
-     public function monthlyClosings()
+    public function monthlyClosings()
     {
-        return $this->hasMany(Year::class);
+        return $this->hasMany(MonthlyClosing::class);
     }
-    
 }
