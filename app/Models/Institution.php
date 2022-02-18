@@ -41,4 +41,9 @@ class Institution extends Model
     {
         return $this->hasMany(Institution::class);
     }
+
+    public function indicators()
+    {
+        return $this->hasMany(Institution::class);
+    }
 }

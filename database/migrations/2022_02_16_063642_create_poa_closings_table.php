@@ -15,6 +15,8 @@ class CreatePoaClosingsTable extends Migration
     {
         Schema::create('poa_closings', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('year_id')->references('id')->on('years');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

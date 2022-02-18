@@ -86,14 +86,14 @@
                       />
                     </v-col>
                     <!-- Months -->
-                    <!-- End Month -->
+                    <!-- Active -->
                     <v-col cols="12" sm="6" md="12" class="pt-0">
                       <v-checkbox
                         v-model="$v.editedItem.active.$model"
                         label="Activo"
                       ></v-checkbox>
                     </v-col>
-                    <!-- End Month -->
+                    <!-- Active -->
                   </v-row>
                   <!-- Form -->
                   <v-row>

@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             YearSeeder::class,
             MonthlyClosingSeeder::class,
             UserSeeder::class,
+            PoaClosingSeeder::class,
         ]);
     }
 }

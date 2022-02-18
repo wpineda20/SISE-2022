@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\PoaClosing;
+use App\Models\Year;
 use Illuminate\Http\Request;
+use DB;
+use Crypt;
 
 class PoaClosingController extends Controller
 {
@@ -14,7 +17,16 @@ class PoaClosingController extends Controller
      */
     public function index()
     {
-        //
+        $poaClosings = PoaClosing::all();
+
+        foreach ($poaClosings as $poaClosing) {
+            $poaClosing->value = $poaClosing->year->value;
+        }
+        $poaClosings->makeHidden(['year']);
+
+        $poaClosings = EncryptController::encryptArray($poaClosings, ['id']);
+
+        return response()->json(['message' => 'success', 'poaClosings'=>$poaClosings]);
     }
 
     /**
@@ -25,7 +37,13 @@ class PoaClosingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         // dd($request->all());
+        $data = $request->except('value');
+        $year = Year::where('value', $request->value)->first();
+        $data['year_id'] = $year->id;
+        PoaClosing::insert($data);
+
+        return response()->json(['message'=>'success']);
     }
 
     /**
@@ -46,9 +64,16 @@ class PoaClosingController extends Controller
      * @param  \App\Models\PoaClosing  $poaClosing
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PoaClosing $poaClosing)
+    public function update(Request $request)
     {
-        //
+        $year = Year::where('value', $request->value)->first();
+        $data = EncryptController::decryptModel($request->except(['value']), 'id');
+        // dd($data, $year);
+
+        $data['year_id'] = $year->id;
+
+        PoaClosing::where('id', $data['id'])->update($data);
+        return response()->json(["message"=>"success"]);
     }
 
     /**
@@ -57,8 +82,11 @@ class PoaClosingController extends Controller
      * @param  \App\Models\PoaClosing  $poaClosing
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PoaClosing $poaClosing)
+    public function destroy($id)
     {
-        //
+        $id = EncryptController::decryptValue($id);
+
+        PoaClosing::where('id', $id)->delete();
+        return response()->json(["message"=>"success"]);
     }
 }

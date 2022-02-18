@@ -39,4 +39,9 @@ class Year extends Model
     {
         return $this->hasMany(MonthlyClosing::class);
     }
+
+    public function poaClosings()
+    {
+        return $this->hasMany(poaClosings::class);
+    }
 }

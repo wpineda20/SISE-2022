@@ -28,4 +28,9 @@ class Unit extends Model
     ];
 
     public $timestamps = false;
+
+    public function indicators()
+    {
+        return $this->hasMany(Unit::class);
+    }
 }
