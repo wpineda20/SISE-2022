@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
             <div class="card-body p-5">
-            <h5 class="card-title fw-bold text-center">Bienvenid@ al Sistema Informático de Seguimiento y Evaluación SISE 2.0</h5>
+            <h5 class="card-title fw-bold text-center">Bienvenid@ al Sistema Informático de Seguimiento y Evaluación SISE</h5>
             <h6 class="card-subtitle mb-2 text-muted text-center">Unidad de Planificación y Desarrollo Institucional Ministerio de Cultura de El Salvador</h6>
             <hr>
             <h5 class="card-title fw-bold">¿Qué es el seguimiento?</h5>

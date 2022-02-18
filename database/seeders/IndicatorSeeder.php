@@ -19,7 +19,7 @@ class IndicatorSeeder extends Seeder
             [
                 'id' => 1,
                 'indicator_name' => 'Indicator 1',
-                'strategic_indicator' => 0,
+                'strategic_indicator' => 'SI',
                 'institution_id' => 1,
                 'unit_id' => 1,
                 'organizational_unit_id' => 1,
@@ -29,7 +29,7 @@ class IndicatorSeeder extends Seeder
              [
                 'id' => 2,
                 'indicator_name' => 'Indicator 2',
-                'strategic_indicator' => 1,
+                'strategic_indicator' => 'NO',
                 'institution_id' => 2,
                 'unit_id' => 2,
                 'organizational_unit_id' => 2,

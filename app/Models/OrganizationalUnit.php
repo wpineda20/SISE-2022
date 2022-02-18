@@ -39,4 +39,9 @@ class OrganizationalUnit extends Model
     {
         return $this->hasMany(OrganizationalUnit::class);
     }
+
+    public function indicators()
+    {
+        return $this->hasMany(OrganizationalUnit::class);
+    }
 }
