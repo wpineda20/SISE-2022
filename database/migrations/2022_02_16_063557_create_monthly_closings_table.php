@@ -17,7 +17,7 @@ class CreateMonthlyClosingsTable extends Migration
             $table->id();
             $table->foreignId('year_id')->references('id')->on('years');
             $table->foreignId('month_id')->references('id')->on('months');
-            $table->string('end_month');
+            $table->string('active');
             $table->softDeletes();
             $table->timestamps();
         });

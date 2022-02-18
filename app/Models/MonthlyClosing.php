@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MonthlyClosing extends Model
 {
-   use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'monthly_closings';
 
@@ -20,7 +20,7 @@ class MonthlyClosing extends Model
         'id',
         'year_id',
         'month_id',
-        'end_month',
+        'active',
     ];
 
     public $hidden = [
@@ -31,7 +31,7 @@ class MonthlyClosing extends Model
 
     public $timestamps = false;
 
-   public function year()
+    public function year()
     {
         return $this->belongsTo(Month::class, 'month_id', 'id');
     }

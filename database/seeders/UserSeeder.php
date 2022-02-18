@@ -23,12 +23,26 @@ class UserSeeder extends Seeder
             'id' => 1,
             'user_name' => 'wpineda20',
             'name' => 'William Alberto Pineda Tovar',
-            'job_title' => 'Técnico',   
+            'job_title' => 'Técnico',
             'phone' => '7284-2854',
             'ou_id' => 1,
             'institution_id' => 2,
             'email' => 'willalbertopineda@gmail.com',
             'password' => Hash::make('12345678'),
+            'email_verified_at' => now(),
+        ]);
+        $admin->assignRole($roleAdmin);
+
+        $admin = User::create([
+            'id' => 2,
+            'user_name' => 'leolopezMC',
+            'name' => 'Leonel Antonio López Valencia',
+            'job_title' => 'Técnico',
+            'phone' => '7941-9348',
+            'ou_id' => 1,
+            'institution_id' => 2,
+            'email' => 'leonellopez647@gmail.com',
+            'password' => Hash::make('Leonel23'),
             'email_verified_at' => now(),
         ]);
         $admin->assignRole($roleAdmin);
@@ -55,6 +69,5 @@ class UserSeeder extends Seeder
         //     'email_verified_at' => now(),
         // ]);
         // $user->assignRole($roleUser);
-
     }
 }
