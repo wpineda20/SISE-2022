@@ -4,7 +4,7 @@
     <div class="container">
             <div class="card-body p-5">
             <h5 class="card-title fw-bold text-center">Bienvenid@ al Sistema Informático de Seguimiento y Evaluación SISE</h5>
-            <h6 class="card-subtitle mb-2 text-muted text-center">Unidad de Planificación y Desarrollo Institucional Ministerio de Cultura de El Salvador</h6>
+            <h6 class="card-subtitle mb-2 text-muted text-center">Dirección General de Planificación y Desarrollo Institucional Ministerio de Cultura de El Salvador</h6>
             <hr>
             <h5 class="card-title fw-bold">¿Qué es el seguimiento?</h5>
             <p class="card-text">El seguimiento consiste en el análisis y recopilación sistemáticos de información a medida que avanza un proyecto. Su objetivo es mejorar la eficacia y efectividad de un proyecto y organización. Se basa en metas establecidas y actividades planificadas durante las distintas fases del trabajo de planificación. Ayuda a que se siga una línea de trabajo, y además, permite a la administración conocer cuando algo no está funcionando. Si se lleva a cabo adecuadamente, es una herramienta de incalculable valor para una buena administración y proporciona la base para la evaluación. Te permite determinar si los recursos disponibles son suficientes y están bien administrados, si tu capacidad de trabajo es suficiente y adecuada, y si estás haciendo lo que habías planificado</p>

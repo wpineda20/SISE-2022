@@ -12,10 +12,10 @@
                             </div>
                         </div>
                         <h3 class="color-primary text-center">Ingresa tus datos para iniciar</h3>
-                        <h6 class="color-primary text-center mb-3">o <a href="{{ route('register') }}"
+                        {{--<h6 class="color-primary text-center mb-3">o <a href="{{ route('register') }}"
                                 class="no-decoration">regístrate
                                 aquí</a> si aún no tienes
-                            cuenta.</h6>
+                            cuenta.</h6>--}}
 
                         @if (env('LOCAL_LOGIN'))
                             <form method="POST" action="{{ route('login') }}">
