@@ -47,6 +47,20 @@ class UserSeeder extends Seeder
         ]);
         $admin->assignRole($roleAdmin);
 
+        $admin = User::create([
+            'id' => 3,
+            'user_name' => 'GiovanniTzec',
+            'name' => 'Giovanni Ariel Tzec',
+            'job_title' => 'Técnico',
+            'phone' => '7941-9348',
+            'ou_id' => 1,
+            'institution_id' => 2,
+            'email' => 'giovanni.tzec@gmail.com',
+            'password' => Hash::make('password'),
+            'email_verified_at' => now(),
+        ]);
+        $admin->assignRole($roleAdmin);
+
         // $admin = User::create([
         //     'id' => 2,
         //     'name' => 'Tzec',

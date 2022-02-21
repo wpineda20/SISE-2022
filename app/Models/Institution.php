@@ -46,4 +46,9 @@ class Institution extends Model
     {
         return $this->hasMany(Institution::class);
     }
+
+    public function objectives()
+    {
+        return $this->hasMany(Institution::class);
+    }
 }
