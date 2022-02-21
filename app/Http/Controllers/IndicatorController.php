@@ -74,7 +74,7 @@ class IndicatorController extends Controller
      */
     public function update(Request $request)
     {
-         // dd($request->all());
+        // dd($request->all());
         $data = $request->except(['institution_name', 'unit_name', 'ou_name']);
         // dd($data);
         $institution = Institution::where('institution_name', $request->institution_name)->first();

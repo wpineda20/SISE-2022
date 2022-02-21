@@ -70,19 +70,19 @@
                             <ul class="sub-menu">
                                 {{-- <li><a href="{{ url('/departments ') }}">Departamentos</a></li>
                                 <li><a href="{{ url('/municipalities') }}">Municipios</a></li> --}}
-                                <li><a href="{{ url('/users') }}">Usuarios</a></li>
-                                <li><a href="{{ url('/institutions') }}">Instituciones</a></li>
+                                <li><a href="{{ url('/years') }}">Años</a></li>
+                                <li><a href="{{ url('/poaClosings') }}">Cierre POA</a></li>
+                                <li><a href="{{ url('/monthlyClosings') }}">Cierres mensuales</a></li>
                                 <li><a href="{{ url('/directions') }}">Direcciones</a></li>
+                                <li><a href="{{ url('/trakingStatus') }}">Estados de seguimiento</a></li>
                                 <li><a href="{{ url('/financings') }}">Financiamientos</a></li>
                                 <li><a href="{{ url('/indicators') }}">Indicadores</a></li>
-                                <li><a href="{{ url('/periods') }}">Periodos</a></li>
+                                <li><a href="{{ url('/institutions') }}">Instituciones</a></li>
+                                <li><a href="{{ url('/months') }}">Meses</a></li>
+                                <li><a href="{{ url('/periods') }}">Períodos</a></li>
                                 <li><a href="{{ url('/units') }}">Unidades de medida</a></li>
                                 <li><a href="{{ url('/organizationalUnits') }}">Unidades organizativas</a></li>
-                                <li><a href="{{ url('/monthlyClosings') }}">Cierres mensuales</a></li>
-                                <li><a href="{{ url('/poaClosings') }}">Cierre POA</a></li>
-                                <li><a href="{{ url('/trakingStatus') }}">Estados de seguimiento</a></li>
-                                <li><a href="{{ url('/months') }}">Meses</a></li>
-                                <li><a href="{{ url('/years') }}">Años</a></li>
+                                <li><a href="{{ url('/users') }}">Usuarios</a></li>   
                             </ul>
                         </li>
                     @endif
@@ -99,9 +99,24 @@
                                 <p class="link">Plan Cuscatlán</p>
                             </div>
                             <ul class="sub-menu">
-                                <li><a href="{{ url('/departments ') }}">Objetivos</a></li>
+                                <li><a href="{{ url('/programmaticObjective ') }}">Objetivos Programáticos</a></li>
                                 <li><a href="{{ url('/axisCuscatlan') }}">Ejes</a></li>
-                                <li><a href="{{ url('/municipalities') }}">Reslutados</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Estrategias</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Resultados</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <div class="icon-link pb-1">
+                                <a href="#" class="arrow text-center">
+                                    <i class="material-icons md-18 mx-auto">widgets</i>
+                                </a>
+                                <p class="link">Plan Social</p>
+                            </div>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url('/municipalities') }}">Resultados Intermedios</a></li>
+                                <li><a href="{{ url('/programmaticObjective ') }}">Resultados</a></li>   
                                 <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
                                 <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
                             </ul>
@@ -135,7 +150,7 @@
                         </a>
                     </li>
 
-                    @if (Route::has('register'))
+                    {{--@if (Route::has('register'))
                         <li class="text-center pb-1">
                             <a href="{{ url('/register') }}" class="text-center">
                                 <i class="material-icons md-18 mx-auto">person_add_alt_1</i>
@@ -144,7 +159,7 @@
                                 <p class="link mx-auto">Registrarse</p>
                             </a>
                         </li>
-                    @endif
+                    @endif--}}
                 @endguest
                 <!-- Login/Logout -->
             </ul>
@@ -200,8 +215,8 @@
                                         <div class=" col-md-12 text-end">
                                             <a href="{{ url('/login') }}" class="btn btn-normal-nav shadow-none">Iniciar
                                                 sesión</a>
-                                            <a href="{{ route('register') }}"
-                                                class="btn btn-normal-secondary-nav shadow-none">Registrarme</a>
+                                            {{--<a href="{{ route('register') }}"
+                                                class="btn btn-normal-secondary-nav shadow-none">Registrarme</a>--}}
                                         </div>
 
                                     </div>

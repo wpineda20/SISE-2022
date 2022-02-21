@@ -14,6 +14,7 @@ use App\Http\Controllers\MonthlyClosingController;
 use App\Http\Controllers\OrganizationalUnitController;
 use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\PoaClosingController;
+use App\Http\Controllers\ProgrammaticObjectiveController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\TrakingStatusController;
 use App\Http\Controllers\MonthController;
@@ -70,6 +71,7 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
         Route::resource('/api/month', MonthController::class);
         Route::resource('/api/year', YearController::class);
         Route::resource('/api/axisCuscatlan', AxisCuscatlanController::class);
+        Route::resource('/api/programmaticObjective', ProgrammaticObjectiveController::class);
         Route::resource('/api/user', UserController::class);
         Route::resource('/api/role', RoleController::class);
 
@@ -136,6 +138,10 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
 
         Route::get('/axisCuscatlan', function () {
             return view('axis_cuscatlan.index');
+
+        Route::get('/programmaticObjective', function () {
+            return view('programmatic_objective.index');
+
         });
     });
 });
