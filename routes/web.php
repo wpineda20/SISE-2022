@@ -18,6 +18,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\TrakingStatusController;
 use App\Http\Controllers\MonthController;
 use App\Http\Controllers\YearController;
+use App\Http\Controllers\AxisCuscatlanController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ExcelController;
 
@@ -68,6 +69,7 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
         Route::resource('/api/trakingStatus', TrakingStatusController::class);
         Route::resource('/api/month', MonthController::class);
         Route::resource('/api/year', YearController::class);
+        Route::resource('/api/axisCuscatlan', AxisCuscatlanController::class);
         Route::resource('/api/user', UserController::class);
         Route::resource('/api/role', RoleController::class);
 
@@ -130,6 +132,10 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
 
         Route::get('/years', function () {
             return view('year.index');
+        });
+
+        Route::get('/axisCuscatlan', function () {
+            return view('axis_cuscatlan.index');
         });
     });
 });

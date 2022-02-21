@@ -100,7 +100,7 @@
                             </div>
                             <ul class="sub-menu">
                                 <li><a href="{{ url('/departments ') }}">Objetivos</a></li>
-                                <li><a href="{{ url('/municipalities') }}">Ejes</a></li>
+                                <li><a href="{{ url('/axisCuscatlan') }}">Ejes</a></li>
                                 <li><a href="{{ url('/municipalities') }}">Reslutados</a></li>
                                 <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
                                 <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>

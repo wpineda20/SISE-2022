@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             MonthlyClosingSeeder::class,
             UserSeeder::class,
             PoaClosingSeeder::class,
+            AxisCuscatlanSeeder::class,
         ]);
     }
 }
