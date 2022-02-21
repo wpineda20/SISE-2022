@@ -14,12 +14,12 @@
     <v-data-table
       :headers="headers"
       :items="recordsFiltered"
-      sort-by="value"
+      sort-by="axis_description"
       class="elevation-3 shadow p-3 mt-3"
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>Años</v-toolbar-title>
+          <v-toolbar-title>Ejes</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="600px" persistent>
             <template v-slot:activator="{ on, attrs }">
@@ -62,34 +62,69 @@
               <v-card-text>
                 <v-container>
                   <!-- Form -->
-                  <!-- Period -->
-                  <v-row v-if="periods.length > 0">
-                    <v-col cols="12" sm="6" md="6">
-                      <base-select
-                        label="Periodo"
-                        v-model.trim="$v.editedItem.period_name.$model"
-                        :items="periods"
-                        item="period_name"
-                        :validation="$v.editedItem.period_name"
+                  <v-row v-if="users.length > 0">
+                    <!-- Axis Description -->
+                    <v-col cols="12" sm="6" md="12">
+                      <base-text-area
+                        label="Eje"
+                        v-model.trim="$v.editedItem.axis_description.$model"
+                        :validation="$v.editedItem.axis_description"
+                        validationTextType="default"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                          maxLength: true,
+                        }"
+                        :min="1"
+                        :max="500"
+                        :rows="3"
                       />
                     </v-col>
-                    <!-- Period -->
-                    <!-- Year -->
-                    <v-col cols="12" sm="6" md="6">
+                    <!-- Axis Description -->
+                    <!-- Percentage -->
+                    <v-col cols="12" sm="12" md="6">
                       <base-input
-                        label="Año"
-                        v-model.trim="$v.editedItem.value.$model"
-                        :validation="$v.editedItem.value"
-                        v-mask="'####'"
+                        label="%"
+                        v-model.trim="$v.editedItem.percentage.$model"
+                        :validation="$v.editedItem.percentage"
                         type="number"
                         :validationsInput="{
                           required: true,
                         }"
-                        :min="2000"
-                        :max="2050"
                       />
                     </v-col>
-                    <!-- Year -->
+                    <!-- Percentage -->
+                    <!-- Created Date -->
+                    <v-col cols="12" xs="12" sm="12" md="4">
+                      <base-date-input
+                        label="Fecha de creación"
+                        v-model.trim="$v.editedItem.create_date.$model"
+                        :validation="$v.editedItem.create_date"
+                      />
+                    </v-col>
+                    <!-- Created Date -->
+                    <!-- User -->
+                    <v-col cols="12" sm="6" md="6">
+                      <base-select
+                        label="Usuario"
+                        v-model.trim="$v.editedItem.user_name.$model"
+                        :items="users"
+                        item="user_name"
+                        :validation="$v.editedItem.user_name"
+                      />
+                    </v-col>
+                    <!-- User -->
+                    <!-- Programmatic Objective -->
+                    <!-- <v-col cols="12" sm="6" md="6">
+                      <base-select
+                        label="Objetivo Programatico"
+                        v-model.trim="$v.editedItem.description.$model"
+                        :items="descriptions"
+                        item="description"
+                        :validation="$v.editedItem.description"
+                      />
+                    </v-col> -->
+                    <!-- Programmatic Objective -->
                   </v-row>
                   <!-- Form -->
                   <v-row>
@@ -161,8 +196,9 @@
 </template>
 
 <script>
-import periodApi from "../apis/periodApi";
-import yearApi from "../apis/yearApi";
+import userApi from "../apis/userApi";
+// import programmaticObjectiveApi from "../apis/programmaticObjectiveApi";
+import axisCuscatlanApi from "../apis/axisCuscatlanApi";
 import lib from "../libs/function";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
 
@@ -172,39 +208,64 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "AÑO", value: "value" },
-      { text: "PERIODO", value: "period_name" },
+      { text: "EJE", value: "axis_description" },
+      { text: "%", value: "percentage" },
+      { text: "FECHA DE CREACIÓN", value: "create_date" },
+      { text: "USUARIO", value: "user_name" },
+      // { text: "OBJETIVO", value: "description" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
     records: [],
     recordsFiltered: [],
     editedIndex: -1,
     editedItem: {
-      value: "",
-      period_name: "2017 - 2019",
+      axis_description: "",
+      percentage: "",
+      create_date: "",
+      user_name: "wpineda20",
+      // description: "Esto es una descripción",
     },
     defaultItem: {
-      value: "",
-      period_name: "2017 - 2019",
+      axis_description: "",
+      percentage: "",
+      create_date: "",
+      user_name: "wpineda20",
+      // description: "Esto es una descripción",
     },
     textAlert: "",
     alertEvent: "success",
     showAlert: false,
-    periods: [],
+    users: [],
+    // descriptions: [],
     redirectSessionFinished: false,
   }),
 
   // Validations
   validations: {
     editedItem: {
-      value: {
+      axis_description: {
         required,
         minLength: minLength(1),
-        maxLength: maxLength(4),
+        maxLength: maxLength(150),
       },
-      period_name: {
+      percentage: {
+        required,
+        minLength: minLength(1),
+        maxLength: maxLength(150),
+      },
+      user_name: {
         required,
       },
+      create_date: {
+        required,
+        isValidBirthday: helpers.regex(
+          "isValidBirthday",
+          /([0-9]{4}-[0-9]{2}-[0-9]{2})/
+        ),
+      },
+      // description: {
+      //   required,
+      // },
     },
   },
   // Validations
@@ -232,7 +293,11 @@ export default {
       this.records = [];
       this.recordsFiltered = [];
 
-      let requests = [yearApi.get(), periodApi.get()];
+      let requests = [
+        axisCuscatlanApi.get(),
+        userApi.get(),
+        // programmaticObjectiveApi.get(),
+      ];
       let responses = await Promise.all(requests).catch((error) => {
         this.updateAlert(true, "No fue posible obtener los registros.", "fail");
         this.redirectSessionFinished = lib.verifySessionFinished(
@@ -241,17 +306,22 @@ export default {
         );
       });
 
-      this.records = responses[0].data.years;
-      this.periods = responses[1].data.periods;
+      if (responses && responses[0].data.message == "success") {
+        this.records = responses[0].data.axisCuscatlans;
+        this.users = responses[1].data.users;
+        // this.descriptions = responses[2].data.descriptions;
 
-      this.recordsFiltered = this.records;
+        this.editedItem.user_name = this.users[0].user_name;
+        this.recordsFiltered = this.records;
+      }
     },
 
     editItem(item) {
       this.dialog = true;
       this.editedIndex = this.recordsFiltered.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.$v.editedItem.period_name.$model = this.editedItem.period_name;
+      this.$v.editedItem.user_name.$model = this.editedItem.user_name;
+      // this.$v.editedItem.description.$model = this.editedItem.description;
     },
 
     deleteItem(item) {
@@ -261,7 +331,7 @@ export default {
     },
 
     async deleteItemConfirm() {
-      const res = await yearApi
+      const res = await axisCuscatlanApi
         .delete(`/${this.editedItem.id}`)
         .catch((error) => {
           this.updateAlert(
@@ -291,6 +361,7 @@ export default {
       this.$nextTick(() => {
         this.editedItem = this.defaultItem;
         this.editedIndex = -1;
+        this.editedItem.user_name = this.users[0].user_name;
       });
     },
 
@@ -298,6 +369,7 @@ export default {
       this.$nextTick(() => {
         this.editedItem = this.defaultItem;
         this.editedIndex = -1;
+        this.editedItem.user_name = this.users[0].user_name;
       });
 
       this.dialogDelete = false;
@@ -305,13 +377,13 @@ export default {
 
     async save() {
       this.$v.$touch();
-      if (this.$v.$invalid || this.editedItem.period_name == "") {
+      if (this.$v.$invalid || this.editedItem.axis_description == "") {
         this.updateAlert(true, "Campos obligatorios.", "fail");
         return;
       }
 
       if (this.editedIndex > -1) {
-        const res = await yearApi
+        const res = await axisCuscatlanApi
           .put(`/${this.editedItem.id}`, this.editedItem)
           .catch((error) => {
             this.updateAlert(true, "No fue posible crear el registro.", "fail");
@@ -330,10 +402,12 @@ export default {
           );
         }
       } else {
-        const res = await yearApi.post(null, this.editedItem).catch((error) => {
-          this.updateAlert(true, "No fue posible crear el registro.", "fail");
-          this.close();
-        });
+        const res = await axisCuscatlanApi
+          .post(null, this.editedItem)
+          .catch((error) => {
+            this.updateAlert(true, "No fue posible crear el registro.", "fail");
+            this.close();
+          });
 
         if (res.data.message == "success") {
           this.updateAlert(
@@ -353,8 +427,8 @@ export default {
       if (this.search != "") {
         this.records.forEach((record) => {
           let searchConcat = "";
-          for (let i = 0; i < record.value.length; i++) {
-            searchConcat += record.value[i].toUpperCase();
+          for (let i = 0; i < record.axis_description.length; i++) {
+            searchConcat += record.axis_description[i].toUpperCase();
             if (
               searchConcat === this.search.toUpperCase() &&
               !this.recordsFiltered.some((rec) => rec == record)

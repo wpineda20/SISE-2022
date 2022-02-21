@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const culturaHouseApi = axios.create({
+const userApi = axios.create({
     baseURL: "/api/user",
 });
 
-export default culturaHouseApi;
+export default userApi;
