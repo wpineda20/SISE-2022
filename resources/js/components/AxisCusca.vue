@@ -62,8 +62,10 @@
               <v-card-text>
                 <v-container>
                   <!-- Form -->
-                  <v-row v-if="users.length > 0">
-                    <!-- Axis Description -->
+                  <!-- User -->
+                  <!-- <v-row v-if="users.length > 0"> -->
+                  <v-row>
+                    <!-- Axis -->
                     <v-col cols="12" sm="6" md="12">
                       <base-text-area
                         label="Eje"
@@ -80,30 +82,9 @@
                         :rows="3"
                       />
                     </v-col>
-                    <!-- Axis Description -->
-                    <!-- Percentage -->
-                    <v-col cols="12" sm="12" md="6">
-                      <base-input
-                        label="%"
-                        v-model.trim="$v.editedItem.percentage.$model"
-                        :validation="$v.editedItem.percentage"
-                        type="number"
-                        :validationsInput="{
-                          required: true,
-                        }"
-                      />
-                    </v-col>
-                    <!-- Percentage -->
-                    <!-- Created Date -->
-                    <v-col cols="12" xs="12" sm="12" md="4">
-                      <base-date-input
-                        label="Fecha de creación"
-                        v-model.trim="$v.editedItem.create_date.$model"
-                        :validation="$v.editedItem.create_date"
-                      />
-                    </v-col>
-                    <!-- Created Date -->
-                    <!-- User -->
+                    <!-- Axis -->
+
+                    <!-- Users -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select
                         label="Usuario"
@@ -113,18 +94,44 @@
                         :validation="$v.editedItem.user_name"
                       />
                     </v-col>
-                    <!-- User -->
-                    <!-- Programmatic Objective -->
-                    <!-- <v-col cols="12" sm="6" md="6">
+                    <!-- Users -->
+                    <!-- Objectives -->
+                    <v-col cols="12" sm="6" md="6">
                       <base-select
-                        label="Objetivo Programatico"
+                        label="Objetivo programático"
                         v-model.trim="$v.editedItem.description.$model"
                         :items="descriptions"
                         item="description"
                         :validation="$v.editedItem.description"
                       />
-                    </v-col> -->
-                    <!-- Programmatic Objective -->
+                    </v-col>
+                    <!-- Objectives -->
+                    <!-- Percentage -->
+                    <v-col cols="12" sm="12" md="6">
+                      <base-input
+                        label="Porcentaje"
+                        v-model.trim="$v.editedItem.percentage.$model"
+                        :validation="$v.editedItem.percentage"
+                        type="number"
+                        :validationsInput="{
+                          required: true,
+                        }"
+                      />
+                    </v-col>
+                    <!-- Percentage -->
+                    <!-- Date -->
+                    <v-col cols="12" xs="12" sm="12" md="6">
+                      <base-input
+                        label="Fecha de creación"
+                        v-model.trim="$v.editedItem.create_date.$model"
+                        :validation="$v.editedItem.create_date"
+                        type="date"
+                        :validationsInput="{
+                          required: true,
+                        }"
+                      />
+                    </v-col>
+                    <!-- Date -->
                   </v-row>
                   <!-- Form -->
                   <v-row>
@@ -197,10 +204,15 @@
 
 <script>
 import userApi from "../apis/userApi";
-// import programmaticObjectiveApi from "../apis/programmaticObjectiveApi";
-import axisCuscatlanApi from "../apis/axisCuscatlanApi";
+import programmaticObjectiveApi from "../apis/programmaticObjectiveApi";
+import axisCuscaApi from "../apis/axisCuscaApi";
 import lib from "../libs/function";
-import { required, minLength, maxLength } from "vuelidate/lib/validators";
+import {
+  required,
+  minLength,
+  maxLength,
+  helpers,
+} from "vuelidate/lib/validators";
 
 export default {
   data: () => ({
@@ -208,35 +220,35 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "EJE", value: "axis_description" },
+      { text: "USUARIO", value: "user_name" },
+      { text: "OBJETIVO PROGRAMÁTICO", value: "description" },
       { text: "%", value: "percentage" },
       { text: "FECHA DE CREACIÓN", value: "create_date" },
-      { text: "USUARIO", value: "user_name" },
-      // { text: "OBJETIVO", value: "description" },
+      { text: "EJE", value: "axis_description" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
     records: [],
     recordsFiltered: [],
     editedIndex: -1,
     editedItem: {
+      user_name: "wpineda20",
+      description: "Test",
       axis_description: "",
       percentage: "",
       create_date: "",
-      user_name: "wpineda20",
-      // description: "Esto es una descripción",
     },
     defaultItem: {
+      user_name: "wpineda20",
+      description: "Test",
       axis_description: "",
       percentage: "",
       create_date: "",
-      user_name: "wpineda20",
-      // description: "Esto es una descripción",
     },
     textAlert: "",
     alertEvent: "success",
     showAlert: false,
     users: [],
-    // descriptions: [],
+    descriptions: [],
     redirectSessionFinished: false,
   }),
 
@@ -246,14 +258,17 @@ export default {
       axis_description: {
         required,
         minLength: minLength(1),
-        maxLength: maxLength(150),
+        maxLength: maxLength(500),
       },
       percentage: {
         required,
         minLength: minLength(1),
-        maxLength: maxLength(150),
+        maxLength: maxLength(10),
       },
       user_name: {
+        required,
+      },
+      description: {
         required,
       },
       create_date: {
@@ -262,10 +277,14 @@ export default {
           "isValidBirthday",
           /([0-9]{4}-[0-9]{2}-[0-9]{2})/
         ),
+        minDate: (value) => value > new Date("1920-01-01").toISOString(),
+        maxDate: () => {
+          let today = new Date();
+          let year = today.getFullYear() - 18;
+          let date = today.setFullYear(year);
+          return new Date(date).toISOString();
+        },
       },
-      // description: {
-      //   required,
-      // },
     },
   },
   // Validations
@@ -294,9 +313,11 @@ export default {
       this.recordsFiltered = [];
 
       let requests = [
-        axisCuscatlanApi.get(),
-        userApi.get(),
-        // programmaticObjectiveApi.get(),
+        axisCuscaApi.get(),
+        userApi.get(null, {
+          params: { skip: 0, take: 200 },
+        }),
+        programmaticObjectiveApi.get(),
       ];
       let responses = await Promise.all(requests).catch((error) => {
         this.updateAlert(true, "No fue posible obtener los registros.", "fail");
@@ -307,11 +328,11 @@ export default {
       });
 
       if (responses && responses[0].data.message == "success") {
-        this.records = responses[0].data.axisCuscatlans;
+        this.records = responses[0].data.axisCuscas;
         this.users = responses[1].data.users;
-        // this.descriptions = responses[2].data.descriptions;
+        this.descriptions = responses[2].data.programmatic_objectives;
 
-        this.editedItem.user_name = this.users[0].user_name;
+        // this.editedItem.user_name = this.users[0].user_name;
         this.recordsFiltered = this.records;
       }
     },
@@ -321,7 +342,7 @@ export default {
       this.editedIndex = this.recordsFiltered.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.$v.editedItem.user_name.$model = this.editedItem.user_name;
-      // this.$v.editedItem.description.$model = this.editedItem.description;
+      this.$v.editedItem.description.$model = this.editedItem.description;
     },
 
     deleteItem(item) {
@@ -331,7 +352,7 @@ export default {
     },
 
     async deleteItemConfirm() {
-      const res = await axisCuscatlanApi
+      const res = await axisCuscaApi
         .delete(`/${this.editedItem.id}`)
         .catch((error) => {
           this.updateAlert(
@@ -377,13 +398,13 @@ export default {
 
     async save() {
       this.$v.$touch();
-      if (this.$v.$invalid || this.editedItem.axis_description == "") {
+      if (this.$v.$invalid || this.editedItem.user_name == "") {
         this.updateAlert(true, "Campos obligatorios.", "fail");
         return;
       }
 
       if (this.editedIndex > -1) {
-        const res = await axisCuscatlanApi
+        const res = await axisCuscaApi
           .put(`/${this.editedItem.id}`, this.editedItem)
           .catch((error) => {
             this.updateAlert(true, "No fue posible crear el registro.", "fail");
@@ -402,7 +423,7 @@ export default {
           );
         }
       } else {
-        const res = await axisCuscatlanApi
+        const res = await axisCuscaApi
           .post(null, this.editedItem)
           .catch((error) => {
             this.updateAlert(true, "No fue posible crear el registro.", "fail");

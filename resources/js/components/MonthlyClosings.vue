@@ -323,7 +323,7 @@ export default {
 
     async save() {
       this.$v.$touch();
-      if (this.$v.$invalid || this.editedItem.institution_name == "") {
+      if (this.$v.$invalid || this.editedItem.value == "") {
         this.updateAlert(true, "Campos obligatorios.", "fail");
         return;
       }

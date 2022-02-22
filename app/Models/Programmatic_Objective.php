@@ -42,4 +42,9 @@ class Programmatic_Objective extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function axisCusca()
+    {
+        return $this->hasMany(Programmatic_Objective::class);
+    }
 }

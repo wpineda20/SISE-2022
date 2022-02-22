@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Programmatic_Objective;
-use App\Models\AxisCuscatlan;
-use Illuminate\Http\Request;
 use DB;
 use Crypt;
+use App\Models\AxisCusca;
+use App\Models\User;
+use App\Models\Programmatic_Objective;
+use Illuminate\Http\Request;
 
-class AxisCuscatlanController extends Controller
+class AxisCuscaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,15 +18,16 @@ class AxisCuscatlanController extends Controller
      */
     public function index()
     {
-        $axisCuscatlans = AxisCuscatlan::select('axesCuscatlan.id', 'axis_description', 'percentage', 
-        'create_date', 'user_name', 'description')
-        ->join('users as us', 'axesCuscatlan.user_id', '=', 'us.id')
-        ->join('programmatic_objectives as po', 'axesCuscatlan.programmatic_objectives_id', '=', 'po.id')
+        $axisCuscas = AxisCusca::select('axis_cusca.id', 'axis_description', 'axis_cusca.percentage', 'axis_cusca.create_date', 
+        'user_name', 'description')
+
+        ->join('users as u', 'axis_cusca.user_id', '=', 'u.id')
+        ->join('programmatic_objectives as po', 'axis_cusca.programmatic_objectives_id', '=', 'po.id')
         ->get();
 
-        $axisCuscatlans = EncryptController::encryptArray($axisCuscatlans, ['id', 'user_id', 'programmatic_objectives_id']);
+        $axisCuscas = EncryptController::encryptArray($axisCuscas, ['id', 'user_id', 'programmatic_objectives_id']);
 
-        return response()->json(['message' => 'success', 'axisCuscatlans'=>$axisCuscatlans]);
+        return response()->json(['message' => 'success', 'axisCuscas'=>$axisCuscas]);
     }
 
     /**
@@ -45,7 +46,7 @@ class AxisCuscatlanController extends Controller
         $data['user_id'] = $user->id;
         $data['programmatic_objectives_id'] = $description->id;
 
-        AxisCuscatlan::insert($data);
+        AxisCusca::insert($data);
 
         return response()->json(['message'=>'success']);
     }
@@ -53,10 +54,10 @@ class AxisCuscatlanController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\AxisCuscatlan  $axisCuscatlan
+     * @param  \App\Models\AxisCusca  $axisCusca
      * @return \Illuminate\Http\Response
      */
-    public function show(AxisCuscatlan $axisCuscatlan)
+    public function show(AxisCusca $axisCusca)
     {
         //
     }
@@ -65,37 +66,37 @@ class AxisCuscatlanController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\AxisCuscatlan  $axisCuscatlan
+     * @param  \App\Models\AxisCusca  $axisCusca
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
-          // dd($request->all());
+         // dd($request->all());
         $data = $request->except(['user_name', 'description']);
         // dd($data);
         $user = User::where('user_name', $request->user_name)->first();
-        $month = Programmatic_Objective::where('description', $request->description)->first();
+        $description = Programmatic_Objective::where('description', $request->description)->first();
         $data = EncryptController::decryptModel($request->except(['user_name', 'description']), 'id');
 
         $data['user_id'] = $user->id;
         $data['programmatic_objectives_id'] = $description->id;
         // dd($data);
 
-        AxisCuscatlan::where('id', $data['id'])->update($data);
+        AxisCusca::where('id', $data['id'])->update($data);
         return response()->json(["message"=>"success"]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\AxisCuscatlan  $axisCuscatlan
+     * @param  \App\Models\AxisCusca  $axisCusca
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $id = EncryptController::decryptValue($id);
 
-        AxisCuscatlan::where('id', $id)->delete();
+        AxisCusca::where('id', $id)->delete();
         return response()->json(["message"=>"success"]);
     }
 }
