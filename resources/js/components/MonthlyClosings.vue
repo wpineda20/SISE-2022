@@ -75,7 +75,6 @@
                     </v-col>
                     <!-- Years -->
                     <!-- Months -->
-                    <!-- <v-row v-if="months.length > 0"> -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select
                         label="Mes"

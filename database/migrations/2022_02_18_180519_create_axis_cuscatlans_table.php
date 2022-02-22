@@ -20,7 +20,7 @@ class CreateAxisCuscatlansTable extends Migration
             $table->timestamp('create_date')->nullable();
             $table->foreignId('user_id')->references('id')->on('users');
             // $table->date('create_date');
-            // $table->foreignId('programmatic_objectives_id')->references('id')->on('programmatic_objectives');
+            $table->foreignId('programmatic_objectives_id')->references('id')->on('programmatic_objectives');
             $table->softDeletes();
             $table->timestamps();
         });
