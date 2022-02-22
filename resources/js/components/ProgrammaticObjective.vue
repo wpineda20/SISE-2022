@@ -47,7 +47,7 @@
                     type="text"
                     class=""
                     v-model="search"
-                    @keyup="searchuser_name()"
+                    @keyup="searchDescription()"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -62,18 +62,10 @@
               <v-card-text>
                 <v-container>
                   <!-- Form -->
+                  
                   <!-- User -->
-                  <v-row v-if="users.length > 0">
-                    <v-col cols="12" sm="6" md="6">
-                      <base-select
-                        label="Usuario"
-                        v-model.trim="$v.editedItem.user_name.$model"
-                        :items="users"
-                        item="user_name"
-                        :validation="$v.editedItem.user_name"
-                      />
-                    </v-col>
-                    <!-- User -->
+                  <!-- v-if="users.length > 0" -->
+                  <v-row>
                     <!-- Institution -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select
@@ -85,6 +77,17 @@
                       />
                     </v-col>
                     <!-- Institution -->
+                    <!-- User -->    
+                    <v-col cols="12" sm="6" md="6">
+                      <base-select
+                        label="Usuario"
+                        v-model.trim="$v.editedItem.user_name.$model"
+                        :items="users"
+                        item="user_name"
+                        :validation="$v.editedItem.user_name"
+                      />
+                    </v-col>
+                    <!-- User -->      
                     <!-- Description -->
                     <v-col cols="12" sm="6" md="12">
                       <base-text-area
@@ -117,13 +120,26 @@
                     </v-col>
                     <!-- Percentage -->
                     <!-- Strategy Objective -->
-                    <v-col cols="12" sm="6" md="12" class="pt-0">
+                    <v-col cols="12" sm="6" md="6" class="pt-0">
                       <v-checkbox
                         v-model="$v.editedItem.strategy_objective.$model"
                         label="Objetivo estrategico"
                       ></v-checkbox>
                     </v-col>
                     <!-- Strategy Objective -->
+                    <!-- Date -->
+                    <v-col cols="12" xs="12" sm="12" md="6">
+                      <base-input
+                        label="Fecha de creación"
+                        v-model.trim="$v.editedItem.create_date.$model"
+                        :validation="$v.editedItem.create_date"
+                        type="date"
+                        :validationsInput="{
+                          required:true,
+                        }"
+                      />
+                    </v-col>
+                    <!-- Date -->
                   </v-row>
                   <!-- Form -->
                   <v-row>
@@ -195,11 +211,12 @@
 </template>
 
 <script>
-import userApi from "../apis/userApi";
+
 import institutionApi from "../apis/institutionApi";
+import userApi from "../apis/userApi";
 import programmaticObjectiveApi from "../apis/programmaticObjectiveApi";
 import lib from "../libs/function";
-import { required, minLength, maxLength } from "vuelidate/lib/validators";
+import { required, minLength, maxLength, helpers, } from "vuelidate/lib/validators";
 
 export default {
   data: () => ({
@@ -224,6 +241,7 @@ export default {
       institution_name: "Ministerio de Cultura",
       description: "",
       percentage: "",
+      create_date:"",
     },
     defaultItem: {
       strategy_objective: "",
@@ -231,6 +249,7 @@ export default {
       institution_name: "Ministerio de Cultura",
       description: "",
       percentage: "",
+      create_date:"",
     },
     textAlert: "",
     alertEvent: "success",
@@ -259,6 +278,20 @@ export default {
       },
       percentage: {
         required,
+      },
+      create_date: {
+        required,
+        isValidBirthday: helpers.regex(
+          "isValidBirthday",
+          /([0-9]{4}-[0-9]{2}-[0-9]{2})/
+        ),
+        minDate: (value) => value > new Date("1920-01-01").toISOString(),
+        maxDate: () => {
+          let today = new Date();
+          let year = today.getFullYear() - 18;
+          let date = today.setFullYear(year);
+          return new Date(date).toISOString();
+        },
       },
     },
   },
@@ -289,7 +322,9 @@ export default {
 
       let requests = [
         programmaticObjectiveApi.get(),
-        userApi.get(),
+        userApi.get(null, {
+          params: { skip: 0, take: 200 },
+        }),
         institutionApi.get(),
       ];
       let responses = await Promise.all(requests).catch((error) => {
@@ -305,7 +340,7 @@ export default {
         this.users = responses[1].data.users;
         this.institutions = responses[2].data.institutions;
 
-        // this.editedItem.user_name = this.users[0].user_name;
+        //this.editedItem.user_name = this.users[1].user_name;
         this.recordsFiltered = this.records;
       }
     },
@@ -315,8 +350,7 @@ export default {
       this.editedIndex = this.recordsFiltered.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.$v.editedItem.user_name.$model = this.editedItem.user_name;
-      this.$v.editedItem.institution_name.$model =
-        this.editedItem.institution_name;
+      this.$v.editedItem.institution_name.$model =this.editedItem.institution_name;
     },
 
     deleteItem(item) {
@@ -416,7 +450,7 @@ export default {
       this.initialize();
     },
 
-    searchuser_name() {
+    searchDescription() {
       this.recordsFiltered = [];
 
       if (this.search != "") {
