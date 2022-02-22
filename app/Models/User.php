@@ -56,11 +56,12 @@ class User extends Authenticatable implements MustVerifyEmail
     //     return $this->belongsTo(OrganizationalUnit::class, 'ou_id', 'id');
     // }
 
-    public function AxisCuscatlans()
+    public function AxisCusca()
     {
-        return $this->hasMany(AxisCuscatlan::class);
+        return $this->hasMany(AxisCusca::class);
 
     }
+
     public function objectives()
     {
         return $this->hasMany(User::class);

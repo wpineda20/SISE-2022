@@ -2,6 +2,6 @@
 
 @section('content')
     <div class="container">
-        <axis-cuscatlan />
+        <axis-cusca />
     </div>
 @endsection

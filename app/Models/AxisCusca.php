@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
-class AxisCuscatlan extends Model
+class AxisCusca extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'axes_cuscatlan';
+    protected $table = 'axis_cusca';
 
     public $incrementing = true;
 
@@ -22,9 +22,8 @@ class AxisCuscatlan extends Model
         'percentage',
         'create_date',
         'user_id',
-        'programmatic_objectives_id_id',
+        'programmatic_objectives_id',
     ];
-
     public $hidden = [
         'created_at',
         'updated_at',
@@ -33,12 +32,12 @@ class AxisCuscatlan extends Model
 
     public $timestamps = false;
 
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function objectives()
+    public function programmaticObjectives()
     {
         return $this->belongsTo(Programmatic_Objective::class, 'programmatic_objectives_id', 'id');
     }
