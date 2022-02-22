@@ -63,7 +63,7 @@
                 <v-container>
                   <!-- Form -->
                   <!-- User -->
-                  <v-row v-if="users.length > 0">
+                  <!-- <v-row v-if="users.length > 0"> -->
                   <v-row>
                     <!-- Axis -->
                     <v-col cols="12" sm="6" md="12">
@@ -121,10 +121,14 @@
                     <!-- Percentage -->
                     <!-- Date -->
                     <v-col cols="12" xs="12" sm="12" md="6">
-                      <base-date-input
+                      <base-input
                         label="Fecha de creación"
                         v-model.trim="$v.editedItem.create_date.$model"
                         :validation="$v.editedItem.create_date"
+                        type="date"
+                        :validationsInput="{
+                          required: true,
+                        }"
                       />
                     </v-col>
                     <!-- Date -->
@@ -310,7 +314,9 @@ export default {
 
       let requests = [
         axisCuscaApi.get(),
-        userApi.get(),
+        userApi.get(null, {
+          params: { skip: 0, take: 200 },
+        }),
         programmaticObjectiveApi.get(),
       ];
       let responses = await Promise.all(requests).catch((error) => {
@@ -324,7 +330,7 @@ export default {
       if (responses && responses[0].data.message == "success") {
         this.records = responses[0].data.axisCuscas;
         this.users = responses[1].data.users;
-        this.descriptions = responses[2].data.descriptions;
+        this.descriptions = responses[2].data.programmatic_objectives;
 
         // this.editedItem.user_name = this.users[0].user_name;
         this.recordsFiltered = this.records;

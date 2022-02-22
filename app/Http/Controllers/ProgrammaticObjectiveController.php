@@ -18,9 +18,15 @@ class ProgrammaticObjectiveController extends Controller
      */
     public function index()
     {
-        $programmaticObjectives = Programmatic_Objective::select('programmatic_objectives.id', 'programmatic_objectives.description', 'strategy_objective', 
-        'create_date', 'percentage', 'institution_name','user_name')
-
+        $programmaticObjectives = Programmatic_Objective::select(
+            'programmatic_objectives.id',
+            'programmatic_objectives.description',
+            'strategy_objective',
+            'create_date',
+            'percentage',
+            'institution_name',
+            'user_name'
+        )
         ->join('institutions as inst', 'programmatic_objectives.institution_id', '=', 'inst.id')
         ->join('users as user', 'programmatic_objectives.user_id', '=', 'user.id')
         ->get();
@@ -52,7 +58,7 @@ class ProgrammaticObjectiveController extends Controller
 
         $institution = Institution::where('institution_name', $request->institution_name)->first();
         $user = User::where('user_name', $request->user_name)->first();
-        
+
         $data['institution_id'] = $institution->id;
         $data['user_id'] = $user->id;
         $data['strategy_objective'] = ($data['strategy_objective'])?"SI":"NO";
