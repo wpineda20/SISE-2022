@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const programmaticObjective = axios.create({
+const programmaticObjectiveApi = axios.create({
     baseURL: "/api/programmaticObjective",
 });
 
-export default programmaticObjective;
+export default programmaticObjectiveApi;

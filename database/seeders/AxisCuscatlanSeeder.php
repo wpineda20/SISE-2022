@@ -22,7 +22,7 @@ class AxisCuscatlanSeeder extends Seeder
                 'percentage' => 9.5,
                 'create_date' => Carbon::now(),
                 'user_id' => 1,
-                // 'programmatic_objectives_id' => 1,
+                'programmatic_objectives_id' => 1,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
@@ -32,7 +32,7 @@ class AxisCuscatlanSeeder extends Seeder
                 'percentage' => 5.95,
                 'create_date' => Carbon::now(),
                 'user_id' => 2,
-                // 'programmatic_objectives_id' => 1,
+                'programmatic_objectives_id' => 1,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],

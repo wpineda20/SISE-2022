@@ -59,6 +59,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function AxisCuscatlans()
     {
         return $this->hasMany(AxisCuscatlan::class);
+
+    }
     public function objectives()
     {
         return $this->hasMany(User::class);

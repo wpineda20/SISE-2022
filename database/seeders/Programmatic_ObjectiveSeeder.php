@@ -22,7 +22,7 @@ class Programmatic_ObjectiveSeeder extends Seeder
                 'strategy_objective' => 'Si',
                 'create_date'=>Carbon::now(),
                 'percentage' => 25,
-                'institution_id' =>1 ,
+                'institution_id' => 1,
                 'user_id' => 1,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
@@ -33,8 +33,19 @@ class Programmatic_ObjectiveSeeder extends Seeder
                 'strategy_objective' => 'No',
                 'create_date'=>Carbon::now(),
                 'percentage' => 50,
-                'institution_id' =>1 ,
-                'user_id' => 1,
+                'institution_id' => 2,
+                'user_id' => 2,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ],
+            [
+                'id' => 3,
+                'description' =>  'Test2',
+                'strategy_objective' => 'No',
+                'create_date'=>Carbon::now(),
+                'percentage' => 50,
+                'institution_id' => 1,
+                'user_id' => 3,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],

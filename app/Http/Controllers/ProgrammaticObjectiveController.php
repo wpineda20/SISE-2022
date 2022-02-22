@@ -18,15 +18,16 @@ class ProgrammaticObjectiveController extends Controller
      */
     public function index()
     {
-        $programmatic_Objectives = Programmatic_Objective::select('programmatic_objectives.id', 'description', 'strategy_objective', 
+        $programmaticObjectives = Programmatic_Objective::select('programmatic_objectives.id', 'programmatic_objectives.description', 'strategy_objective', 
         'create_date', 'percentage', 'institution_name','user_name')
+
         ->join('institutions as inst', 'programmatic_objectives.institution_id', '=', 'inst.id')
         ->join('users as user', 'programmatic_objectives.user_id', '=', 'user.id')
         ->get();
 
-        $programmatic_Objectives = EncryptController::encryptArray($programmatic_Objectives, ['id', 'institution_id', 'user_id']);
+        $programmaticObjectives = EncryptController::encryptArray($programmaticObjectives, ['id', 'institution_id', 'user_id']);
 
-        return response()->json(['message' => 'success', 'programmatic_objectives'=>$programmatic_Objectives]);
+        return response()->json(['message' => 'success', 'programmatic_objectives'=>$programmaticObjectives]);
     }
 
     /**
@@ -51,6 +52,7 @@ class ProgrammaticObjectiveController extends Controller
 
         $institution = Institution::where('institution_name', $request->institution_name)->first();
         $user = User::where('user_name', $request->user_name)->first();
+        
         $data['institution_id'] = $institution->id;
         $data['user_id'] = $user->id;
         $data['strategy_objective'] = ($data['strategy_objective'])?"SI":"NO";
@@ -114,7 +116,7 @@ class ProgrammaticObjectiveController extends Controller
      */
     public function destroy($id)
     {
-        $id = Programmatic_Objective::decryptValue($id);
+        $id = EncryptController::decryptValue($id);
 
         Programmatic_Objective::where('id', $id)->delete();
         return response()->json(["message"=>"success"]);

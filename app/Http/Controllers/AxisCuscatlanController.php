@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\ProgrammaticObjective;
+use App\Models\Programmatic_Objective;
 use App\Models\AxisCuscatlan;
 use Illuminate\Http\Request;
 use DB;
@@ -40,7 +40,7 @@ class AxisCuscatlanController extends Controller
         $data = $request->except(['user_name', 'description']);
 
         $user = User::where('user_name', $request->user_name)->first();
-        $description = ProgrammaticObjective::where('description', $request->description)->first();
+        $description = Programmatic_Objective::where('description', $request->description)->first();
 
         $data['user_id'] = $user->id;
         $data['programmatic_objectives_id'] = $description->id;
@@ -74,7 +74,7 @@ class AxisCuscatlanController extends Controller
         $data = $request->except(['user_name', 'description']);
         // dd($data);
         $user = User::where('user_name', $request->user_name)->first();
-        $month = ProgrammaticObjective::where('description', $request->description)->first();
+        $month = Programmatic_Objective::where('description', $request->description)->first();
         $data = EncryptController::decryptModel($request->except(['user_name', 'description']), 'id');
 
         $data['user_id'] = $user->id;

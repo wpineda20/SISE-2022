@@ -22,7 +22,7 @@ class AxisCuscatlan extends Model
         'percentage',
         'create_date',
         'user_id',
-        // 'programmatic_objectives_id_id',
+        'programmatic_objectives_id_id',
     ];
 
     public $hidden = [
@@ -38,8 +38,8 @@ class AxisCuscatlan extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    // public function objectives()
-    // {
-    //     return $this->belongsTo(Year::class, 'year_id', 'id');
-    // }
+    public function objectives()
+    {
+        return $this->belongsTo(Programmatic_Objective::class, 'programmatic_objectives_id', 'id');
+    }
 }

@@ -139,10 +139,12 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
         Route::get('/axisCuscatlan', function () {
             return view('axis_cuscatlan.index');
 
+        });
+
         Route::get('/programmaticObjective', function () {
             return view('programmatic_objective.index');
-
         });
+
     });
 });
 

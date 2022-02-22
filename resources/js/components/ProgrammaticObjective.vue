@@ -47,7 +47,7 @@
                     type="text"
                     class=""
                     v-model="search"
-                    @keyup="searchValue()"
+                    @keyup="searchuser_name()"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -62,9 +62,31 @@
               <v-card-text>
                 <v-container>
                   <!-- Form -->
-                  <!-- Description -->
+                  <!-- User -->
                   <v-row v-if="users.length > 0">
-                  <v-col cols="12" sm="6" md="12">
+                    <v-col cols="12" sm="6" md="6">
+                      <base-select
+                        label="Usuario"
+                        v-model.trim="$v.editedItem.user_name.$model"
+                        :items="users"
+                        item="user_name"
+                        :validation="$v.editedItem.user_name"
+                      />
+                    </v-col>
+                    <!-- User -->
+                    <!-- Institution -->
+                    <v-col cols="12" sm="6" md="6">
+                      <base-select
+                        label="Institución"
+                        v-model.trim="$v.editedItem.institution_name.$model"
+                        :items="institutions"
+                        item="institution_name"
+                        :validation="$v.editedItem.institution_name"
+                      />
+                    </v-col>
+                    <!-- Institution -->
+                    <!-- Description -->
+                    <v-col cols="12" sm="6" md="12">
                       <base-text-area
                         label="Descripción"
                         v-model.trim="$v.editedItem.description.$model"
@@ -81,62 +103,27 @@
                       />
                     </v-col>
                     <!-- Description -->
-                    <!-- Estrategy_objective -->
-                    <v-col cols="12" sm="6" md="12" class="pt-0">
-                      <v-checkbox
-                        v-model="$v.editedItem.strategy_objective.$model"
-                        label="Objetivo de Estrategía"
-                      ></v-checkbox>
-                    </v-col>
-                    <!-- Estrategy_objective -->
-                    <!-- Create Date -->
-                    <!--<v-col cols="12" sm="6" md="6">
-                        <base-date-input
-                            label="Fecha de creación"
-                            v-model.trim="$v.editedItem.create_date.$model"
-                            :items="programmatic_objectives"
-                            item="create_date"
-                        />
-                    </v-col>-->
-                    <!-- Create Date -->
                     <!-- Percentage -->
-                    <v-col cols="12" sm="12" md="4">
+                    <v-col cols="12" sm="12" md="6">
                       <base-input
-                        label="Porcentaje"
-                        v-model="$v.editedItem.percentage.$model"
+                        label="PORCENTAJE"
+                        v-model.trim="$v.editedItem.percentage.$model"
                         :validation="$v.editedItem.percentage"
-                        validationTextType="default"
+                        type="number"
                         :validationsInput="{
                           required: true,
-                          minLength: true,
-                          maxLength: true,
                         }"
                       />
                     </v-col>
                     <!-- Percentage -->
-                    <!-- Institution Name -->
-                   <v-col cols="12" sm="6" md="12">
-                      <base-select
-                        label="Institución"
-                        v-model.trim="$v.editedItem.institution_name.$model"
-                        :items="institutions"
-                        item="institution_name"
-                        :validation="$v.editedItem.institution_name"
-                      />
+                    <!-- Strategy Objective -->
+                    <v-col cols="12" sm="6" md="12" class="pt-0">
+                      <v-checkbox
+                        v-model="$v.editedItem.strategy_objective.$model"
+                        label="Objetivo estrategico"
+                      ></v-checkbox>
                     </v-col>
-                    <!-- Institution Name -->
-                     <!-- User Name -->
-                   <v-col cols="12" sm="6" md="12">
-                      <base-select
-                        label="Usuario"
-                        v-model.trim="$v.editedItem.user_name.$model"
-                        :items="users"
-                        item="user_name"
-                        :validation="$v.editedItem.user_name"
-                      />
-                    </v-col>
-                    <!-- User Name -->
-
+                    <!-- Strategy Objective -->
                   </v-row>
                   <!-- Form -->
                   <v-row>
@@ -190,7 +177,7 @@
           </v-dialog>
         </v-toolbar>
       </template>
-     <template v-slot:[`item.actions`]="{ item }">
+      <template v-slot:[`item.actions`]="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
         <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
       </template>
@@ -206,9 +193,10 @@
     </v-data-table>
   </div>
 </template>
+
 <script>
-import institutionApi from "../apis/institutionApi";
 import userApi from "../apis/userApi";
+import institutionApi from "../apis/institutionApi";
 import programmaticObjectiveApi from "../apis/programmaticObjectiveApi";
 import lib from "../libs/function";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
@@ -219,66 +207,57 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "DESCRIPCION", value: "description" },
-      { text: "OBJETIVO ESTRATEGICO", value: "strategy_objective" },
-      { text: "FECHA DE CREACION", value: "create_date" },
-      { text: "PORCENTAJE", value: "percentage" },
-      { text: "INSTITUCION", value: "institution_name" },
       { text: "USUARIO", value: "user_name" },
+      { text: "INSTITUCIÓN", value: "institution_name" },
+      { text: "DESCRIPCIÓN", value: "description" },
+      { text: "FECHA DE CREACIÓN", value: "create_date" },
+      { text: "%", value: "percentage" },
+      { text: "OBJETIVO ESTRATÉGICO", value: "strategy_objective" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
     records: [],
     recordsFiltered: [],
     editedIndex: -1,
     editedItem: {
-      description: "",
       strategy_objective: "",
-      create_date:"",
-      percentage:"",
-      institution_name: "Ministerio de Cultura",
       user_name: "GiovanniTzec",
+      institution_name: "Ministerio de Cultura",
+      description: "",
+      percentage: "",
     },
     defaultItem: {
-     description: "",
       strategy_objective: "",
-      create_date:"",
-      percentage:"",
-      institution_name: "Ministerio de Cultura",
       user_name: "GiovanniTzec",
+      institution_name: "Ministerio de Cultura",
+      description: "",
+      percentage: "",
     },
     textAlert: "",
     alertEvent: "success",
     showAlert: false,
-    institutions: [],
     users: [],
+    institutions: [],
     redirectSessionFinished: false,
   }),
 
   // Validations
   validations: {
     editedItem: {
+      strategy_objective: {
+        required,
+      },
+      user_name: {
+        required,
+      },
+      institution_name: {
+        required,
+      },
       description: {
         required,
         minLength: minLength(1),
         maxLength: maxLength(500),
       },
-     strategy_objective: {
-        required,
-        minLength: minLength(1),
-        maxLength: maxLength(150),
-      },
-      /*create_date: {
-        required,
-      },*/
-       percentage: {
-        required,
-        minLength: minLength(1),
-        maxLength: maxLength(4),
-      },
-      institution_name: {
-        required,
-      },
-      user_name: {
+      percentage: {
         required,
       },
     },
@@ -308,7 +287,11 @@ export default {
       this.records = [];
       this.recordsFiltered = [];
 
-      let requests = [programmaticObjectiveApi.get(), institutionApi.get(), userApi.get()];
+      let requests = [
+        programmaticObjectiveApi.get(),
+        userApi.get(),
+        institutionApi.get(),
+      ];
       let responses = await Promise.all(requests).catch((error) => {
         this.updateAlert(true, "No fue posible obtener los registros.", "fail");
         this.redirectSessionFinished = lib.verifySessionFinished(
@@ -319,8 +302,10 @@ export default {
 
       if (responses && responses[0].data.message == "success") {
         this.records = responses[0].data.programmatic_objectives;
-        this.institutions = responses[1].data.institutions;
-        this.users = responses[2].data.users;
+        this.users = responses[1].data.users;
+        this.institutions = responses[2].data.institutions;
+
+        // this.editedItem.user_name = this.users[0].user_name;
         this.recordsFiltered = this.records;
       }
     },
@@ -329,8 +314,9 @@ export default {
       this.dialog = true;
       this.editedIndex = this.recordsFiltered.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.$v.editedItem.institution_name.$model = this.editedItem.institution_name;
       this.$v.editedItem.user_name.$model = this.editedItem.user_name;
+      this.$v.editedItem.institution_name.$model =
+        this.editedItem.institution_name;
     },
 
     deleteItem(item) {
@@ -430,7 +416,7 @@ export default {
       this.initialize();
     },
 
-    searchValue() {
+    searchuser_name() {
       this.recordsFiltered = [];
 
       if (this.search != "") {
@@ -464,3 +450,4 @@ export default {
   },
 };
 </script>
+
