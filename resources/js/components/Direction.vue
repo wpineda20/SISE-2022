@@ -183,11 +183,11 @@ export default {
     editedIndex: -1,
     editedItem: {
       direction_name: "",
-      institution_name: "Ministerio de Cultura",
+      institution_name: "",
     },
     defaultItem: {
       direction_name: "",
-      institution_name: "Ministerio de Cultura",
+      institution_name: "",
     },
     textAlert: "",
     alertEvent: "success",
@@ -328,7 +328,7 @@ export default {
         if (res.data.message == "success") {
           this.updateAlert(
             true,
-            "Registro almacenado correctamente.",
+            "Registro actualizado correctamente.",
             "success"
           );
         }

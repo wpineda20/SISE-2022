@@ -79,22 +79,11 @@
                         }"
                         :min="1"
                         :max="500"
-                        :rows="3"
+                        :rows="2"
                       />
                     </v-col>
                     <!-- Axis -->
 
-                    <!-- Users -->
-                    <v-col cols="12" sm="6" md="6">
-                      <base-select
-                        label="Usuario"
-                        v-model.trim="$v.editedItem.user_name.$model"
-                        :items="users"
-                        item="user_name"
-                        :validation="$v.editedItem.user_name"
-                      />
-                    </v-col>
-                    <!-- Users -->
                     <!-- Objectives -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select
@@ -119,6 +108,18 @@
                       />
                     </v-col>
                     <!-- Percentage -->
+                    <!-- Users -->
+                    <v-col cols="12" sm="6" md="6">
+                      <base-select
+                        label="Usuario"
+                        v-model.trim="$v.editedItem.user_name.$model"
+                        :items="users"
+                        item="user_name"
+                        :validation="$v.editedItem.user_name"
+                      />
+                    </v-col>
+                    <!-- Users -->
+
                     <!-- Date -->
                     <v-col cols="12" xs="12" sm="12" md="6">
                       <base-input
@@ -220,26 +221,26 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "USUARIO", value: "user_name" },
+      { text: "EJE", value: "axis_description" },
       { text: "OBJETIVO PROGRAMÁTICO", value: "description" },
       { text: "%", value: "percentage" },
       { text: "FECHA DE CREACIÓN", value: "create_date" },
-      { text: "EJE", value: "axis_description" },
+      { text: "USUARIO", value: "user_name" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
     records: [],
     recordsFiltered: [],
     editedIndex: -1,
     editedItem: {
-      user_name: "wpineda20",
-      description: "Test",
+      user_name: "",
+      description: "",
       axis_description: "",
       percentage: "",
       create_date: "",
     },
     defaultItem: {
-      user_name: "wpineda20",
-      description: "Test",
+      user_name: "",
+      description: "",
       axis_description: "",
       percentage: "",
       create_date: "",
@@ -332,7 +333,6 @@ export default {
         this.users = responses[1].data.users;
         this.descriptions = responses[2].data.programmatic_objectives;
 
-        // this.editedItem.user_name = this.users[0].user_name;
         this.recordsFiltered = this.records;
       }
     },
@@ -382,7 +382,6 @@ export default {
       this.$nextTick(() => {
         this.editedItem = this.defaultItem;
         this.editedIndex = -1;
-        this.editedItem.user_name = this.users[0].user_name;
       });
     },
 
@@ -390,7 +389,6 @@ export default {
       this.$nextTick(() => {
         this.editedItem = this.defaultItem;
         this.editedIndex = -1;
-        this.editedItem.user_name = this.users[0].user_name;
       });
 
       this.dialogDelete = false;
@@ -418,7 +416,7 @@ export default {
         if (res.data.message == "success") {
           this.updateAlert(
             true,
-            "Registro almacenado correctamente.",
+            "Registro actualizado correctamente.",
             "success"
           );
         }

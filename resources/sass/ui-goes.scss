@@ -152,7 +152,7 @@ footer {
 .theme--light.v-input,
 .theme--light.v-input input,
 .theme--light.v-input textarea {
-    color: $blue-primary;
+    color: black;
 }
 
 .v-text-field--outlined >>> fieldset {
@@ -249,8 +249,9 @@ footer {
 .link {
     font-size: 12px;
     color: $white;
-    text-align: center !important;
-    justify-content: center !important;
+    // text-align: center !important;
+    // justify-content: center !important;
+    margin-bottom: 0px;
 }
 
 .sidebar {
@@ -258,7 +259,7 @@ footer {
     top: 0;
     left: 0;
     height: 100%;
-    width: 100px;
+    width: 200px;
     background: $grey-primary;
     z-index: 100;
     transition: all 0.5s ease;
@@ -301,7 +302,7 @@ footer {
     position: relative;
     list-style: none;
     transition: all 0.4s ease;
-    margin: 5px;
+    margin: 4px;
 }
 
 .sidebar .nav-links li:hover {
@@ -311,11 +312,13 @@ footer {
 }
 
 .sidebar.close .nav-links li .icon-link {
-    display: block;
+    display: flex;
+    align-items: center;
+    line-height: 18px;
 }
 
 .sidebar .nav-links li i {
-    height: 50px;
+    height: 40px;
     min-width: 50px;
     text-align: center;
     line-height: 50px;
@@ -377,9 +380,9 @@ footer {
 .sidebar.close .nav-links li .sub-menu {
     position: absolute;
     left: 100%;
-    top: -10px;
+    // top: -10px;
     margin-top: 0;
-    padding: 10px 20px;
+    // padding: 10px 10px;
     border-radius: 0 6px 6px 0;
     opacity: 0;
     display: block;
@@ -487,6 +490,11 @@ footer {
     height: 18px;
     width: 18px;
 }
+.material-icons.md-19 {
+    font-size: 19px !important;
+    height: 12px;
+    width: 12px;
+}
 
 /**
  * Vuetify Inputs Bugs
@@ -500,6 +508,7 @@ footer {
     padding-left: 0.6rem;
     padding-right: 0.6rem;
     padding-bottom: 1rem;
+    color: black;
 }
 
 .v-text-field--outlined.v-input--dense .v-label--active {
@@ -516,6 +525,7 @@ footer {
 .v-textarea.v-text-field--enclosed.v-text-field--outlined:not(.v-input--dense)
     .v-label {
     top: 10px !important;
+    color: black;
 }
 
 .v-text-field__details {

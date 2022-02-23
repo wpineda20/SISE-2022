@@ -31,20 +31,20 @@
         <!-- Sidebar -->
         <div class="sidebar animate__faster animate__animated animate__slideOutLeft">
             <ul class="nav-links pt-0">
-                <li class="text-center close-btn">
-                    <i class="material-icons md-36 mx-auto  mt-0 pt-0">menu</i>
+                <li class="text-center close-btn pb-1">
+                    <i class="material-icons md-36 mx-auto ">close</i>
                 </li>
 
                 @auth
                     <!-- Home -->
-                    <li class="text-center pb-1">
+                    {{-- <li class="text-center pb-1">
                         <a href="{{ url('/home') }}" class="text-center">
                             <i class="material-icons md-18 mx-auto">home</i>
                         </a>
                         <a href="{{ url('/home') }}">
                             <p class="link mx-auto">Inicio</p>
                         </a>
-                    </li>
+                    </li> --}}
                     <!-- Home -->
                     <!-- Registro -->
                     {{-- <li class="text-center pb-1">
@@ -57,13 +57,12 @@
                     </li> --}}
                     <!-- Registro -->
 
-                    <!-- Settings -->
-                    <!-- Administrative routes -->
+                    <!-- Catálogos -->
                     @if (auth()->user()->hasRole('Administrador') == 'Administrador')
                         <li class="text-center">
-                            <div class="icon-link pb-1 mx-auto">
-                                <a href="#" class="arrow text-center">
-                                    <i class="material-icons md-18 mx-auto">format_list_bulleted</i>
+                            <div class="icon-link">
+                                <a href="#" class="mb-1">
+                                    <i class="material-icons md-19 ">widgets</i>
                                 </a>
                                 <p class="link">Catálogos</p>
                             </div>
@@ -80,21 +79,37 @@
                                 <li><a href="{{ url('/institutions') }}">Instituciones</a></li>
                                 <li><a href="{{ url('/months') }}">Meses</a></li>
                                 <li><a href="{{ url('/periods') }}">Períodos</a></li>
+                                <li><a href="{{ url('/annualResults') }}">Resultados anuales</a></li>
                                 <li><a href="{{ url('/units') }}">Unidades de medida</a></li>
                                 <li><a href="{{ url('/organizationalUnits') }}">Unidades organizativas</a></li>
                                 <li><a href="{{ url('/users') }}">Usuarios</a></li>   
                             </ul>
                         </li>
                     @endif
-                    <!-- End Administrative routes -->
-                    <!-- Settings -->
-                    <!-- Plan Cuscatlan -->
-                    <!-- Administrative routes -->
+                    <!-- Catálogos -->
                     @if (auth()->user()->hasRole('Administrador') == 'Administrador')
+                    
+                    <!-- Plan Desarrollo Social -->
                         <li>
-                            <div class="icon-link pb-1">
-                                <a href="#" class="arrow text-center">
-                                    <i class="material-icons md-18 mx-auto">widgets</i>
+                            <div class="icon-link">
+                                <a href="#" class="mb-1">
+                                    <i class="material-icons md-19 ">handshake</i>
+                                </a>
+                                <p class="link">Plan de Desarrollo Social</p>
+                            </div>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url('/programmaticObjective ') }}">Resultado</a></li>   
+                                <li><a href="{{ url('/municipalities') }}">Resultados Intermedios</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
+                            </ul>
+                        </li>
+                    <!-- Plan Desarrollo Social -->
+                    <!-- Plan Cuscatlán -->
+                        <li>
+                            <div class="icon-link">
+                                <a href="#" class="mb-1">
+                                    <i class="material-icons md-19 ">fact_check</i>
                                 </a>
                                 <p class="link">Plan Cuscatlán</p>
                             </div>
@@ -102,31 +117,144 @@
                                 <li><a href="{{ url('/programmaticObjective ') }}">Objetivos Programáticos</a></li>
                                 <li><a href="{{ url('/axisCuscatlan') }}">Ejes</a></li>
                                 <li><a href="{{ url('/strategyCusca') }}">Estrategias</a></li>
+                                <li><a href="{{ url('/resultsCuscatlan') }}">Resultados</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
+                            </ul>
+                        </li>
+                    <!-- Plan Cuscatlán -->
+                    <!-- Política Crecer Juntos -->
+                        <li>
+                            <div class="icon-link ">
+                                <a href="#" class="mb-1">
+                                    <i class="material-icons md-19">groups</i>
+                                </a>
+                                <p class="link">Política Crecer Juntos</p>
+                            </div>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url('/municipalities') }}">Resultado de Desarrollo</a></li>
+                                <li><a href="{{ url('/programmaticObjective ') }}">Ejes</a></li>   
                                 <li><a href="{{ url('/municipalities') }}">Resultados</a></li>
                                 <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
                                 <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
                             </ul>
                         </li>
+                        <!-- Política Crecer Juntos -->
+                    <!-- Plan Control Territorial -->
                         <li>
-                            <div class="icon-link pb-1">
-                                <a href="#" class="arrow text-center">
-                                    <i class="material-icons md-18 mx-auto">widgets</i>
+                            <div class="icon-link ">
+                                <a href="#" class="mb-1">
+                                    <i class="material-icons md-19 ">security</i>
                                 </a>
-                                <p class="link">Plan Social</p>
+                                <p class="link">Plan Control Territorial</p>
                             </div>
                             <ul class="sub-menu">
-                                <li><a href="{{ url('/municipalities') }}">Resultados Intermedios</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Componentes</a></li>
                                 <li><a href="{{ url('/programmaticObjective ') }}">Resultados</a></li>   
                                 <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
                                 <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
                             </ul>
                         </li>
+                        <!-- Plan Control Territorial -->
+                    <!-- Programa de Inversión -->
+                        <li>
+                            <div class="icon-link">
+                                <a href="#" class="mb-1">
+                                    <i class="material-icons md-19">attach_money</i>
+                                </a>
+                                <p class="link">Programa de Inversión</p>
+                            </div>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url('/programmaticObjective ') }}">Proyectos</a></li>   
+                                <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
+                            </ul>
+                        </li>
+                        <!-- Programa de Inversión -->
+                    <!-- Agenda Digital -->
+                        <li>
+                            <div class="icon-link">
+                                <a href="#" class="mb-1">
+                                    <i class="material-icons md-19">book</i>
+                                </a>
+                                <p class="link">Agenda Digital</p>
+                            </div>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url('/programmaticObjective ') }}">Resultado</a></li>   
+                                <li><a href="{{ url('/municipalities') }}">Actividades</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
+                            </ul>
+                        </li>
+                        <!-- Agenda Digital -->
+                    <!-- Programación estratégica institucional -->
+                        <li>
+                            <div class="icon-link">
+                                <a href="#" class="mb-1">
+                                    <i class="material-icons md-19">pending_actions</i>
+                                </a>
+                                <p class="link">P. estratégica institucional</p>
+                            </div>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url('/programmaticObjective ') }}">Objetivos</a></li>   
+                                <li><a href="{{ url('/municipalities') }}">Ejes</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Resultados</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
+                            </ul>
+                        </li>
+                        <!-- Programación estratégica institucional -->
+                    <!-- Operativo -->
+                        <li>
+                            <div class="icon-link">
+                                <a href="#" class="mb-1">
+                                    <i class="material-icons md-19">assignment_turned_in</i>
+                                </a>
+                                <p class="link">Operativo</p>
+                            </div>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url('/programmaticObjective ') }}">Objetivos</a></li>   
+                                <li><a href="{{ url('/programmaticObjective ') }}">Ejes</a></li>   
+                                <li><a href="{{ url('/programmaticObjective ') }}">Resultados</a></li>   
+                                <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
+                            </ul>
+                        </li>
+                        <!-- Operativo -->
+                    <!-- Ejes transversales -->
+                        <li>
+                            <div class="icon-link">
+                                <a href="#" class="mb-1">
+                                    <i class="material-icons md-19">line_axis</i>
+                                </a>
+                                <p class="link">Ejes transversales</p>
+                            </div>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url('/programmaticObjective ') }}">Ejes</a></li>   
+                                <li><a href="{{ url('/municipalities') }}">Resultados</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
+                            </ul>
+                        </li>
+                        <!-- Ejes transversales -->
+                    <!-- Gráficos y Reportes -->
+                        <li>
+                            <div class="icon-link">
+                                <a href="#" class="mb-1">
+                                    <i class="material-icons md-19">leaderboard</i>
+                                </a>
+                                <p class="link">Gráficos y Reportes</p>
+                            </div>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url('/programmaticObjective ') }}">Gráfico 1</a></li>   
+                                <li><a href="{{ url('/municipalities') }}">Gráfico 2</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Resporte</a></li>
+                            </ul>
+                        </li>
+                        <!-- Gráficos y Reportes -->
                     @endif
-                    <!-- End Administrative routes -->
-                    <!-- Settings -->
 
                     <!-- Logout -->
-                    <li class="text-center pb-1">
+                    {{-- <li class="text-center pb-1">
                         <a href="{{ route('register') }}" class="text-center"
                             onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                             <i class="material-icons md-18 mx-auto">logout</i>
@@ -135,7 +263,7 @@
                             onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                             <p class="link mx-auto">Cerrar sesión</p>
                         </a>
-                    </li>
+                    </li> --}}
                     <!-- Logout -->
                 @endauth
 
@@ -201,7 +329,7 @@
                             <!-- Logo Brand -->
                             <div class=" col-sm-4 col-md-6 d-none d-md-block d-lg-block d-xl-block">
                                 <div class="col-4 col-sm-12 mb-2">
-                                    <a class="navbar-brand" href="{{ url('/') }}">
+                                    <a class="navbar-brand" href="{{ url('/home') }}">
                                         <img class="" src="/logos/Logo_GOES_horizontal_D.svg"
                                             style="max-width: 60%" />
                                     </a>
@@ -229,7 +357,7 @@
                                     <div class="row d-none d-md-block">
                                         <div class="col-12 col-sm-12 col-md-12 pb-0 pt-2 mt-1 text-end">
                                             <span class="color-secondary" style="font-size: 16px;">
-                                                {{ auth()->user()->name }}
+                                                {{ auth()->user()->user_name }}
                                             </span>
                                             <span class="color-primary"><i class="material-icons">person</i></span>
                                         </div>

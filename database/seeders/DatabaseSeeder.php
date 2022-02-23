@@ -33,6 +33,8 @@ class DatabaseSeeder extends Seeder
             Programmatic_ObjectiveSeeder::class,
             AxisCuscaSeeder::class,
             StrategyCuscaSeeder::class,
+            ResultsCuscaSeeder::class,
+
 
         ]);
     }

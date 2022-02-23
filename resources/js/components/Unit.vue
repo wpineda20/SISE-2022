@@ -160,7 +160,7 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "NOMBRE", value: "unit_name" },
+      { text: "UNIDAD DE MEDIDA", value: "unit_name" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
     records: [],
@@ -316,7 +316,11 @@ export default {
             res.status,
             200
           );
-          this.updateAlert(true, "Registro actualizado.", "success");
+          this.updateAlert(
+            true,
+            "Registro actualizado correctamente.",
+            "success"
+          );
         }
       } else {
         const res = await unitApi.post(null, this.editedItem).catch((error) => {
