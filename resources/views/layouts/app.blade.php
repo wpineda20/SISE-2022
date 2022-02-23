@@ -31,8 +31,8 @@
         <!-- Sidebar -->
         <div class="sidebar animate__faster animate__animated animate__slideOutLeft">
             <ul class="nav-links pt-0">
-                <li class="text-center close-btn">
-                    <i class="material-icons md-36 mx-auto  mt-0 pt-0">menu</i>
+                <li class="text-center close-btn pb-1">
+                    <i class="material-icons md-36 mx-auto ">close</i>
                 </li>
 
                 @auth
@@ -60,9 +60,9 @@
                     <!-- Catálogos -->
                     @if (auth()->user()->hasRole('Administrador') == 'Administrador')
                         <li class="text-center">
-                            <div class="icon-link pb-1 mx-auto">
-                                <a href="#" class="arrow text-center">
-                                    <i class="material-icons md-19 mx-auto">widgets</i>
+                            <div class="icon-link">
+                                <a href="#" class="mb-1">
+                                    <i class="material-icons md-19 ">widgets</i>
                                 </a>
                                 <p class="link">Catálogos</p>
                             </div>
@@ -91,9 +91,9 @@
                     
                     <!-- Plan Desarrollo Social -->
                         <li>
-                            <div class="icon-link pb-1">
-                                <a href="#" class="arrow text-center">
-                                    <i class="material-icons md-19 mx-auto">handshake</i>
+                            <div class="icon-link">
+                                <a href="#" class="mb-1">
+                                    <i class="material-icons md-19 ">handshake</i>
                                 </a>
                                 <p class="link">Plan de Desarrollo Social</p>
                             </div>
@@ -107,9 +107,9 @@
                     <!-- Plan Desarrollo Social -->
                     <!-- Plan Cuscatlán -->
                         <li>
-                            <div class="icon-link pb-1">
-                                <a href="#" class="arrow text-center">
-                                    <i class="material-icons md-19 mx-auto">fact_check</i>
+                            <div class="icon-link">
+                                <a href="#" class="mb-1">
+                                    <i class="material-icons md-19 ">fact_check</i>
                                 </a>
                                 <p class="link">Plan Cuscatlán</p>
                             </div>
@@ -125,9 +125,9 @@
                     <!-- Plan Cuscatlán -->
                     <!-- Política Crecer Juntos -->
                         <li>
-                            <div class="icon-link pb-1">
-                                <a href="#" class="arrow text-center">
-                                    <i class="material-icons md-19 mx-auto">groups</i>
+                            <div class="icon-link ">
+                                <a href="#" class="mb-1">
+                                    <i class="material-icons md-19">groups</i>
                                 </a>
                                 <p class="link">Política Crecer Juntos</p>
                             </div>
@@ -142,9 +142,9 @@
                         <!-- Política Crecer Juntos -->
                     <!-- Plan Control Territorial -->
                         <li>
-                            <div class="icon-link pb-1">
-                                <a href="#" class="arrow text-center">
-                                    <i class="material-icons md-19 mx-auto">security</i>
+                            <div class="icon-link ">
+                                <a href="#" class="mb-1">
+                                    <i class="material-icons md-19 ">security</i>
                                 </a>
                                 <p class="link">Plan Control Territorial</p>
                             </div>
@@ -158,9 +158,9 @@
                         <!-- Plan Control Territorial -->
                     <!-- Programa de Inversión -->
                         <li>
-                            <div class="icon-link pb-1">
-                                <a href="#" class="arrow text-center">
-                                    <i class="material-icons md-19 mx-auto">attach_money</i>
+                            <div class="icon-link">
+                                <a href="#" class="mb-1">
+                                    <i class="material-icons md-19">attach_money</i>
                                 </a>
                                 <p class="link">Programa de Inversión</p>
                             </div>
@@ -173,9 +173,9 @@
                         <!-- Programa de Inversión -->
                     <!-- Agenda Digital -->
                         <li>
-                            <div class="icon-link pb-1">
-                                <a href="#" class="arrow text-center">
-                                    <i class="material-icons md-19 mx-auto">book</i>
+                            <div class="icon-link">
+                                <a href="#" class="mb-1">
+                                    <i class="material-icons md-19">book</i>
                                 </a>
                                 <p class="link">Agenda Digital</p>
                             </div>
@@ -186,6 +186,71 @@
                             </ul>
                         </li>
                         <!-- Agenda Digital -->
+                    <!-- Programación estratégica institucional -->
+                        <li>
+                            <div class="icon-link">
+                                <a href="#" class="mb-1">
+                                    <i class="material-icons md-19">pending_actions</i>
+                                </a>
+                                <p class="link">P. estratégica institucional</p>
+                            </div>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url('/programmaticObjective ') }}">Objetivos</a></li>   
+                                <li><a href="{{ url('/municipalities') }}">Ejes</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Resultados</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
+                            </ul>
+                        </li>
+                        <!-- Programación estratégica institucional -->
+                    <!-- Operativo -->
+                        <li>
+                            <div class="icon-link">
+                                <a href="#" class="mb-1">
+                                    <i class="material-icons md-19">assignment_turned_in</i>
+                                </a>
+                                <p class="link">Operativo</p>
+                            </div>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url('/programmaticObjective ') }}">Objetivos</a></li>   
+                                <li><a href="{{ url('/programmaticObjective ') }}">Ejes</a></li>   
+                                <li><a href="{{ url('/programmaticObjective ') }}">Resultados</a></li>   
+                                <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
+                            </ul>
+                        </li>
+                        <!-- Operativo -->
+                    <!-- Ejes transversales -->
+                        <li>
+                            <div class="icon-link">
+                                <a href="#" class="mb-1">
+                                    <i class="material-icons md-19">line_axis</i>
+                                </a>
+                                <p class="link">Ejes transversales</p>
+                            </div>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url('/programmaticObjective ') }}">Ejes</a></li>   
+                                <li><a href="{{ url('/municipalities') }}">Resultados</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
+                            </ul>
+                        </li>
+                        <!-- Ejes transversales -->
+                    <!-- Gráficos y Reportes -->
+                        <li>
+                            <div class="icon-link">
+                                <a href="#" class="mb-1">
+                                    <i class="material-icons md-19">leaderboard</i>
+                                </a>
+                                <p class="link">Gráficos y Reportes</p>
+                            </div>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url('/programmaticObjective ') }}">Gráfico 1</a></li>   
+                                <li><a href="{{ url('/municipalities') }}">Gráfico 2</a></li>
+                                <li><a href="{{ url('/municipalities') }}">Resporte</a></li>
+                            </ul>
+                        </li>
+                        <!-- Gráficos y Reportes -->
                     @endif
 
                     <!-- Logout -->
@@ -292,7 +357,7 @@
                                     <div class="row d-none d-md-block">
                                         <div class="col-12 col-sm-12 col-md-12 pb-0 pt-2 mt-1 text-end">
                                             <span class="color-secondary" style="font-size: 16px;">
-                                                {{ auth()->user()->name }}
+                                                {{ auth()->user()->user_name }}
                                             </span>
                                             <span class="color-primary"><i class="material-icons">person</i></span>
                                         </div>
