@@ -178,7 +178,7 @@ export default {
     headers: [
       { text: "AÑO", value: "value" },
       { text: "MES", value: "month_name" },
-      { text: "ACTIVE", value: "active" },
+      { text: "ACTIVO", value: "active" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
     records: [],
@@ -186,13 +186,13 @@ export default {
     editedIndex: -1,
     editedItem: {
       active: "",
-      value: "2017",
-      month_name: "Enero",
+      value: "",
+      month_name: "",
     },
     defaultItem: {
       active: "",
-      value: "2017",
-      month_name: "Enero",
+      value: "",
+      month_name: "",
     },
     textAlert: "",
     alertEvent: "success",
@@ -307,7 +307,6 @@ export default {
       this.$nextTick(() => {
         this.editedItem = this.defaultItem;
         this.editedIndex = -1;
-        this.editedItem.value = this.years[0].value;
       });
     },
 
@@ -315,7 +314,6 @@ export default {
       this.$nextTick(() => {
         this.editedItem = this.defaultItem;
         this.editedIndex = -1;
-        this.editedItem.value = this.years[0].value;
       });
 
       this.dialogDelete = false;
@@ -343,7 +341,7 @@ export default {
         if (res.data.message == "success") {
           this.updateAlert(
             true,
-            "Registro almacenado correctamente.",
+            "Registro actualizado correctamente.",
             "success"
           );
         }

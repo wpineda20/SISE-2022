@@ -163,10 +163,10 @@ export default {
     recordsFiltered: [],
     editedIndex: -1,
     editedItem: {
-      value: "2017",
+      value: "",
     },
     defaultItem: {
-      value: "2017",
+      value: "",
     },
     textAlert: "",
     alertEvent: "success",
@@ -301,7 +301,7 @@ export default {
         if (res.data.message == "success") {
           this.updateAlert(
             true,
-            "Registro almacenado correctamente.",
+            "Registro actualizado correctamente.",
             "success"
           );
         }

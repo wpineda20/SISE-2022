@@ -14,12 +14,12 @@
     <v-data-table
       :headers="headers"
       :items="recordsFiltered"
-      sort-by="indicator_name"
+      sort-by="result_description"
       class="elevation-3 shadow p-3 mt-3"
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>Indicadores</v-toolbar-title>
+          <v-toolbar-title>Resultados</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="600px" persistent>
             <template v-slot:activator="{ on, attrs }">
@@ -62,14 +62,33 @@
               <v-card-text>
                 <v-container>
                   <!-- Form -->
-                  <!-- Institution -->
-                  <v-row v-if="institutions.length > 0">
-                    <!-- Indicator Name -->
+                  <!-- User -->
+                  <!-- <v-row v-if="users.length > 0"> -->
+                  <v-row>
+                    <!-- Result -->
+                    <v-col cols="12" sm="6" md="12">
+                      <base-text-area
+                        label="Resultado"
+                        v-model.trim="$v.editedItem.result_description.$model"
+                        :validation="$v.editedItem.result_description"
+                        validationTextType="default"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                          maxLength: true,
+                        }"
+                        :min="1"
+                        :max="500"
+                        :rows="2"
+                      />
+                    </v-col>
+                    <!-- Result -->
+                    <!-- Responsible Name -->
                     <v-col cols="12" sm="12" md="12">
                       <base-input
-                        label="Indicador"
-                        v-model="$v.editedItem.indicator_name.$model"
-                        :validation="$v.editedItem.indicator_name"
+                        label="Responsable"
+                        v-model="$v.editedItem.responsible_name.$model"
+                        :validation="$v.editedItem.responsible_name"
                         validationTextType="default"
                         :validationsInput="{
                           required: true,
@@ -78,28 +97,29 @@
                         }"
                       />
                     </v-col>
-                    <!-- Indicator Name -->
+                    <!-- Responsible Name -->
+                    <!-- Users -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select
-                        label="Institución"
-                        v-model.trim="$v.editedItem.institution_name.$model"
-                        :items="institutions"
-                        item="institution_name"
-                        :validation="$v.editedItem.institution_name"
+                        label="Usuario"
+                        v-model.trim="$v.editedItem.user_name.$model"
+                        :items="users"
+                        item="user_name"
+                        :validation="$v.editedItem.user_name"
                       />
                     </v-col>
-                    <!-- Institution -->
-                    <!-- Unit -->
+                    <!-- Users -->
+                    <!-- Indicator -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select
-                        label="Unidad de medida"
-                        v-model.trim="$v.editedItem.unit_name.$model"
-                        :items="units"
-                        item="unit_name"
-                        :validation="$v.editedItem.unit_name"
+                        label="Indicador"
+                        v-model.trim="$v.editedItem.indicator_name.$model"
+                        :items="indicators"
+                        item="indicator_name"
+                        :validation="$v.editedItem.indicator_name"
                       />
                     </v-col>
-                    <!-- Unit -->
+                    <!-- Indicator -->
                     <!-- Organizational Unit -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select
@@ -111,14 +131,43 @@
                       />
                     </v-col>
                     <!-- Organizational Unit -->
-                    <!-- Strategic Indicator -->
-                    <v-col cols="12" sm="6" md="6" class="pt-0">
-                      <v-checkbox
-                        v-model="$v.editedItem.strategic_indicator.$model"
-                        label="Activo"
-                      ></v-checkbox>
+                    <!-- Axis -->
+                    <v-col cols="12" sm="6" md="6">
+                      <base-select
+                        label="Eje"
+                        v-model.trim="$v.editedItem.axis_description.$model"
+                        :items="axisCuscas"
+                        item="axis_description"
+                        :validation="$v.editedItem.axis_description"
+                      />
                     </v-col>
-                    <!-- Strategic Indicator -->
+                    <!-- Axis -->
+                    <!-- Percentage -->
+                    <v-col cols="12" sm="12" md="6">
+                      <base-input
+                        label="Porcentaje"
+                        v-model.trim="$v.editedItem.percentage.$model"
+                        :validation="$v.editedItem.percentage"
+                        type="number"
+                        :validationsInput="{
+                          required: true,
+                        }"
+                      />
+                    </v-col>
+                    <!-- Percentage -->
+                    <!-- Date -->
+                    <v-col cols="12" xs="12" sm="12" md="6">
+                      <base-input
+                        label="Fecha de creación"
+                        v-model.trim="$v.editedItem.create_date.$model"
+                        :validation="$v.editedItem.create_date"
+                        type="date"
+                        :validationsInput="{
+                          required: true,
+                        }"
+                      />
+                    </v-col>
+                    <!-- Date -->
                   </v-row>
                   <!-- Form -->
                   <v-row>
@@ -190,12 +239,18 @@
 </template>
 
 <script>
-import institutionApi from "../apis/institutionApi";
-import unitApi from "../apis/unitApi";
-import indicatorApi from "../apis/indicatorApi";
+import userApi from "../apis/userApi";
 import organizationalUnitApi from "../apis/organizationalUnitApi";
+import indicatorApi from "../apis/indicatorApi";
+import axisCuscaApi from "../apis/axisCuscaApi";
+import resultsCuscaApi from "../apis/resultsCuscaApi";
 import lib from "../libs/function";
-import { required, minLength, maxLength } from "vuelidate/lib/validators";
+import {
+  required,
+  minLength,
+  maxLength,
+  helpers,
+} from "vuelidate/lib/validators";
 
 export default {
   data: () => ({
@@ -203,35 +258,46 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "NOMBRE", value: "indicator_name" },
-      { text: "INSTITUCIÓN", value: "institution_name" },
-      { text: "UNIDAD DE MEDIDA", value: "unit_name" },
+      { text: "RESULTADO", value: "result_description" },
+      { text: "RESPONSABLE", value: "responsible_name" },
+      { text: "%", value: "percentage" },
+      { text: "FECHA DE CREACIÓN", value: "create_date" },
+      { text: "EJE", value: "axis_description" },
+      { text: "USUARIO", value: "user_name" },
+      { text: "INDICADOR", value: "indicator_name" },
       { text: "UNIDAD ORGANIZATIVA", value: "ou_name" },
-      { text: "ACTIVO", value: "strategic_indicator" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
     records: [],
     recordsFiltered: [],
     editedIndex: -1,
     editedItem: {
-      strategic_indicator: "",
+      result_description: "",
+      responsible_name: "",
+      percentage: "",
+      create_date: "",
+      user_name: "",
+      axis_description: "",
       indicator_name: "",
-      institution_name: "",
       ou_name: "",
-      unit_name: "",
     },
     defaultItem: {
-      strategic_indicator: "",
+      result_description: "",
+      responsible_name: "",
+      percentage: "",
+      create_date: "",
+      user_name: "",
+      axis_description: "",
       indicator_name: "",
-      institution_name: "",
       ou_name: "",
-      unit_name: "",
     },
+
     textAlert: "",
     alertEvent: "success",
     showAlert: false,
-    institutions: [],
-    units: [],
+    users: [],
+    axisCuscas: [],
+    indicators: [],
     organizationalUnits: [],
     redirectSessionFinished: false,
   }),
@@ -239,20 +305,46 @@ export default {
   // Validations
   validations: {
     editedItem: {
-      strategic_indicator: {},
-      indicator_name: {
+      result_description: {
+        required,
+        minLength: minLength(1),
+        maxLength: maxLength(500),
+      },
+      responsible_name: {
         required,
         minLength: minLength(1),
         maxLength: maxLength(150),
       },
-      institution_name: {
+      percentage: {
+        required,
+        minLength: minLength(1),
+        maxLength: maxLength(10),
+      },
+      user_name: {
         required,
       },
-      unit_name: {
+      axis_description: {
+        required,
+      },
+      indicator_name: {
         required,
       },
       ou_name: {
         required,
+      },
+      create_date: {
+        required,
+        isValidBirthday: helpers.regex(
+          "isValidBirthday",
+          /([0-9]{4}-[0-9]{2}-[0-9]{2})/
+        ),
+        minDate: (value) => value > new Date("1920-01-01").toISOString(),
+        maxDate: () => {
+          let today = new Date();
+          let year = today.getFullYear() - 18;
+          let date = today.setFullYear(year);
+          return new Date(date).toISOString();
+        },
       },
     },
   },
@@ -282,10 +374,13 @@ export default {
       this.recordsFiltered = [];
 
       let requests = [
-        indicatorApi.get(),
-        institutionApi.get(),
-        unitApi.get(),
+        resultsCuscaApi.get(),
+        userApi.get(null, {
+          params: { skip: 0, take: 200 },
+        }),
+        axisCuscaApi.get(),
         organizationalUnitApi.get(),
+        indicatorApi.get(),
       ];
       let responses = await Promise.all(requests).catch((error) => {
         this.updateAlert(true, "No fue posible obtener los registros.", "fail");
@@ -296,13 +391,14 @@ export default {
       });
 
       if (responses && responses[0].data.message == "success") {
-        this.records = responses[0].data.indicators;
-        this.institutions = responses[1].data.institutions;
-        this.units = responses[2].data.units;
+        this.records = responses[0].data.resultsCusca;
+        this.users = responses[1].data.users;
+        this.axisCuscas = responses[2].data.axisCuscas;
         this.organizationalUnits = responses[3].data.organizationalUnits;
+        this.indicators = responses[4].data.indicators;
+        // console.log(responses[4].data);
 
-        // this.editedItem.institution_name =
-        //   this.institutions[0].institution_name;
+        // this.editedItem.user_name = this.users[0].user_name;
         this.recordsFiltered = this.records;
       }
     },
@@ -311,9 +407,10 @@ export default {
       this.dialog = true;
       this.editedIndex = this.recordsFiltered.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.$v.editedItem.institution_name.$model =
-        this.editedItem.institution_name;
-      this.$v.editedItem.unit_name.$model = this.editedItem.unit_name;
+      this.$v.editedItem.user_name.$model = this.editedItem.user_name;
+      this.$v.editedItem.axis_description.$model =
+        this.editedItem.axis_description;
+      this.$v.editedItem.indicator_name.$model = this.editedItem.indicator_name;
       this.$v.editedItem.ou_name.$model = this.editedItem.ou_name;
     },
 
@@ -324,7 +421,7 @@ export default {
     },
 
     async deleteItemConfirm() {
-      const res = await indicatorApi
+      const res = await resultsCuscaApi
         .delete(`/${this.editedItem.id}`)
         .catch((error) => {
           this.updateAlert(
@@ -368,13 +465,14 @@ export default {
 
     async save() {
       this.$v.$touch();
-      if (this.$v.$invalid || this.editedItem.institution_name == "") {
+      if (this.$v.$invalid || this.editedItem.user_name == "") {
         this.updateAlert(true, "Campos obligatorios.", "fail");
+
         return;
       }
 
       if (this.editedIndex > -1) {
-        const res = await indicatorApi
+        const res = await resultsCuscaApi
           .put(`/${this.editedItem.id}`, this.editedItem)
           .catch((error) => {
             this.updateAlert(true, "No fue posible crear el registro.", "fail");
@@ -393,7 +491,7 @@ export default {
           );
         }
       } else {
-        const res = await indicatorApi
+        const res = await resultsCuscaApi
           .post(null, this.editedItem)
           .catch((error) => {
             this.updateAlert(true, "No fue posible crear el registro.", "fail");
@@ -418,8 +516,8 @@ export default {
       if (this.search != "") {
         this.records.forEach((record) => {
           let searchConcat = "";
-          for (let i = 0; i < record.indicator_name.length; i++) {
-            searchConcat += record.indicator_name[i].toUpperCase();
+          for (let i = 0; i < record.result_description.length; i++) {
+            searchConcat += record.result_description[i].toUpperCase();
             if (
               searchConcat === this.search.toUpperCase() &&
               !this.recordsFiltered.some((rec) => rec == record)

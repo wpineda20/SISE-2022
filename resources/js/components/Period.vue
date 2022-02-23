@@ -19,7 +19,7 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>Periodos</v-toolbar-title>
+          <v-toolbar-title>Períodos</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="600px" persistent>
             <template v-slot:activator="{ on, attrs }">
@@ -67,7 +67,7 @@
                     <!-- Period Name -->
                     <v-col cols="12" sm="12" md="12">
                       <base-input
-                        label="Periodo"
+                        label="Período"
                         v-model="$v.editedItem.period_name.$model"
                         :validation="$v.editedItem.period_name"
                         validationTextType="default"
@@ -192,7 +192,7 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "NOMBRE", value: "period_name" },
+      { text: "PERÍODO", value: "period_name" },
       { text: "AÑO INICIO", value: "start_year" },
       { text: "AÑO FIN", value: "end_year" },
       { text: "ACCIONES", value: "actions", sortable: false },
@@ -364,7 +364,11 @@ export default {
             res.status,
             200
           );
-          this.updateAlert(true, "Registro actualizado.", "success");
+          this.updateAlert(
+            true,
+            "Registro actualizado correctamente.",
+            "success"
+          );
         }
       } else {
         const res = await periodApi

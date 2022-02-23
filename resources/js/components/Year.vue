@@ -181,11 +181,11 @@ export default {
     editedIndex: -1,
     editedItem: {
       value: "",
-      period_name: "2017 - 2019",
+      period_name: "",
     },
     defaultItem: {
       value: "",
-      period_name: "2017 - 2019",
+      period_name: "",
     },
     textAlert: "",
     alertEvent: "success",
@@ -325,7 +325,7 @@ export default {
         if (res.data.message == "success") {
           this.updateAlert(
             true,
-            "Registro almacenado correctamente.",
+            "Registro actualizado correctamente.",
             "success"
           );
         }

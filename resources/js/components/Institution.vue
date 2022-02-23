@@ -394,7 +394,11 @@ export default {
             res.status,
             200
           );
-          this.updateAlert(true, "Registro actualizado.", "success");
+          this.updateAlert(
+            true,
+            "Registro actualizado correctamente.",
+            "success"
+          );
         }
       } else {
         const res = await institutionApi
