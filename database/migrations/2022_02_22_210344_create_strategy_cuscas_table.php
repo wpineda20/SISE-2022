@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAxisCuscasTable extends Migration
+class CreateStrategyCuscasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateAxisCuscasTable extends Migration
      */
     public function up()
     {
-        Schema::create('axis_cusca', function (Blueprint $table) {
+        Schema::create('strategy_cuscas', function (Blueprint $table){
             $table->id();
-            $table->string('axis_description', 500);
-            $table->double('percentage', 8, 2);
+            $table->string('description_strategy',500);
             $table->date('create_date');
-            $table->foreignId('user_id')->references('id')->on('users');
+            $table->string('user_create_strategy');
+            $table->double('percentage', 8, 2);
+            $table->foreignId('organizational_units_id')->references('id')->on('organizational_units');
             $table->foreignId('programmatic_objectives_id')->references('id')->on('programmatic_objectives');
             $table->softDeletes();
             $table->timestamps();
@@ -32,6 +33,6 @@ class CreateAxisCuscasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('axis_cusca');
+        Schema::dropIfExists('strategy_cuscas');
     }
 }

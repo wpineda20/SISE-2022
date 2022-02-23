@@ -44,4 +44,8 @@ class OrganizationalUnit extends Model
     {
         return $this->hasMany(OrganizationalUnit::class);
     }
+    public function strategys()
+    {
+        return $this->hasMany(OrganizationalUnit::class);
+    }
 }
