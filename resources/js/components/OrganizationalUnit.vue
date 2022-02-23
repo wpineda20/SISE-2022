@@ -174,7 +174,7 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "NOMBRE", value: "ou_name" },
+      { text: "UNIDAD ORGANIZATIVA", value: "ou_name" },
       { text: "DIRECCIÓN", value: "direction_name" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
@@ -183,11 +183,11 @@ export default {
     editedIndex: -1,
     editedItem: {
       ou_name: "",
-      direction_name: "Dirección Administrativa",
+      direction_name: "",
     },
     defaultItem: {
       ou_name: "",
-      direction_name: "Dirección Administrativa",
+      direction_name: "",
     },
     textAlert: "",
     alertEvent: "success",
@@ -327,7 +327,7 @@ export default {
         if (res.data.message == "success") {
           this.updateAlert(
             true,
-            "Registro almacenado correctamente.",
+            "Registro actualizado correctamente.",
             "success"
           );
         }

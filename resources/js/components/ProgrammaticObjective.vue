@@ -19,7 +19,7 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>Objetivos Programáticos</v-toolbar-title>
+          <v-toolbar-title>Objetivos programáticos</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="600px" persistent>
             <template v-slot:activator="{ on, attrs }">
@@ -62,10 +62,28 @@
               <v-card-text>
                 <v-container>
                   <!-- Form -->
-                  
+
                   <!-- User -->
                   <!-- v-if="users.length > 0" -->
                   <v-row>
+                    <!-- Description -->
+                    <v-col cols="12" sm="6" md="12">
+                      <base-text-area
+                        label="Objetivo programático"
+                        v-model.trim="$v.editedItem.description.$model"
+                        :validation="$v.editedItem.description"
+                        validationTextType="default"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                          maxLength: true,
+                        }"
+                        :min="1"
+                        :max="500"
+                        :rows="2"
+                      />
+                    </v-col>
+                    <!-- Description -->
                     <!-- Institution -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select
@@ -77,39 +95,10 @@
                       />
                     </v-col>
                     <!-- Institution -->
-                    <!-- User -->    
-                    <v-col cols="12" sm="6" md="6">
-                      <base-select
-                        label="Usuario"
-                        v-model.trim="$v.editedItem.user_name.$model"
-                        :items="users"
-                        item="user_name"
-                        :validation="$v.editedItem.user_name"
-                      />
-                    </v-col>
-                    <!-- User -->      
-                    <!-- Description -->
-                    <v-col cols="12" sm="6" md="12">
-                      <base-text-area
-                        label="Descripción"
-                        v-model.trim="$v.editedItem.description.$model"
-                        :validation="$v.editedItem.description"
-                        validationTextType="default"
-                        :validationsInput="{
-                          required: true,
-                          minLength: true,
-                          maxLength: true,
-                        }"
-                        :min="1"
-                        :max="500"
-                        :rows="3"
-                      />
-                    </v-col>
-                    <!-- Description -->
                     <!-- Percentage -->
                     <v-col cols="12" sm="12" md="6">
                       <base-input
-                        label="PORCENTAJE"
+                        label="Porcentaje"
                         v-model.trim="$v.editedItem.percentage.$model"
                         :validation="$v.editedItem.percentage"
                         type="number"
@@ -119,14 +108,18 @@
                       />
                     </v-col>
                     <!-- Percentage -->
-                    <!-- Strategy Objective -->
-                    <v-col cols="12" sm="6" md="6" class="pt-0">
-                      <v-checkbox
-                        v-model="$v.editedItem.strategy_objective.$model"
-                        label="Objetivo estrategico"
-                      ></v-checkbox>
+                    <!-- User -->
+                    <v-col cols="12" sm="6" md="6">
+                      <base-select
+                        label="Usuario"
+                        v-model.trim="$v.editedItem.user_name.$model"
+                        :items="users"
+                        item="user_name"
+                        :validation="$v.editedItem.user_name"
+                      />
                     </v-col>
-                    <!-- Strategy Objective -->
+                    <!-- User -->
+
                     <!-- Date -->
                     <v-col cols="12" xs="12" sm="12" md="6">
                       <base-input
@@ -135,11 +128,19 @@
                         :validation="$v.editedItem.create_date"
                         type="date"
                         :validationsInput="{
-                          required:true,
+                          required: true,
                         }"
                       />
                     </v-col>
                     <!-- Date -->
+                    <!-- Strategy Objective -->
+                    <v-col cols="12" sm="6" md="6" class="pt-0">
+                      <v-checkbox
+                        v-model="$v.editedItem.strategy_objective.$model"
+                        label="Objetivo estrategico"
+                      ></v-checkbox>
+                    </v-col>
+                    <!-- Strategy Objective -->
                   </v-row>
                   <!-- Form -->
                   <v-row>
@@ -211,12 +212,16 @@
 </template>
 
 <script>
-
 import institutionApi from "../apis/institutionApi";
 import userApi from "../apis/userApi";
 import programmaticObjectiveApi from "../apis/programmaticObjectiveApi";
 import lib from "../libs/function";
-import { required, minLength, maxLength, helpers, } from "vuelidate/lib/validators";
+import {
+  required,
+  minLength,
+  maxLength,
+  helpers,
+} from "vuelidate/lib/validators";
 
 export default {
   data: () => ({
@@ -224,12 +229,12 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "USUARIO", value: "user_name" },
+      { text: "OBJETIVO PROGRAMÁTICO", value: "description" },
       { text: "INSTITUCIÓN", value: "institution_name" },
-      { text: "DESCRIPCIÓN", value: "description" },
-      { text: "FECHA DE CREACIÓN", value: "create_date" },
       { text: "%", value: "percentage" },
+      { text: "FECHA DE CREACIÓN", value: "create_date" },
       { text: "OBJETIVO ESTRATÉGICO", value: "strategy_objective" },
+      { text: "USUARIO", value: "user_name" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
     records: [],
@@ -237,19 +242,19 @@ export default {
     editedIndex: -1,
     editedItem: {
       strategy_objective: "",
-      user_name: "GiovanniTzec",
-      institution_name: "Ministerio de Cultura",
+      user_name: "",
+      institution_name: "",
       description: "",
       percentage: "",
-      create_date:"",
+      create_date: "",
     },
     defaultItem: {
       strategy_objective: "",
-      user_name: "GiovanniTzec",
-      institution_name: "Ministerio de Cultura",
+      user_name: "",
+      institution_name: "",
       description: "",
       percentage: "",
-      create_date:"",
+      create_date: "",
     },
     textAlert: "",
     alertEvent: "success",
@@ -340,7 +345,6 @@ export default {
         this.users = responses[1].data.users;
         this.institutions = responses[2].data.institutions;
 
-        //this.editedItem.user_name = this.users[1].user_name;
         this.recordsFiltered = this.records;
       }
     },
@@ -350,7 +354,8 @@ export default {
       this.editedIndex = this.recordsFiltered.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.$v.editedItem.user_name.$model = this.editedItem.user_name;
-      this.$v.editedItem.institution_name.$model =this.editedItem.institution_name;
+      this.$v.editedItem.institution_name.$model =
+        this.editedItem.institution_name;
     },
 
     deleteItem(item) {
@@ -390,7 +395,6 @@ export default {
       this.$nextTick(() => {
         this.editedItem = this.defaultItem;
         this.editedIndex = -1;
-        this.editedItem.user_name = this.users[0].user_name;
       });
     },
 
@@ -398,7 +402,6 @@ export default {
       this.$nextTick(() => {
         this.editedItem = this.defaultItem;
         this.editedIndex = -1;
-        this.editedItem.user_name = this.users[0].user_name;
       });
 
       this.dialogDelete = false;
@@ -426,7 +429,7 @@ export default {
         if (res.data.message == "success") {
           this.updateAlert(
             true,
-            "Registro almacenado correctamente.",
+            "Registro actualizado correctamente.",
             "success"
           );
         }

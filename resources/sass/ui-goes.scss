@@ -152,7 +152,7 @@ footer {
 .theme--light.v-input,
 .theme--light.v-input input,
 .theme--light.v-input textarea {
-    color: $blue-primary;
+    color: black;
 }
 
 .v-text-field--outlined >>> fieldset {
@@ -258,7 +258,7 @@ footer {
     top: 0;
     left: 0;
     height: 100%;
-    width: 100px;
+    width: 160px;
     background: $grey-primary;
     z-index: 100;
     transition: all 0.5s ease;
@@ -487,6 +487,11 @@ footer {
     height: 18px;
     width: 18px;
 }
+.material-icons.md-19 {
+    font-size: 19px !important;
+    height: 12px;
+    width: 12px;
+}
 
 /**
  * Vuetify Inputs Bugs
@@ -500,6 +505,7 @@ footer {
     padding-left: 0.6rem;
     padding-right: 0.6rem;
     padding-bottom: 1rem;
+    color: black;
 }
 
 .v-text-field--outlined.v-input--dense .v-label--active {
@@ -516,6 +522,7 @@ footer {
 .v-textarea.v-text-field--enclosed.v-text-field--outlined:not(.v-input--dense)
     .v-label {
     top: 10px !important;
+    color: black;
 }
 
 .v-text-field__details {

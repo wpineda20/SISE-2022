@@ -20,6 +20,7 @@ use App\Http\Controllers\TrakingStatusController;
 use App\Http\Controllers\MonthController;
 use App\Http\Controllers\YearController;
 use App\Http\Controllers\AxisCuscaController;
+use App\Http\Controllers\ResultsCuscaController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ExcelController;
 
@@ -72,6 +73,7 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
         Route::resource('/api/year', YearController::class);
         Route::resource('/api/programmaticObjective', ProgrammaticObjectiveController::class);
         Route::resource('/api/axisCusca', AxisCuscaController::class);
+        Route::resource('/api/resultsCusca', ResultsCuscaController::class);
         Route::resource('/api/user', UserController::class);
         Route::resource('/api/role', RoleController::class);
 
@@ -136,12 +138,20 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
             return view('year.index');
         });
 
+        Route::get('/annualResults', function () {
+            return view('annual_results.index');
+        });
+
         Route::get('/programmaticObjective', function () {
             return view('programmatic_objective.index');
         });
 
         Route::get('/axisCuscatlan', function () {
             return view('axis_cusca.index');
+        });
+
+        Route::get('/resultsCuscatlan', function () {
+            return view('results_cusca.index');
         });
 
     });

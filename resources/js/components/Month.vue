@@ -64,7 +64,7 @@
                 <v-container>
                   <!-- Form -->
                   <v-row>
-                    <!-- Status Name -->
+                    <!-- Month Name -->
                     <v-col cols="12" sm="12" md="12">
                       <base-input
                         label="Mes"
@@ -78,7 +78,7 @@
                         }"
                       />
                     </v-col>
-                    <!-- Status Name -->
+                    <!-- Month Name -->
                   </v-row>
                   <!-- Form -->
                   <v-row>
@@ -316,7 +316,11 @@ export default {
             res.status,
             200
           );
-          this.updateAlert(true, "Registro actualizado.", "success");
+          this.updateAlert(
+            true,
+            "Registro actualizado correctamente.",
+            "success"
+          );
         }
       } else {
         const res = await monthApi
