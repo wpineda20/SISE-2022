@@ -13,7 +13,7 @@ class CreateStrategyCuscasTable extends Migration
      */
     public function up()
     {
-        Schema::create('strategy_cuscas', function (Blueprint $table){
+        Schema::create('strategy_cusca', function (Blueprint $table){
             $table->id();
             $table->string('description_strategy',500);
             $table->date('create_date');
@@ -33,6 +33,6 @@ class CreateStrategyCuscasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('strategy_cuscas');
+        Schema::dropIfExists('strategy_cusca');
     }
 }

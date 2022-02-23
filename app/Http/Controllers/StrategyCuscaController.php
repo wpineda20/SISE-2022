@@ -16,23 +16,24 @@ class StrategyCuscaController extends Controller
      */
     public function index()
     {
-        $strategyCuscas = StrategyCusca::select(
-            'strategy_cuscas.id',
+        $strategyCusca = StrategyCusca::select(
+            'strategy_cusca.id',
             'description_strategy',
-            'strategy_cuscas.create_date',
+            'strategy_cusca.create_date',
             'user_create_strategy',
-            'strategy_cuscas.percentage',
+            'strategy_cusca.percentage',
             'ou_name',
             'description'
         )
-        ->join('organizational_units as ou', 'strategy_cuscas.organizational_units_id', '=', 'ou.id')
-        ->join('programmatic_objectives as po', 'strategy_cuscas.programmatic_objectives_id', '=', 'po.id')
+        ->join('organizational_units as ou', 'strategy_cusca.organizational_units_id', '=', 'ou.id')
+        ->join('programmatic_objectives as po', 'strategy_cusca.programmatic_objectives_id', '=', 'po.id')
         ->get();
-
-        $strategyCuscas = EncryptController::encryptArray($strategyCuscas, ['id', 'organizational_units_id', 
+            
+        
+        $strategyCusca = EncryptController::encryptArray($strategyCusca, ['id', 'organizational_units_id', 
         'programmatic_objectives_id']);
 
-        return response()->json(['message' => 'success', 'strategy_cuscas'=>$strategyCuscas]);
+        return response()->json(['message' => 'success', 'strategy_cusca'=>$strategyCusca]);
     }
 
     /**
@@ -76,11 +77,12 @@ class StrategyCuscaController extends Controller
      */
     public function update(Request $request)
     {
-         // dd($request->all());
+        //  dd($request->all());
          $data = $request->except(['ou_name', 'description']);
          // dd($data);
          $ou = OrganizationalUnit::where('ou_name', $request->ou_name)->first();
          $programaticObjectives = Programmatic_Objective::where('description', $request->description)->first();
+         
          $data = EncryptController::decryptModel($request->except(['ou_name', 'description']), 'id');
  
          $data['organizational_units_id'] = $ou->id;
