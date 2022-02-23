@@ -63,32 +63,10 @@
                 <v-container>
                   <!-- Form -->
                   <v-row>
-                    <!-- Unidad Organizativa -->
-                    <v-col cols="12" sm="6" md="6">
-                      <base-select
-                        label="Unidad Organizativa"
-                        v-model.trim="$v.editedItem.ou_name.$model"
-                        :items="organizational_units"
-                        item="ou_name"
-                        :validation="$v.editedItem.ou_name"
-                      />
-                    </v-col>
-                    <!-- Unidad Organizativa -->
-                    <!-- Objetivo Programatico -->    
-                    <v-col cols="12" sm="6" md="6">
-                      <base-select
-                        label="Objetivo Programático"
-                        v-model.trim="$v.editedItem.description.$model"
-                        :items="programmatic_objectives"
-                        item="description"
-                        :validation="$v.editedItem.description"
-                      />
-                    </v-col>
-                    <!-- Objetivo Programatico -->      
                     <!-- Description Estrategica -->
                     <v-col cols="12" sm="6" md="12">
                       <base-text-area
-                        label="Descripción"
+                        label="Estrategía"
                         v-model.trim="$v.editedItem.description_strategy.$model"
                         :validation="$v.editedItem.description_strategy"
                         validationTextType="default"
@@ -99,23 +77,10 @@
                         }"
                         :min="1"
                         :max="500"
-                        :rows="3"
+                        :rows="2"
                       />
                     </v-col>
                     <!-- Description Estrategica-->
-                     <!-- Date -->
-                    <v-col cols="12" xs="12" sm="12" md="6">
-                      <base-input
-                        label="Fecha de creación"
-                        v-model.trim="$v.editedItem.create_date.$model"
-                        :validation="$v.editedItem.create_date"
-                        type="date"
-                        :validationsInput="{
-                          required:true,
-                        }"
-                      />
-                    </v-col>
-                    <!-- Date -->
                     <!-- Responsable -->
                     <v-col cols="12" sm="12" md="12">
                       <base-input
@@ -131,6 +96,43 @@
                       />
                     </v-col>
                     <!-- Responsable -->
+                    <!-- Unidad Organizativa -->
+                    <v-col cols="12" sm="6" md="6">
+                      <base-select
+                        label="Unidad Organizativa"
+                        v-model.trim="$v.editedItem.ou_name.$model"
+                        :items="organizational_units"
+                        item="ou_name"
+                        :validation="$v.editedItem.ou_name"
+                      />
+                    </v-col>
+                    <!-- Unidad Organizativa -->
+                    <!-- Objetivo Programatico -->
+                    <v-col cols="12" sm="6" md="6">
+                      <base-select
+                        label="Objetivo Programático"
+                        v-model.trim="$v.editedItem.description.$model"
+                        :items="programmatic_objectives"
+                        item="description"
+                        :validation="$v.editedItem.description"
+                      />
+                    </v-col>
+                    <!-- Objetivo Programatico -->
+
+                    <!-- Date -->
+                    <v-col cols="12" xs="12" sm="12" md="6">
+                      <base-input
+                        label="Fecha de creación"
+                        v-model.trim="$v.editedItem.create_date.$model"
+                        :validation="$v.editedItem.create_date"
+                        type="date"
+                        :validationsInput="{
+                          required: true,
+                        }"
+                      />
+                    </v-col>
+                    <!-- Date -->
+
                     <!-- Percentage -->
                     <v-col cols="12" sm="12" md="6">
                       <base-input
@@ -144,7 +146,6 @@
                       />
                     </v-col>
                     <!-- Percentage -->
-                   
                   </v-row>
                   <!-- Form -->
                   <v-row>
@@ -216,12 +217,16 @@
 </template>
 
 <script>
-
 import organizationalUnitApi from "../apis/organizationalUnitApi";
 import programmaticObjectiveApi from "../apis/programmaticObjectiveApi";
 import strategyCuscaApi from "../apis/strategyCuscaApi";
 import lib from "../libs/function";
-import { required, minLength, maxLength, helpers, } from "vuelidate/lib/validators";
+import {
+  required,
+  minLength,
+  maxLength,
+  helpers,
+} from "vuelidate/lib/validators";
 
 export default {
   data: () => ({
@@ -229,11 +234,11 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
+      { text: "ESTRATEGÍA", value: "description_strategy" },
+      { text: "RESPONSABLE", value: "user_create_strategy" },
       { text: "UNIDAD ORGANIZATIVA", value: "ou_name" },
       { text: "OBJETIVO PROGRAMATICO", value: "description" },
-      { text: "DESCRIPCIÓN", value: "description_strategy" },
       { text: "FECHA DE CREACIÓN", value: "create_date" },
-      { text: "RESPONSABLE", value: "user_create_strategy" },
       { text: "%", value: "percentage" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
@@ -246,7 +251,7 @@ export default {
       description: "",
       description_strategy: "",
       percentage: "",
-      create_date:"",
+      create_date: "",
     },
     defaultItem: {
       user_create_strategy: "",
@@ -254,7 +259,7 @@ export default {
       description: "",
       description_strategy: "",
       percentage: "",
-      create_date:"",
+      create_date: "",
     },
     textAlert: "",
     alertEvent: "success",
@@ -341,10 +346,11 @@ export default {
       });
 
       if (responses && responses[0].data.message == "success") {
-        this.records = responses[0].data.strategyCusca;
-        this.programmatic_objectives = responses[1].data.programmatic_objectives;
-        this.organizational_units = responses[2].data.organizational_units;
-        //this.editedItem.user_name = this.users[1].user_name;
+        this.records = responses[0].data.strategy_cusca;
+        this.programmatic_objectives =
+          responses[1].data.programmatic_objectives;
+        this.organizational_units = responses[2].data.organizationalUnits;
+        // console.log(responses[0]);
         this.recordsFiltered = this.records;
       }
     },
@@ -354,7 +360,7 @@ export default {
       this.editedIndex = this.recordsFiltered.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.$v.editedItem.ou_name.$model = this.editedItem.ou_name;
-      this.$v.editedItem.description.$model =this.editedItem.description;
+      this.$v.editedItem.description.$model = this.editedItem.description;
     },
 
     deleteItem(item) {
@@ -393,7 +399,7 @@ export default {
       this.dialog = false;
       this.$nextTick(() => {
         this.editedItem = this.defaultItem;
-        this.editedIndex = -1; 
+        this.editedIndex = -1;
       });
     },
 

@@ -24,12 +24,13 @@ class ResultsCuscaController extends Controller
         $resultsCusca = ResultsCusca::select('results_cusca.id', 'result_description', 'responsible_name', 
         'results_cusca.percentage', 'results_cusca.create_date', 'user_name', 'axis_description', 'indicator_name', 'ou_name')
 
+       
         ->join('users as u', 'results_cusca.user_id', '=', 'u.id')
         ->join('axis_cusca as a', 'results_cusca.axis_cusca_id', '=', 'a.id')
         ->join('indicators as i', 'results_cusca.indicator_id', '=', 'i.id')
         ->join('organizational_units as ou', 'results_cusca.organizational_units_id', '=', 'ou.id')
         ->get();
-
+        
         $resultsCusca = EncryptController::encryptArray($resultsCusca, ['id', 'user_id', 'axis_cusca_id', 
         'indicator_id', 'organizational_units_id']);
 
