@@ -47,4 +47,8 @@ class Programmatic_Objective extends Model
     {
         return $this->hasMany(Programmatic_Objective::class);
     }
+    public function strategyCusca()
+    {
+        return $this->hasMany(Programmatic_Objective::class);
+    }
 }

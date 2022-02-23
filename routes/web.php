@@ -15,6 +15,7 @@ use App\Http\Controllers\OrganizationalUnitController;
 use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\PoaClosingController;
 use App\Http\Controllers\ProgrammaticObjectiveController;
+use App\Http\Controllers\StrategyCuscaController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\TrakingStatusController;
 use App\Http\Controllers\MonthController;
@@ -72,6 +73,7 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
         Route::resource('/api/month', MonthController::class);
         Route::resource('/api/year', YearController::class);
         Route::resource('/api/programmaticObjective', ProgrammaticObjectiveController::class);
+        Route::resource('/api/strategyCusca', StrategyCuscaController::class);
         Route::resource('/api/axisCusca', AxisCuscaController::class);
         Route::resource('/api/resultsCusca', ResultsCuscaController::class);
         Route::resource('/api/user', UserController::class);
@@ -144,6 +146,10 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
 
         Route::get('/programmaticObjective', function () {
             return view('programmatic_objective.index');
+        });
+
+        Route::get('/strategyCusca', function () {
+            return view('strategy_cusca.index');
         });
 
         Route::get('/axisCuscatlan', function () {

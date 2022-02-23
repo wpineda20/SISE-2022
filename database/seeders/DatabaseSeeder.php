@@ -32,7 +32,9 @@ class DatabaseSeeder extends Seeder
             PoaClosingSeeder::class,
             Programmatic_ObjectiveSeeder::class,
             AxisCuscaSeeder::class,
+            StrategyCuscaSeeder::class,
             ResultsCuscaSeeder::class,
+
 
         ]);
     }
