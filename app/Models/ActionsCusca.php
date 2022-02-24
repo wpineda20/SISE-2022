@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class StrategyCusca extends Model
+class ActionsCusca extends Model
 {
     use HasFactory,SoftDeletes;
 
-    protected $table = 'strategy_cusca';
+    protected $table = 'actions_cusca';
 
     public $incrementing = true;
 
@@ -18,19 +18,22 @@ class StrategyCusca extends Model
 
     protected $fillable = [
         'id',
-        'description_strategy',
+        'description_action',
         'create_date',
-        'user_create_strategy',
+        'actionNumberYear',
         'percentage',
-        'organizational_units_id',
-        'programmatic_objectives_id',        
+        'responsable_name',
+        'user_id',
+        'results_cusca_id',
+        'year_id',
+        'financings_id'
     ];
     public $hidden = [
         'created_at',
         'updated_at',
         'deleted_at',
     ];
-
     public $timestamps = false;
+
 
 }
