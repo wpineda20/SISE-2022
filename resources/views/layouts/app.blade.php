@@ -118,7 +118,7 @@
                                 <li><a href="{{ url('/axisCuscatlan') }}">Ejes</a></li>
                                 <li><a href="{{ url('/strategyCusca') }}">Estrategias</a></li>
                                 <li><a href="{{ url('/resultsCuscatlan') }}">Resultados</a></li>
-                                <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
+                                <li><a href="{{ url('/actionsCuscatlan') }}">Acciones</a></li>
                                 <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
                             </ul>
                         </li>

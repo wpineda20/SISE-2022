@@ -33,13 +33,13 @@ class StrategyCusca extends Model
 
     public $timestamps = false;
 
-    // public function organizationalUnits()
-    // {
-    //     return $this->belongsTo(OrganizationalUnit::class, 'organizational_units_id', 'id');
-    // }
+    public function organizationalUnits()
+     {
+        return $this->belongsTo(OrganizationalUnit::class, 'organizational_units_id', 'id');
+     }
 
-    // public function programaticObjectives()
-    // {
-    //     return $this->belongsTo(Programmatic_Objective::class, 'programmatic_objectives_id', 'id');
-    // }
+     public function programaticObjectives()
+     {
+         return $this->belongsTo(Programmatic_Objective::class, 'programmatic_objectives_id', 'id');
+     }
 }
