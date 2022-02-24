@@ -34,6 +34,8 @@ class DatabaseSeeder extends Seeder
             AxisCuscaSeeder::class,
             StrategyCuscaSeeder::class,
             ResultsCuscaSeeder::class,
+            TrackingCuscaSeeder::class,
+            
 
 
         ]);
