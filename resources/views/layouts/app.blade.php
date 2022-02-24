@@ -119,7 +119,7 @@
                                 <li><a href="{{ url('/strategyCusca') }}">Estrategias</a></li>
                                 <li><a href="{{ url('/resultsCuscatlan') }}">Resultados</a></li>
                                 <li><a href="{{ url('/actionsCuscatlan') }}">Acciones</a></li>
-                                <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
+                                <li><a href="{{ url('/trackingCuscatlan') }}">Seguimientos</a></li>
                             </ul>
                         </li>
                     <!-- Plan Cuscatlán -->

@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
-class AxisCusca extends Model
+class TrackingCusca extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'axis_cusca';
+    protected $table = 'tracking_cusca';
 
     public $incrementing = true;
 
@@ -18,11 +18,17 @@ class AxisCusca extends Model
 
     protected $fillable = [
         'id',
-        'axis_description',
-        'percentage',
+        'tracking_detail',
         'create_date',
-        'user_id',
-        'programmatic_objectives_id',
+        'executed',
+        'monthly_actions',
+        'percentage',
+        'budget_executed',
+        'user_id',        
+        'year_id',        
+        'month_id',        
+        'traking_status_id',        
+        // 'action_id',        
     ];
     public $hidden = [
         'created_at',
@@ -31,6 +37,4 @@ class AxisCusca extends Model
     ];
 
     public $timestamps = false;
-
-   
 }

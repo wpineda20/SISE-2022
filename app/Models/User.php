@@ -46,22 +46,6 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->notify(new \App\Notifications\VerifyEmailQueued);
     }
 
-    // public function institutions()
-    // {
-    //     return $this->belongsTo(Institution::class, 'institution_id', 'id');
-    // }
-
-    // public function organizationalUnits()
-    // {
-    //     return $this->belongsTo(OrganizationalUnit::class, 'ou_id', 'id');
-    // }
-
-    public function AxisCusca()
-    {
-        return $this->hasMany(AxisCusca::class);
-
-    }
-
     public function objectives()
     {
         return $this->hasMany(User::class);
