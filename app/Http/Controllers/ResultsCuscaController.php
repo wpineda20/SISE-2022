@@ -22,7 +22,7 @@ class ResultsCuscaController extends Controller
     public function index()
     {
         $resultsCusca = ResultsCusca::select('results_cusca.id', 'result_description', 'responsible_name', 
-        'results_cusca.percentage', 'results_cusca.create_date', 'user_name', 'axis_description', 'indicator_name', 'ou_name')
+        'results_cusca.executed', 'user_name', 'axis_description', 'indicator_name', 'ou_name')
 
        
         ->join('users as u', 'results_cusca.user_id', '=', 'u.id')
@@ -57,6 +57,7 @@ class ResultsCuscaController extends Controller
         $data['indicator_id'] = $indicator->id;
         $data['organizational_units_id'] = $ou->id;
         $data['axis_cusca_id'] = $axis_description->id;
+        $data['executed'] = ($data['executed'])?"SI":"NO";
 
         ResultsCusca::insert($data);
 
@@ -98,6 +99,7 @@ class ResultsCuscaController extends Controller
         $data['axis_cusca_id'] = $axis_description->id;
         $data['indicator_id'] = $indicator->id;
         $data['organizational_units_id'] = $ou->id;
+        $data['executed'] = ($data['executed'])?"SI":"NO";
         // dd($data);
 
         ResultsCusca::where('id', $data['id'])->update($data);

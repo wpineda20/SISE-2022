@@ -19,8 +19,7 @@ class AxisCusca extends Model
     protected $fillable = [
         'id',
         'axis_description',
-        'percentage',
-        'create_date',
+        'executed',
         'user_id',
         'programmatic_objectives_id',
     ];
