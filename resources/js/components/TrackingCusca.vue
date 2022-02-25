@@ -128,6 +128,17 @@
                       />
                     </v-col>
                     <!-- Tracking Status -->
+                    <!-- Actions -->
+                    <!-- <v-col cols="12" sm="6" md="6">
+                      <base-select
+                        label="Acción"
+                        v-model.trim="$v.editedItem.description_action.$model"
+                        :items="actions"
+                        item="description_action"
+                        :validation="$v.editedItem.description_action"
+                      />
+                    </v-col> -->
+                    <!-- Actions -->
                     <!-- Monthly Actions -->
                     <v-col cols="12" sm="12" md="6">
                       <base-input
@@ -264,6 +275,7 @@ import yearApi from "../apis/yearApi";
 import monthApi from "../apis/monthApi";
 import trakingStatusApi from "../apis/trakingStatusApi";
 import trackingCuscaApi from "../apis/trackingCuscaApi";
+// import actionsCuscaApi from "../apis/actionsCuscaApi";
 import lib from "../libs/function";
 import {
   required,
@@ -295,6 +307,7 @@ export default {
     editedIndex: -1,
     editedItem: {
       tracking_detail: "",
+      // description_action: "",
       month_name: "",
       percentage: "",
       budget_executed: "",
@@ -307,6 +320,7 @@ export default {
     },
     defaultItem: {
       tracking_detail: "",
+      // description_action: "",
       month_name: "",
       percentage: "",
       budget_executed: "",
@@ -324,6 +338,7 @@ export default {
     users: [],
     months: [],
     years: [],
+    // actions: [],
     trakingStatuses: [],
 
     redirectSessionFinished: false,
@@ -361,6 +376,9 @@ export default {
       value: {
         required,
       },
+      // description_action: {
+      //   required,
+      // },
       status_name: {
         required,
       },
@@ -416,6 +434,7 @@ export default {
         trakingStatusApi.get(),
         yearApi.get(),
         monthApi.get(),
+        // actionsCuscaApi.get(),
       ];
       let responses = await Promise.all(requests).catch((error) => {
         this.updateAlert(true, "No fue posible obtener los registros.", "fail");
@@ -431,7 +450,8 @@ export default {
         this.trakingStatuses = responses[2].data.trakingStatuses;
         this.years = responses[3].data.years;
         this.months = responses[4].data.months;
-        console.log(responses);
+        // this.actions = responses[5].data.actions_cusca;
+        // console.log(responses);
 
         // this.editedItem.user_name = this.users[0].user_name;
         this.recordsFiltered = this.records;
@@ -446,6 +466,8 @@ export default {
       this.$v.editedItem.status_name.$model = this.editedItem.status_name;
       this.$v.editedItem.value.$model = this.editedItem.value;
       this.$v.editedItem.month_name.$model = this.editedItem.month_name;
+      // this.$v.editedItem.description_action.$model =
+      //   this.editedItem.description_action;
     },
 
     deleteItem(item) {

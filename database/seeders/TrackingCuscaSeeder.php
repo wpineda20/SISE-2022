@@ -28,7 +28,7 @@ class TrackingCuscaSeeder extends Seeder
                 'year_id' => 1,
                 'month_id' => 1,
                 'traking_status_id' => 1,
-                // 'action_id' => 1,
+                // 'actions_cusca_id' => 1,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
@@ -44,7 +44,7 @@ class TrackingCuscaSeeder extends Seeder
                 'year_id' => 2,
                 'month_id' => 5,
                 'traking_status_id' => 3,
-                // 'action_id' => 3,
+                // 'actions_cusca_id' => 2,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],

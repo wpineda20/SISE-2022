@@ -61,6 +61,7 @@ class ActionsCuscaController extends Controller
      */
     public function store(Request $request)
     {
+         dd($request->all());
         $data = $request->except(['user_name', 'result_description', 'value', 'financing_name']);
 
         $user = User::where('user_name', $request->user_name)->first();

@@ -74,7 +74,7 @@
                       />
                     </v-col>
                     <!-- Users -->
-                     <!-- Results -->
+                    <!-- Results -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select
                         label="Resultado"
@@ -125,6 +125,21 @@
                       />
                     </v-col>
                     <!-- Description Acciones-->
+                    <!-- Responsable -->
+                    <v-col cols="12" sm="12" md="12">
+                      <base-input
+                        label="Responsable"
+                        v-model="$v.editedItem.responsable_name.$model"
+                        :validation="$v.editedItem.responsable_name"
+                        validationTextType="default"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                          maxLength: true,
+                        }"
+                      />
+                    </v-col>
+                    <!-- Responsable -->
                     <!-- Date -->
                     <v-col cols="12" xs="12" sm="12" md="6">
                       <base-input
@@ -166,22 +181,7 @@
                         }"
                       />
                     </v-col>
-                    <!-- Percentage -->         
-                    <!-- Responsable -->
-                    <v-col cols="12" sm="12" md="12">
-                      <base-input
-                        label="Responsable"
-                        v-model="$v.editedItem.responsable_name.$model"
-                        :validation="$v.editedItem.responsable_name"
-                        validationTextType="default"
-                        :validationsInput="{
-                          required: true,
-                          minLength: true,
-                          maxLength: true,
-                        }"
-                      />
-                    </v-col>
-                    <!-- Responsable -->
+                    <!-- Percentage -->
                   </v-row>
                   <!-- Form -->
                   <v-row>
@@ -276,7 +276,7 @@ export default {
       { text: "FECHA DE CREACIÓN", value: "create_date" },
       { text: "NUMERO DE ACCIONES", value: "actionNumberYear" },
       { text: "%", value: "percentage" },
-      { text: "RESPONSABLE", value: "responsable_name" }, 
+      { text: "RESPONSABLE", value: "responsable_name" },
       { text: "USUARIO", value: "user_name" },
       { text: "RESULTADO", value: "result_description" },
       { text: "AÑO", value: "value" },
@@ -289,7 +289,7 @@ export default {
     editedItem: {
       description_action: "",
       create_date: "",
-      actionNumberYear:"",
+      actionNumberYear: "",
       percentage: "",
       responsable_name: "",
       user_name: "",
@@ -300,7 +300,7 @@ export default {
     defaultItem: {
       description_action: "",
       create_date: "",
-      actionNumberYear:"",
+      actionNumberYear: "",
       percentage: "",
       responsable_name: "",
       user_name: "",
@@ -363,12 +363,11 @@ export default {
           return new Date(date).toISOString();
         },
       },
-      actionNumberYear:
-      {
+      actionNumberYear: {
         required,
         minLength: minLength(1),
         maxLength: maxLength(10),
-      }
+      },
     },
   },
   // Validations

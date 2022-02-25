@@ -23,7 +23,8 @@ class TrackingCuscaController extends Controller
     public function index()
     {
          $trackingsCusca = TrackingCusca::select('tracking_cusca.id', 'tracking_detail', 'executed', 
-        'monthly_actions', 'tracking_cusca.percentage', 'budget_executed', 'tracking_cusca.create_date', 'user_name', 'value', 'month_name', 'status_name')
+        'monthly_actions', 'tracking_cusca.percentage', 'budget_executed', 'tracking_cusca.create_date', 
+        'user_name', 'value', 'month_name', 'status_name')
 
        
         ->join('users as u', 'tracking_cusca.user_id', '=', 'u.id')
@@ -36,6 +37,7 @@ class TrackingCuscaController extends Controller
         'month_id', 'traking_status_id']);
 
         return response()->json(['message' => 'success', 'trackingsCusca'=>$trackingsCusca]);
+        
     }
 
     /**
@@ -46,13 +48,15 @@ class TrackingCuscaController extends Controller
      */
     public function store(Request $request)
     {
-         $data = $request->except(['user_name', 'month_name', 'value', 'status_name']);
+        // dd($request->all());
+        $data = $request->except(['user_name', 'month_name', 'value', 'status_name']);
 
         $user = User::where('user_name', $request->user_name)->first();
         $month = Month::where('month_name', $request->month_name)->first();
         $year = Year::where('value', $request->value)->first();
         $status = TrakingStatus::where('status_name', $request->status_name)->first();
-
+        
+        // dd($data);
         $data['user_id'] = $user->id;
         $data['month_id'] = $month->id;
         $data['year_id'] = $year->id;
