@@ -192,14 +192,10 @@
                                 <a href="#" class="mb-1">
                                     <i class="material-icons md-19">pending_actions</i>
                                 </a>
-                                <p class="link">P. estratégica institucional</p>
+                                <p class="link">Programación Estratégica</p>
                             </div>
                             <ul class="sub-menu">
-                                <li><a href="{{ url('/programmaticObjective ') }}">Objetivos</a></li>   
-                                <li><a href="{{ url('/municipalities') }}">Ejes</a></li>
-                                <li><a href="{{ url('/municipalities') }}">Resultados</a></li>
-                                <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
-                                <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
+                                <li><a href="https://10.30.0.121:8181/SISE/content/index.xhtml">Programación Estratégica Institucional</a></li>   
                             </ul>
                         </li>
                         <!-- Programación estratégica institucional -->
@@ -212,11 +208,7 @@
                                 <p class="link">Operativo</p>
                             </div>
                             <ul class="sub-menu">
-                                <li><a href="{{ url('/programmaticObjective ') }}">Objetivos</a></li>   
-                                <li><a href="{{ url('/programmaticObjective ') }}">Ejes</a></li>   
-                                <li><a href="{{ url('/programmaticObjective ') }}">Resultados</a></li>   
-                                <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
-                                <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
+                                <li><a href="https://10.30.0.121:8181/SISE/content/index.xhtml">Operativo</a></li>   
                             </ul>
                         </li>
                         <!-- Operativo -->
