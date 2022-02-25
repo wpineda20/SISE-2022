@@ -31,7 +31,7 @@ class ResultsCuscaSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'result_description' =>  'Descripción de resultados',
+                'result_description' =>  'Descripción dos',
                 'responsible_name' =>  'Responsable',
                 'percentage' => 100,
                 'create_date'=>Carbon::now(),
