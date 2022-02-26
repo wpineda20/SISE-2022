@@ -33,7 +33,7 @@ class ResultsCuscaSeeder extends Seeder
                 'result_description' =>  'Descripción dos',
                 'responsible_name' =>  'Responsable',
                 'executed' => 'NO',
-                'user_id' => 3,
+                'user_id' => 2,
                 'axis_cusca_id' => 2,
                 'indicator_id' => 2,
                 'organizational_units_id' => 2,

@@ -25,8 +25,8 @@ class UserSeeder extends Seeder
             'name' => 'William Alberto Pineda Tovar',
             'job_title' => 'Técnico',
             'phone' => '7284-2854',
-            'ou_id' => 1,
-            'institution_id' => 2,
+            // 'ou_id' => 1,
+            // 'institution_id' => 2,
             'email' => 'willalbertopineda@gmail.com',
             'password' => Hash::make('12345678'),
             'email_verified_at' => now(),
@@ -35,26 +35,12 @@ class UserSeeder extends Seeder
 
         $admin = User::create([
             'id' => 2,
-            'user_name' => 'leolopezMC',
-            'name' => 'Leonel Antonio López Valencia',
-            'job_title' => 'Técnico',
-            'phone' => '7941-9348',
-            'ou_id' => 1,
-            'institution_id' => 2,
-            'email' => 'leonellopez647@gmail.com',
-            'password' => Hash::make('Leonel23'),
-            'email_verified_at' => now(),
-        ]);
-        $admin->assignRole($roleAdmin);
-
-        $admin = User::create([
-            'id' => 3,
             'user_name' => 'GiovanniTzec',
             'name' => 'Giovanni Ariel Tzec',
-            'job_title' => 'Técnico',
+            'job_title' => 'Ingeniero',
             'phone' => '7941-9348',
-            'ou_id' => 1,
-            'institution_id' => 2,
+            // 'ou_id' => 1,
+            // 'institution_id' => 2,
             'email' => 'giovanni.tzec@gmail.com',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
@@ -62,7 +48,7 @@ class UserSeeder extends Seeder
         $admin->assignRole($roleAdmin);
 
         // $admin = User::create([
-        //     'id' => 2,
+        //     'id' => 3,
         //     'name' => 'Tzec',
         //     'dui' => '12345678-1',
         //     'email' => 'giovanni.tzec@gmail.com',
@@ -71,17 +57,5 @@ class UserSeeder extends Seeder
         //     'email_verified_at' => now(),
         // ]);
         // $admin->assignRole($roleAdmin);
-
-        // $user = User::create([
-        //     'id' => 2,
-        //     'name' => 'Leonel',
-        //     'dui' => '12345678-2',
-        //     'email' => 'lopezleonel191@gmail.com',
-        //     'password' => Hash::make('Leonel23'),
-        //     'name' => 'Leonel',
-        //     // 'place_id' => 1,
-        //     'email_verified_at' => now(),
-        // ]);
-        // $user->assignRole($roleUser);
     }
 }

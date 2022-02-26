@@ -40,7 +40,7 @@ class TrackingCuscaSeeder extends Seeder
                 'percentage' => 89,
                 'budget_executed' => 500000,
                 'create_date' => Carbon::now(),
-                'user_id' => 3,
+                'user_id' => 2,
                 'year_id' => 2,
                 'month_id' => 5,
                 'traking_status_id' => 3,
