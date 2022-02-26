@@ -54,20 +54,22 @@ class UserController extends Controller
             return response()->json(['message' => 'Este correo ya existe.']);
         }
 
-        $verifyDui = User::where(['dui'=>$request->dui])->count();
+        // $verifyDui = User::where(['dui'=>$request->dui])->count();
 
-        if ($verifyDui > 0) {
-            return response()->json(['message' => 'Este dui ya existe.']);
-        }
+        // if ($verifyDui > 0) {
+        //     return response()->json(['message' => 'Este dui ya existe.']);
+        // }
 
         $password = Hash::make($request->password);
 
         $user = new User;
         $user->name = $request->name;
-        $user->dui = $request->dui;
+        $user->user_name = $request->user_name;
         $user->email = $request->email;
-        $user->email_verified_at = now();
+        $user->job_title = $request->job_title;
+        $user->phone = $request->phone;
         $user->password = $password;
+        $user->email_verified_at = now();
 
         $user->save();
 
@@ -107,7 +109,9 @@ class UserController extends Controller
 
         $data = [
             'name' => $request->name,
-            'lastName' => $request->lastName,
+            'user_name' => $request->user_name,
+            'job_title' => $request->job_title,
+            'phone' => $request->phone,
             'email' => $request->email,
             'password' => $password,
         ];

@@ -35,7 +35,7 @@ class ResultsCuscaSeeder extends Seeder
                 'responsible_name' =>  'Responsable',
                 'percentage' => 100,
                 'create_date'=>Carbon::now(),
-                'user_id' => 3,
+                'user_id' => 2,
                 'axis_cusca_id' => 2,
                 'indicator_id' => 2,
                 'organizational_units_id' => 2,

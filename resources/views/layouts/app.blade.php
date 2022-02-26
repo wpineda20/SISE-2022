@@ -58,7 +58,8 @@
                     <!-- Registro -->
 
                     <!-- Catálogos -->
-                    @if (auth()->user()->hasRole('Administrador') == 'Administrador')
+                    @if (auth()->user()->hasRole(['Auditor', 'Enlace', 'Administrador']))
+                    
                         <li class="text-center">
                             <div class="icon-link">
                                 <a href="#" class="mb-1">
@@ -67,32 +68,37 @@
                                 <p class="link">Catálogos</p>
                             </div>
                             <ul class="sub-menu">
-                                {{-- <li><a href="{{ url('/departments ') }}">Departamentos</a></li>
-                                <li><a href="{{ url('/municipalities') }}">Municipios</a></li> --}}
-                                <li><a href="{{ url('/years') }}">Años</a></li>
-                                <li><a href="{{ url('/poaClosings') }}">Cierre POA</a></li>
-                                <li><a href="{{ url('/monthlyClosings') }}">Cierres mensuales</a></li>
-                                <li><a href="{{ url('/directions') }}">Direcciones</a></li>
-                                <li><a href="{{ url('/trakingStatus') }}">Estados de seguimiento</a></li>
-                                <li><a href="{{ url('/financings') }}">Financiamientos</a></li>
-                                <li><a href="{{ url('/indicators') }}">Indicadores</a></li>
-                                <li><a href="{{ url('/institutions') }}">Instituciones</a></li>
-                                <li><a href="{{ url('/months') }}">Meses</a></li>
-                                <li><a href="{{ url('/periods') }}">Períodos</a></li>
-                                <li><a href="{{ url('/annualResults') }}">Resultados anuales</a></li>
-                                <li><a href="{{ url('/units') }}">Unidades de medida</a></li>
-                                <li><a href="{{ url('/organizationalUnits') }}">Unidades organizativas</a></li>
-                                <li><a href="{{ url('/users') }}">Usuarios</a></li>   
+                                <?php $role = Auth::user()->roles_id; ?>
+                                 @if($role == 1)
+                                 <li><a href="{{ url('/years') }}">Años</a></li>
+                                 <li><a href="{{ url('/poaClosings') }}">Cierre POA</a></li>
+                                 <li><a href="{{ url('/monthlyClosings') }}">Cierres mensuales</a></li>
+                                 <li><a href="{{ url('/directions') }}">Direcciones</a></li>
+                                 <li><a href="{{ url('/trakingStatus') }}">Estados de seguimiento</a></li>
+                                 <li><a href="{{ url('/financings') }}">Financiamientos</a></li>
+                                 @endif 
+                                 <li><a href="{{ url('/indicators') }}">Indicadores</a></li>
+
+                                 <?php $role = Auth::user()->roles_id; ?>
+                                 @if($role == 1)
+                                 <li><a href="{{ url('/institutions') }}">Instituciones</a></li>
+                                 <li><a href="{{ url('/months') }}">Meses</a></li>
+                                 <li><a href="{{ url('/periods') }}">Períodos</a></li>
+                                 <li><a href="{{ url('/annualResults') }}">Resultados anuales</a></li>
+                                 <li><a href="{{ url('/units') }}">Unidades de medida</a></li>
+                                 <li><a href="{{ url('/organizationalUnits') }}">Unidades organizativas</a></li>
+                                 <li><a href="{{ url('/users') }}">Usuarios</a></li>   
+                                 @endif 
+                                
                             </ul>
                         </li>
                     @endif
                     <!-- Catálogos -->
-                    @if (auth()->user()->hasRole('Administrador') == 'Administrador')
-                    
+                   @if (auth()->user()->hasRole('Administrador'))
                     <!-- Plan Desarrollo Social -->
                         <li>
                             <div class="icon-link">
-                                <a href="#" class="mb-1">
+                                <a href="" class="mb-1">
                                     <i class="material-icons md-19 ">handshake</i>
                                 </a>
                                 <p class="link">Plan de Desarrollo Social</p>
@@ -190,28 +196,17 @@
                         <li>
                             <div class="icon-link">
                                 <a href="#" class="mb-1">
-                                    <i class="material-icons md-19">pending_actions</i>
+                                    <i class="material-icons md-19">folder_off</i>
                                 </a>
-                                <p class="link">Programación Estratégica</p>
+                                <p class="link">SISE 2.0</p>
                             </div>
                             <ul class="sub-menu">
                                 <li><a href="https://10.30.0.121:8181/SISE/content/index.xhtml">Programación Estratégica Institucional</a></li>   
+                                <li><a href="https://10.30.0.121:8181/SISE/content/index.xhtml">Operativo</a></li>
                             </ul>
                         </li>
                         <!-- Programación estratégica institucional -->
-                    <!-- Operativo -->
-                        <li>
-                            <div class="icon-link">
-                                <a href="#" class="mb-1">
-                                    <i class="material-icons md-19">assignment_turned_in</i>
-                                </a>
-                                <p class="link">Operativo</p>
-                            </div>
-                            <ul class="sub-menu">
-                                <li><a href="https://10.30.0.121:8181/SISE/content/index.xhtml">Operativo</a></li>   
-                            </ul>
-                        </li>
-                        <!-- Operativo -->
+                   
                     <!-- Ejes transversales -->
                         <li>
                             <div class="icon-link">
@@ -228,23 +223,32 @@
                             </ul>
                         </li>
                         <!-- Ejes transversales -->
-                    <!-- Gráficos y Reportes -->
+                        @endif
+
+                        @if (auth()->user()->hasRole(['Auditor', 'Enlace', 'Administrador']))
+                        <!-- Reportes -->
                         <li>
                             <div class="icon-link">
-                                <a href="#" class="mb-1">
-                                    <i class="material-icons md-19">leaderboard</i>
+                                <a href="{{ url('/programmaticObjective ') }}" class="mb-1">
+                                    <i class="material-icons md-19">description</i>
+                                    <p class="link">Reportes</p>
                                 </a>
-                                <p class="link">Gráficos y Reportes</p>
                             </div>
-                            <ul class="sub-menu">
-                                <li><a href="{{ url('/programmaticObjective ') }}">Gráfico 1</a></li>   
-                                <li><a href="{{ url('/municipalities') }}">Gráfico 2</a></li>
-                                <li><a href="{{ url('/municipalities') }}">Resporte</a></li>
-                            </ul>
                         </li>
-                        <!-- Gráficos y Reportes -->
-                    @endif
-
+                        <!-- Reportes -->
+                        @endif
+                        @if (auth()->user()->hasRole('Administrador'))
+                        <!-- Gráficos -->
+                            <li>
+                                <div class="icon-link">
+                                    <a href="{{ url('/programmaticObjective ') }}" class="mb-1">
+                                        <i class="material-icons md-19">leaderboard</i>
+                                        <p class="link">Gráficos</p>
+                                    </a>
+                                </div>
+                            </li>
+                            <!-- Gráficos -->
+                        @endif
                     <!-- Logout -->
                     {{-- <li class="text-center pb-1">
                         <a href="{{ route('register') }}" class="text-center"

@@ -45,7 +45,7 @@ class Programmatic_ObjectiveSeeder extends Seeder
                 'create_date'=>Carbon::now(),
                 'percentage' => 50,
                 'institution_id' => 1,
-                'user_id' => 3,
+                'user_id' => 2,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],

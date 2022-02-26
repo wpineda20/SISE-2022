@@ -17,12 +17,12 @@
       :search="search"
       :options.sync="options"
       :server-items-length="total"
-      :footer-props="{ itemsPerPageOptions: [50] }"
+      :footer-props="{ itemsPerPageOptions: [20] }"
       :items-per-page="take"
       @update:options="updatePagination"
       :page.sync="actualPage"
       item-key="id"
-      sort-by="name"
+      sort-by="user_name"
       class="elevation-3 shadow p-3 mt-3"
     >
       <template v-slot:top>
@@ -71,8 +71,8 @@
                 <v-container>
                   <!-- Form -->
                   <v-row>
-                    <!-- User Name -->
-                    <v-col cols="12" sm="6" md="6">
+                    <!-- Full Name -->
+                    <v-col cols="12" sm="6" md="12">
                       <base-input
                         label="Nombre"
                         v-model="$v.editedItem.name.$model"
@@ -86,17 +86,49 @@
                       />
                     </v-col>
 
-                    <!-- DUI -->
+                    <!-- User Name -->
                     <v-col cols="12" sm="6" md="6">
                       <base-input
-                        label="DUI"
-                        v-model.trim="$v.editedItem.dui.$model"
-                        :validation="$v.editedItem.dui"
-                        validationTextType="only-numbers"
-                        v-mask="'########-#'"
+                        label="Usuario"
+                        v-model="$v.editedItem.user_name.$model"
+                        :validation.sync="$v.editedItem.user_name"
+                        validationTextType="default"
                         :validationsInput="{
                           required: true,
-                          isValidDui: true,
+                          minLength: true,
+                          maxLength: true,
+                        }"
+                      />
+                    </v-col>
+
+                    <!-- Job -->
+                    <v-col cols="12" sm="6" md="6">
+                      <base-input
+                        label="Cargo"
+                        v-model="$v.editedItem.job_title.$model"
+                        :validation.sync="$v.editedItem.job_title"
+                        validationTextType="default"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                          maxLength: true,
+                        }"
+                      />
+                    </v-col>
+
+                    <!-- Cellphone -->
+                    <v-col cols="12" xs="12" sm="12" md="6">
+                      <base-input
+                        label="Celular"
+                        v-model.trim="$v.editedItem.phone.$model"
+                        :validation.sync="$v.editedItem.phone"
+                        v-mask="'####-####'"
+                        validationTextType="only-numbers"
+                        :validationsInput="{
+                          required: true,
+                          format: true,
+                          minLength: false,
+                          maxLength: false,
                         }"
                       />
                     </v-col>
@@ -139,7 +171,7 @@
                           required: true,
                           minLength: true,
                           maxnLength: true,
-                          isValidPassword: true,
+                          isValidPassword: false,
                           showPassword: true,
                         }"
                         @update-password="showPassword($event)"
@@ -207,7 +239,10 @@ export default {
       search: "",
       dialog: false,
       headers: [
-        { text: "USUARIO", value: "name" },
+        { text: "USUARIO", value: "user_name" },
+        { text: "NOMBRE", value: "name" },
+        { text: "CARGO", value: "job_title" },
+        { text: "CELULAR", value: "phone" },
         { text: "ROL", value: "rol" },
         { text: "CORREO ELECTRÓNICO", value: "email" },
         { text: "ACCIONES", value: "actions", sortable: false },
@@ -225,17 +260,21 @@ export default {
       actualPage: 1,
       editedItem: {
         name: "",
+        user_name: "",
+        job_title: "",
+        phone: "",
         email: "",
         password: "",
-        dui: "",
-        rol: "Administrator",
+        rol: "",
       },
       defaultItem: {
         name: "",
+        user_name: "",
+        job_title: "",
+        phone: "",
         email: "",
         password: "",
-        dui: "",
-        rol: "Administrator",
+        rol: "",
       },
       textAlert: "",
       alertEvent: "success",
@@ -251,12 +290,12 @@ export default {
     editedItem: {
       password: {
         required,
-        minLength: minLength(8),
+        minLength: minLength(3),
         maxLength: maxLength(13),
-        isValidPassword: helpers.regex(
-          "isValidPassword",
-          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,13}$/
-        ),
+        // isValidPassword: helpers.regex(
+        //   "isValidPassword",
+        //   /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{3,13}$/
+        // ),
       },
       email: {
         required,
@@ -267,12 +306,22 @@ export default {
         minLength: minLength(1),
         maxLength: maxLength(500),
       },
+      user_name: {
+        required,
+        minLength: minLength(1),
+        maxLength: maxLength(500),
+      },
+      job_title: {
+        required,
+        minLength: minLength(1),
+        maxLength: maxLength(500),
+      },
+      phone: {
+        required,
+        isValidNumber: helpers.regex("isValidNumber", /([0-9]{4}-[0-9]{4})/),
+      },
       rol: {
         required,
-      },
-      dui: {
-        required,
-        isValidDui: helpers.regex("isValidDui", /[0-9]{8}-[0-9]/),
       },
     },
   },
@@ -430,8 +479,8 @@ export default {
         this.records.forEach((record) => {
           let searchConcat = "";
 
-          for (let i = 0; i < record.name.length; i++) {
-            searchConcat += record.name[i].toUpperCase();
+          for (let i = 0; i < record.user_name.length; i++) {
+            searchConcat += record.user_name[i].toUpperCase();
 
             if (
               searchConcat === this.search.toUpperCase() &&
@@ -474,7 +523,7 @@ export default {
 
       this.search = "";
 
-      this.$v.editedItem.rol.$model = "Postulante";
+      this.$v.editedItem.rol.$model = "Enlace";
     },
 
     updatePagination(pagination) {

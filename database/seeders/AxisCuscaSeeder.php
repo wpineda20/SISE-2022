@@ -31,7 +31,7 @@ class AxisCuscaSeeder extends Seeder
                 'axis_description' =>  'Descripción Dos',
                 'percentage' => 30,
                 'create_date'=>Carbon::now(),
-                'user_id' => 3,
+                'user_id' => 2,
                 'programmatic_objectives_id' => 2,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
