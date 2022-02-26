@@ -19,9 +19,7 @@ class Programmatic_Objective extends Model
     protected $fillable = [
         'id',
         'description',
-        'strategy_objective',
-        'create_date',
-        'percentage',
+        'executed',
         'institution_id',
         'user_id',        
     ];

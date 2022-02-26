@@ -16,8 +16,7 @@ class CreateAxisCuscasTable extends Migration
         Schema::create('axis_cusca', function (Blueprint $table) {
             $table->id();
             $table->string('axis_description', 500);
-            $table->double('percentage', 8, 2);
-            $table->date('create_date');
+            $table->string('executed');
             $table->foreignId('user_id')->references('id')->on('users');
             $table->foreignId('programmatic_objectives_id')->references('id')->on('programmatic_objectives');
             $table->softDeletes();

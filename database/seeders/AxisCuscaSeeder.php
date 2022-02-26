@@ -19,8 +19,7 @@ class AxisCuscaSeeder extends Seeder
             [
                 'id' => 1,
                 'axis_description' =>  'Descripción',
-                'percentage' => 25,
-                'create_date'=>Carbon::now(),
+                'executed' => 'SI',
                 'user_id' => 1,
                 'programmatic_objectives_id' => 1,
                 'created_at' => Carbon::now(),
@@ -28,10 +27,9 @@ class AxisCuscaSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'axis_description' =>  'Descripción Dos',
-                'percentage' => 30,
-                'create_date'=>Carbon::now(),
-                'user_id' => 3,
+                'axis_description' =>  'Descripción dos',
+                'executed' => 'NO',
+                'user_id' => 2,
                 'programmatic_objectives_id' => 2,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()

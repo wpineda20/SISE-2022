@@ -19,9 +19,8 @@ class StrategyCusca extends Model
     protected $fillable = [
         'id',
         'description_strategy',
-        'create_date',
-        'user_create_strategy',
-        'percentage',
+        'executed',
+        'user_id',
         'organizational_units_id',
         'programmatic_objectives_id',        
     ];
