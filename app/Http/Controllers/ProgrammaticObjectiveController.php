@@ -21,9 +21,7 @@ class ProgrammaticObjectiveController extends Controller
         $programmaticObjectives = Programmatic_Objective::select(
             'programmatic_objectives.id',
             'programmatic_objectives.description',
-            'strategy_objective',
-            'create_date',
-            'percentage',
+            'executed',
             'institution_name',
             'user_name'
         )
@@ -61,7 +59,7 @@ class ProgrammaticObjectiveController extends Controller
 
         $data['institution_id'] = $institution->id;
         $data['user_id'] = $user->id;
-        $data['strategy_objective'] = ($data['strategy_objective'])?"SI":"NO";
+        $data['executed'] = ($data['executed'])?"SI":"NO";
 
         Programmatic_Objective::insert($data);
 
@@ -108,7 +106,7 @@ class ProgrammaticObjectiveController extends Controller
 
         $data['institution_id'] = $institution->id;
         $data['user_id'] = $user->id;
-        $data['strategy_objective'] = ($data['strategy_objective'])?"SI":"NO";
+        $data['executed'] = ($data['executed'])?"SI":"NO";
 
         Programmatic_Objective::where('id', $data['id'])->update($data);
         return response()->json(["message"=>"success"]);

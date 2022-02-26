@@ -17,8 +17,7 @@ class CreateResultsCuscasTable extends Migration
             $table->id();
             $table->string('result_description', 500);
             $table->string('responsible_name');
-            $table->double('percentage', 8, 2);
-            $table->date('create_date');
+            $table->string('executed');
             $table->foreignId('user_id')->references('id')->on('users');
             $table->foreignId('axis_cusca_id')->references('id')->on('axis_cusca');
             $table->foreignId('indicator_id')->references('id')->on('indicators');

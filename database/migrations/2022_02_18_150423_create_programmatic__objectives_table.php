@@ -16,9 +16,7 @@ class CreateProgrammaticObjectivesTable extends Migration
         Schema::create('programmatic_objectives', function (Blueprint $table) {
             $table->id();
             $table->string('description',500);
-            $table->string('strategy_objective');
-            $table->date('create_date');
-            $table->double('percentage', 8, 2);
+            $table->string('executed');
             $table->foreignId('institution_id')->references('id')->on('institutions');
             $table->foreignId('user_id')->references('id')->on('users');
             $table->softDeletes();

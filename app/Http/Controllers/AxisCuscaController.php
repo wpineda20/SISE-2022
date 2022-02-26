@@ -18,7 +18,7 @@ class AxisCuscaController extends Controller
      */
     public function index()
     {
-        $axisCuscas = AxisCusca::select('axis_cusca.id', 'axis_description', 'axis_cusca.percentage', 'axis_cusca.create_date', 
+        $axisCuscas = AxisCusca::select('axis_cusca.id', 'axis_description', 'axis_cusca.executed', 
         'user_name', 'description')
 
         ->join('users as u', 'axis_cusca.user_id', '=', 'u.id')
@@ -43,6 +43,7 @@ class AxisCuscaController extends Controller
         $user = User::where('user_name', $request->user_name)->first();
         $description = Programmatic_Objective::where('description', $request->description)->first();
 
+        $data['executed'] = ($data['executed'])?"SI":"NO";
         $data['user_id'] = $user->id;
         $data['programmatic_objectives_id'] = $description->id;
 
@@ -78,6 +79,7 @@ class AxisCuscaController extends Controller
         $description = Programmatic_Objective::where('description', $request->description)->first();
         $data = EncryptController::decryptModel($request->except(['user_name', 'description']), 'id');
 
+        $data['executed'] = ($data['executed'])?"SI":"NO";
         $data['user_id'] = $user->id;
         $data['programmatic_objectives_id'] = $description->id;
         // dd($data);

@@ -81,21 +81,25 @@
                       />
                     </v-col>
                     <!-- Description Estrategica-->
-                    <!-- Responsable -->
-                    <v-col cols="12" sm="12" md="12">
-                      <base-input
-                        label="Responsable"
-                        v-model="$v.editedItem.user_create_strategy.$model"
-                        :validation="$v.editedItem.user_create_strategy"
-                        validationTextType="default"
-                        :validationsInput="{
-                          required: true,
-                          minLength: true,
-                          maxLength: true,
-                        }"
+                    <!-- Executed -->
+                    <v-col cols="12" sm="6" md="6" class="pt-0">
+                      <v-checkbox
+                        v-model="$v.editedItem.executed.$model"
+                        label="Ejecutado"
+                      ></v-checkbox>
+                    </v-col>
+                    <!-- Executed-->
+                     <!-- User -->
+                    <v-col cols="12" sm="6" md="6">
+                      <base-select
+                        label="Usuario"
+                        v-model.trim="$v.editedItem.user_name.$model"
+                        :items="users"
+                        item="user_name"
+                        :validation="$v.editedItem.user_name"
                       />
                     </v-col>
-                    <!-- Responsable -->
+                    <!-- User -->
                     <!-- Unidad Organizativa -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select
@@ -118,34 +122,6 @@
                       />
                     </v-col>
                     <!-- Objetivo Programatico -->
-
-                    <!-- Date -->
-                    <v-col cols="12" xs="12" sm="12" md="6">
-                      <base-input
-                        label="Fecha de creación"
-                        v-model.trim="$v.editedItem.create_date.$model"
-                        :validation="$v.editedItem.create_date"
-                        type="date"
-                        :validationsInput="{
-                          required: true,
-                        }"
-                      />
-                    </v-col>
-                    <!-- Date -->
-
-                    <!-- Percentage -->
-                    <v-col cols="12" sm="12" md="6">
-                      <base-input
-                        label="Porcentaje"
-                        v-model.trim="$v.editedItem.percentage.$model"
-                        :validation="$v.editedItem.percentage"
-                        type="number"
-                        :validationsInput="{
-                          required: true,
-                        }"
-                      />
-                    </v-col>
-                    <!-- Percentage -->
                   </v-row>
                   <!-- Form -->
                   <v-row>
@@ -217,6 +193,7 @@
 </template>
 
 <script>
+import userApi from "../apis/userApi";
 import organizationalUnitApi from "../apis/organizationalUnitApi";
 import programmaticObjectiveApi from "../apis/programmaticObjectiveApi";
 import strategyCuscaApi from "../apis/strategyCuscaApi";
@@ -225,7 +202,6 @@ import {
   required,
   minLength,
   maxLength,
-  helpers,
 } from "vuelidate/lib/validators";
 
 export default {
@@ -235,35 +211,33 @@ export default {
     dialogDelete: false,
     headers: [
       { text: "ESTRATEGÍA", value: "description_strategy" },
-      { text: "RESPONSABLE", value: "user_create_strategy" },
+      { text: "EJECUTADO", value: "executed" },
+      { text: "USUARIO", value: "user_name" },
       { text: "UNIDAD ORGANIZATIVA", value: "ou_name" },
       { text: "OBJETIVO PROGRAMATICO", value: "description" },
-      { text: "FECHA DE CREACIÓN", value: "create_date" },
-      { text: "%", value: "percentage" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
     records: [],
     recordsFiltered: [],
     editedIndex: -1,
     editedItem: {
-      user_create_strategy: "",
+      user_name: "",
       ou_name: "",
       description: "",
       description_strategy: "",
-      percentage: "",
-      create_date: "",
+      executed: "",
     },
     defaultItem: {
-      user_create_strategy: "",
+      user_name: "",
       ou_name: "",
       description: "",
       description_strategy: "",
-      percentage: "",
-      create_date: "",
+      executed: "",
     },
     textAlert: "",
     alertEvent: "success",
     showAlert: false,
+    users: [],
     organizational_units: [],
     programmatic_objectives: [],
     redirectSessionFinished: false,
@@ -272,9 +246,7 @@ export default {
   // Validations
   validations: {
     editedItem: {
-      user_create_strategy: {
-        minLength: minLength(1),
-        maxLength: maxLength(250),
+      user_name: {
         required,
       },
       ou_name: {
@@ -288,22 +260,8 @@ export default {
         minLength: minLength(1),
         maxLength: maxLength(500),
       },
-      percentage: {
+      executed: {
         required,
-      },
-      create_date: {
-        required,
-        isValidBirthday: helpers.regex(
-          "isValidBirthday",
-          /([0-9]{4}-[0-9]{2}-[0-9]{2})/
-        ),
-        minDate: (value) => value > new Date("1920-01-01").toISOString(),
-        maxDate: () => {
-          let today = new Date();
-          let year = today.getFullYear() - 18;
-          let date = today.setFullYear(year);
-          return new Date(date).toISOString();
-        },
       },
     },
   },
@@ -333,6 +291,9 @@ export default {
       this.recordsFiltered = [];
 
       let requests = [
+        userApi.get(null, {
+          params: { skip: 0, take: 200 },
+        }),
         strategyCuscaApi.get(),
         programmaticObjectiveApi.get(),
         organizationalUnitApi.get(),
@@ -346,11 +307,12 @@ export default {
       });
 
       if (responses && responses[0].data.message == "success") {
-        this.records = responses[0].data.strategy_cusca;
+        this.records = responses[1].data.strategy_cusca;
+        this.users = responses[0].data.users;
         this.programmatic_objectives =
-          responses[1].data.programmatic_objectives;
-        this.organizational_units = responses[2].data.organizationalUnits;
-        // console.log(responses[0]);
+          responses[2].data.programmatic_objectives;
+        this.organizational_units = responses[3].data.organizationalUnits;
+        //console.log(responses);
         this.recordsFiltered = this.records;
       }
     },
@@ -359,6 +321,7 @@ export default {
       this.dialog = true;
       this.editedIndex = this.recordsFiltered.indexOf(item);
       this.editedItem = Object.assign({}, item);
+       this.$v.editedItem.user_name.$model = this.editedItem.user_name;
       this.$v.editedItem.ou_name.$model = this.editedItem.ou_name;
       this.$v.editedItem.description.$model = this.editedItem.description;
     },

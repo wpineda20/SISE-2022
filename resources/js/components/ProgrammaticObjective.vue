@@ -95,19 +95,6 @@
                       />
                     </v-col>
                     <!-- Institution -->
-                    <!-- Percentage -->
-                    <v-col cols="12" sm="12" md="6">
-                      <base-input
-                        label="Porcentaje"
-                        v-model.trim="$v.editedItem.percentage.$model"
-                        :validation="$v.editedItem.percentage"
-                        type="number"
-                        :validationsInput="{
-                          required: true,
-                        }"
-                      />
-                    </v-col>
-                    <!-- Percentage -->
                     <!-- User -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select
@@ -119,28 +106,14 @@
                       />
                     </v-col>
                     <!-- User -->
-
-                    <!-- Date -->
-                    <v-col cols="12" xs="12" sm="12" md="6">
-                      <base-input
-                        label="Fecha de creación"
-                        v-model.trim="$v.editedItem.create_date.$model"
-                        :validation="$v.editedItem.create_date"
-                        type="date"
-                        :validationsInput="{
-                          required: true,
-                        }"
-                      />
-                    </v-col>
-                    <!-- Date -->
-                    <!-- Strategy Objective -->
+                    <!-- Executed -->
                     <v-col cols="12" sm="6" md="6" class="pt-0">
                       <v-checkbox
-                        v-model="$v.editedItem.strategy_objective.$model"
-                        label="Objetivo estrategico"
+                        v-model="$v.editedItem.executed.$model"
+                        label="Ejecutado"
                       ></v-checkbox>
                     </v-col>
-                    <!-- Strategy Objective -->
+                    <!-- Executed-->
                   </v-row>
                   <!-- Form -->
                   <v-row>
@@ -220,7 +193,6 @@ import {
   required,
   minLength,
   maxLength,
-  helpers,
 } from "vuelidate/lib/validators";
 
 export default {
@@ -231,9 +203,7 @@ export default {
     headers: [
       { text: "OBJETIVO PROGRAMÁTICO", value: "description" },
       { text: "INSTITUCIÓN", value: "institution_name" },
-      { text: "%", value: "percentage" },
-      { text: "FECHA DE CREACIÓN", value: "create_date" },
-      { text: "OBJETIVO ESTRATÉGICO", value: "strategy_objective" },
+      { text: "EJECUTADO", value: "executed" },
       { text: "USUARIO", value: "user_name" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
@@ -241,20 +211,16 @@ export default {
     recordsFiltered: [],
     editedIndex: -1,
     editedItem: {
-      strategy_objective: "",
       user_name: "",
       institution_name: "",
       description: "",
-      percentage: "",
-      create_date: "",
+      executed: "",
     },
     defaultItem: {
-      strategy_objective: "",
       user_name: "",
       institution_name: "",
       description: "",
-      percentage: "",
-      create_date: "",
+      executed: "",
     },
     textAlert: "",
     alertEvent: "success",
@@ -267,7 +233,7 @@ export default {
   // Validations
   validations: {
     editedItem: {
-      strategy_objective: {
+      executed: {
         required,
       },
       user_name: {
@@ -280,23 +246,6 @@ export default {
         required,
         minLength: minLength(1),
         maxLength: maxLength(500),
-      },
-      percentage: {
-        required,
-      },
-      create_date: {
-        required,
-        isValidBirthday: helpers.regex(
-          "isValidBirthday",
-          /([0-9]{4}-[0-9]{2}-[0-9]{2})/
-        ),
-        minDate: (value) => value > new Date("1920-01-01").toISOString(),
-        maxDate: () => {
-          let today = new Date();
-          let year = today.getFullYear() - 18;
-          let date = today.setFullYear(year);
-          return new Date(date).toISOString();
-        },
       },
     },
   },
