@@ -68,7 +68,7 @@
                                 <p class="link">Catálogos</p>
                             </div>
                             <ul class="sub-menu">
-                                <?php $role = Auth::user()->roles_id; ?>
+                                <?php $role = Auth::user()->role_id; ?>
                                  @if($role == 1)
                                  <li><a href="{{ url('/years') }}">Años</a></li>
                                  <li><a href="{{ url('/poaClosings') }}">Cierre POA</a></li>
@@ -79,7 +79,7 @@
                                  @endif 
                                  <li><a href="{{ url('/indicators') }}">Indicadores</a></li>
 
-                                 <?php $role = Auth::user()->roles_id; ?>
+                                 <?php $role = Auth::user()->role_id; ?>
                                  @if($role == 1)
                                  <li><a href="{{ url('/institutions') }}">Instituciones</a></li>
                                  <li><a href="{{ url('/months') }}">Meses</a></li>
@@ -126,6 +126,7 @@
                                 <li><a href="{{ url('/resultsCuscatlan') }}">Resultados</a></li>
                                 <li><a href="{{ url('/actionsCuscatlan') }}">Acciones</a></li>
                                 <li><a href="{{ url('/trackingCuscatlan') }}">Seguimientos</a></li>
+                                <li><a href="{{ url('/trackingObservationsCuscatlan') }}">Observaciones de seguimientos</a></li>
                             </ul>
                         </li>
                     <!-- Plan Cuscatlán -->

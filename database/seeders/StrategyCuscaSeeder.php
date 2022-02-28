@@ -19,7 +19,7 @@ class StrategyCuscaSeeder extends Seeder
             [
                 'id' => 1,
                 'description_strategy' =>  'Test',
-                'executed'=>'Sí',
+                'executed'=>'SI',
                 'user_id'=>1,
                 'organizational_units_id' => 1,
                 'programmatic_objectives_id' => 1,
@@ -29,7 +29,7 @@ class StrategyCuscaSeeder extends Seeder
             [
                 'id' => 2,
                 'description_strategy' =>  'Test2',
-                'executed'=>'No',
+                'executed'=>'NO',
                 'user_id'=>2,
                 'organizational_units_id' => 2,
                 'programmatic_objectives_id' => 2,
@@ -39,8 +39,8 @@ class StrategyCuscaSeeder extends Seeder
             [
                 'id' => 3,
                 'description_strategy' =>  'Test 3',
-                'executed'=>'Sí',
-                'user_id'=>3,
+                'executed'=>'SI',
+                'user_id'=>2,
                 'organizational_units_id' => 2,
                 'programmatic_objectives_id' => 2,
                 'created_at' => Carbon::now(),

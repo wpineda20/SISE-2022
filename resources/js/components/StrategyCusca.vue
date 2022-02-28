@@ -19,7 +19,7 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>Estrategías</v-toolbar-title>
+          <v-toolbar-title>Estrategias</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="600px" persistent>
             <template v-slot:activator="{ on, attrs }">
@@ -66,7 +66,7 @@
                     <!-- Description Estrategica -->
                     <v-col cols="12" sm="6" md="12">
                       <base-text-area
-                        label="Estrategía"
+                        label="Estrategia"
                         v-model.trim="$v.editedItem.description_strategy.$model"
                         :validation="$v.editedItem.description_strategy"
                         validationTextType="default"
@@ -81,36 +81,6 @@
                       />
                     </v-col>
                     <!-- Description Estrategica-->
-                    <!-- Executed -->
-                    <v-col cols="12" sm="6" md="6" class="pt-0">
-                      <v-checkbox
-                        v-model="$v.editedItem.executed.$model"
-                        label="Ejecutado"
-                      ></v-checkbox>
-                    </v-col>
-                    <!-- Executed-->
-                     <!-- User -->
-                    <v-col cols="12" sm="6" md="6">
-                      <base-select
-                        label="Usuario"
-                        v-model.trim="$v.editedItem.user_name.$model"
-                        :items="users"
-                        item="user_name"
-                        :validation="$v.editedItem.user_name"
-                      />
-                    </v-col>
-                    <!-- User -->
-                    <!-- Unidad Organizativa -->
-                    <v-col cols="12" sm="6" md="6">
-                      <base-select
-                        label="Unidad Organizativa"
-                        v-model.trim="$v.editedItem.ou_name.$model"
-                        :items="organizational_units"
-                        item="ou_name"
-                        :validation="$v.editedItem.ou_name"
-                      />
-                    </v-col>
-                    <!-- Unidad Organizativa -->
                     <!-- Objetivo Programatico -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select
@@ -122,6 +92,36 @@
                       />
                     </v-col>
                     <!-- Objetivo Programatico -->
+                    <!-- Unidad Organizativa -->
+                    <v-col cols="12" sm="6" md="6">
+                      <base-select
+                        label="Unidad Organizativa"
+                        v-model.trim="$v.editedItem.ou_name.$model"
+                        :items="organizational_units"
+                        item="ou_name"
+                        :validation="$v.editedItem.ou_name"
+                      />
+                    </v-col>
+                    <!-- Unidad Organizativa -->
+                    <!-- User -->
+                    <v-col cols="12" sm="6" md="6">
+                      <base-select
+                        label="Usuario"
+                        v-model.trim="$v.editedItem.user_name.$model"
+                        :items="users"
+                        item="user_name"
+                        :validation="$v.editedItem.user_name"
+                      />
+                    </v-col>
+                    <!-- User -->
+                    <!-- Executed -->
+                    <v-col cols="12" sm="6" md="6" class="pt-0">
+                      <v-checkbox
+                        v-model="$v.editedItem.executed.$model"
+                        label="Ejecutado"
+                      ></v-checkbox>
+                    </v-col>
+                    <!-- Executed-->
                   </v-row>
                   <!-- Form -->
                   <v-row>
@@ -198,11 +198,7 @@ import organizationalUnitApi from "../apis/organizationalUnitApi";
 import programmaticObjectiveApi from "../apis/programmaticObjectiveApi";
 import strategyCuscaApi from "../apis/strategyCuscaApi";
 import lib from "../libs/function";
-import {
-  required,
-  minLength,
-  maxLength,
-} from "vuelidate/lib/validators";
+import { required, minLength, maxLength } from "vuelidate/lib/validators";
 
 export default {
   data: () => ({
@@ -211,10 +207,10 @@ export default {
     dialogDelete: false,
     headers: [
       { text: "ESTRATEGÍA", value: "description_strategy" },
+      { text: "OBJETIVO PROGRAMATICO", value: "description" },
+      { text: "UNIDAD ORGANIZATIVA", value: "ou_name" },
       { text: "EJECUTADO", value: "executed" },
       { text: "USUARIO", value: "user_name" },
-      { text: "UNIDAD ORGANIZATIVA", value: "ou_name" },
-      { text: "OBJETIVO PROGRAMATICO", value: "description" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
     records: [],
@@ -321,7 +317,7 @@ export default {
       this.dialog = true;
       this.editedIndex = this.recordsFiltered.indexOf(item);
       this.editedItem = Object.assign({}, item);
-       this.$v.editedItem.user_name.$model = this.editedItem.user_name;
+      this.$v.editedItem.user_name.$model = this.editedItem.user_name;
       this.$v.editedItem.ou_name.$model = this.editedItem.ou_name;
       this.$v.editedItem.description.$model = this.editedItem.description;
     },

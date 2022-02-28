@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
             StrategyCuscaSeeder::class,
             ResultsCuscaSeeder::class,
             ActionsCuscaSeeder::class,
+            TrackingObservationCuscaSeeder::class,
             TrackingCuscaSeeder::class,
 
 

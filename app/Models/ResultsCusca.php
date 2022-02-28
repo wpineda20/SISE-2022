@@ -25,6 +25,8 @@ class ResultsCusca extends Model
         'axis_cusca_id',
         'indicator_id',
         'organizational_units_id',
+        'year_id',
+        'period_id',
     ];
     public $hidden = [
         'created_at',

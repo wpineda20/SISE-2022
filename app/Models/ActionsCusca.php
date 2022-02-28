@@ -18,10 +18,9 @@ class ActionsCusca extends Model
 
     protected $fillable = [
         'id',
-        'description_action',
-        'create_date',
-        'actionNumberYear',
-        'percentage',
+        'action_description',
+        'annual_actions',
+        'executed',
         'responsable_name',
         'user_id',
         'results_cusca_id',
@@ -35,5 +34,9 @@ class ActionsCusca extends Model
     ];
     public $timestamps = false;
 
+    public function TrackingCusca()
+    {
+        return $this->hasMany(ActionsCusca::class);
+    }
 
 }

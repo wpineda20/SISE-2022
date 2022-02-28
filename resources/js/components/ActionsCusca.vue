@@ -63,50 +63,6 @@
                 <v-container>
                   <!-- Form -->
                   <v-row>
-                    <!-- Users -->
-                    <v-col cols="12" sm="6" md="6">
-                      <base-select
-                        label="Usuario"
-                        v-model.trim="$v.editedItem.user_name.$model"
-                        :items="users"
-                        item="user_name"
-                        :validation="$v.editedItem.user_name"
-                      />
-                    </v-col>
-                    <!-- Users -->
-                    <!-- Results -->
-                    <v-col cols="12" sm="6" md="6">
-                      <base-select
-                        label="Resultado"
-                        v-model.trim="$v.editedItem.result_description.$model"
-                        :items="results_cusca"
-                        item="result_description"
-                        :validation="$v.editedItem.result_description"
-                      />
-                    </v-col>
-                    <!-- Results -->
-                    <!-- Years -->
-                    <v-col cols="12" sm="6" md="6">
-                      <base-select
-                        label="Año"
-                        v-model.trim="$v.editedItem.value.$model"
-                        :items="years"
-                        item="value"
-                        :validation="$v.editedItem.value"
-                      />
-                    </v-col>
-                    <!-- Years -->
-                    <!-- Financing -->
-                    <v-col cols="12" sm="6" md="6">
-                      <base-select
-                        label="Financiamiento"
-                        v-model.trim="$v.editedItem.financing_name.$model"
-                        :items="financings"
-                        item="financing_name"
-                        :validation="$v.editedItem.financing_name"
-                      />
-                    </v-col>
-                    <!-- Financing -->
                     <!-- Description Acciones -->
                     <v-col cols="12" sm="6" md="12">
                       <base-text-area
@@ -125,6 +81,29 @@
                       />
                     </v-col>
                     <!-- Description Acciones-->
+                    <!-- Results -->
+                    <v-col cols="12" sm="6" md="6">
+                      <base-select
+                        label="Resultado"
+                        v-model.trim="$v.editedItem.result_description.$model"
+                        :items="results_cusca"
+                        item="result_description"
+                        :validation="$v.editedItem.result_description"
+                      />
+                    </v-col>
+                    <!-- Results -->
+                    <!-- Financing -->
+                    <v-col cols="12" sm="6" md="6">
+                      <base-select
+                        label="Financiamiento"
+                        v-model.trim="$v.editedItem.financing_name.$model"
+                        :items="financings"
+                        item="financing_name"
+                        :validation="$v.editedItem.financing_name"
+                      />
+                    </v-col>
+                    <!-- Financing -->
+
                     <!-- Responsable -->
                     <v-col cols="12" sm="12" md="12">
                       <base-input
@@ -140,25 +119,24 @@
                       />
                     </v-col>
                     <!-- Responsable -->
-                    <!-- Date -->
-                    <v-col cols="12" xs="12" sm="12" md="6">
-                      <base-input
-                        label="Fecha de creación"
-                        v-model.trim="$v.editedItem.create_date.$model"
-                        :validation="$v.editedItem.create_date"
-                        type="date"
-                        :validationsInput="{
-                          required: true,
-                        }"
+                    <!-- Users -->
+                    <v-col cols="12" sm="6" md="6">
+                      <base-select
+                        label="Usuario"
+                        v-model.trim="$v.editedItem.user_name.$model"
+                        :items="users"
+                        item="user_name"
+                        :validation="$v.editedItem.user_name"
                       />
                     </v-col>
-                    <!-- Date -->
-                    <!-- ActionNumberYear -->
+                    <!-- Users -->
+
+                    <!-- Annual Actions -->
                     <v-col cols="12" sm="6" md="6">
                       <base-input
                         label="Número de acciones"
-                        v-model.trim="$v.editedItem.actionNumberYear.$model"
-                        :validation="$v.editedItem.actionNumberYear"
+                        v-model.trim="$v.editedItem.annual_actions.$model"
+                        :validation="$v.editedItem.annual_actions"
                         v-mask="'####'"
                         type="number"
                         :validationsInput="{
@@ -168,20 +146,27 @@
                         :max="2050"
                       />
                     </v-col>
-                    <!-- ActionNumberYear -->
-                    <!-- Percentage -->
-                    <v-col cols="12" sm="12" md="6">
-                      <base-input
-                        label="Porcentaje"
-                        v-model.trim="$v.editedItem.percentage.$model"
-                        :validation="$v.editedItem.percentage"
-                        type="number"
-                        :validationsInput="{
-                          required: true,
-                        }"
+                    <!-- Annual Actions -->
+
+                    <!-- Years -->
+                    <v-col cols="12" sm="6" md="6">
+                      <base-select
+                        label="Año"
+                        v-model.trim="$v.editedItem.value.$model"
+                        :items="years"
+                        item="value"
+                        :validation="$v.editedItem.value"
                       />
                     </v-col>
-                    <!-- Percentage -->
+                    <!-- Years -->
+                    <!-- Executed -->
+                    <v-col cols="12" sm="6" md="6" class="pt-0">
+                      <v-checkbox
+                        v-model="$v.editedItem.executed.$model"
+                        label="Ejecutado"
+                      ></v-checkbox>
+                    </v-col>
+                    <!-- Executed-->
                   </v-row>
                   <!-- Form -->
                   <v-row>
@@ -272,15 +257,14 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "ACCION", value: "description_action" },
-      { text: "FECHA DE CREACIÓN", value: "create_date" },
-      { text: "NUMERO DE ACCIONES", value: "actionNumberYear" },
-      { text: "%", value: "percentage" },
-      { text: "RESPONSABLE", value: "responsable_name" },
-      { text: "USUARIO", value: "user_name" },
+      { text: "ACCIÓN", value: "description_action" },
       { text: "RESULTADO", value: "result_description" },
-      { text: "AÑO", value: "value" },
       { text: "FINANCIAMIENTO", value: "financing_name" },
+      { text: "RESPONSABLE", value: "responsable_name" },
+      { text: "NO. ACCIONES", value: "annual_actions" },
+      { text: "EJECUTADO", value: "executed" },
+      { text: "AÑO", value: "value" },
+      { text: "USUARIO", value: "user_name" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
     records: [],
@@ -288,25 +272,23 @@ export default {
     editedIndex: -1,
     editedItem: {
       description_action: "",
-      create_date: "",
-      actionNumberYear: "",
-      percentage: "",
+      annual_actions: "",
       responsable_name: "",
       user_name: "",
       result_description: "",
       value: "",
       financing_name: "",
+      executed: "",
     },
     defaultItem: {
       description_action: "",
-      create_date: "",
-      actionNumberYear: "",
-      percentage: "",
+      annual_actions: "",
       responsable_name: "",
       user_name: "",
       result_description: "",
       value: "",
       financing_name: "",
+      executed: "",
     },
 
     textAlert: "",
@@ -332,11 +314,6 @@ export default {
         minLength: minLength(1),
         maxLength: maxLength(150),
       },
-      percentage: {
-        required,
-        minLength: minLength(1),
-        maxLength: maxLength(10),
-      },
       user_name: {
         required,
       },
@@ -346,24 +323,13 @@ export default {
       value: {
         required,
       },
+      executed: {
+        required,
+      },
       financing_name: {
         required,
       },
-      create_date: {
-        required,
-        isValidBirthday: helpers.regex(
-          "isValidBirthday",
-          /([0-9]{4}-[0-9]{2}-[0-9]{2})/
-        ),
-        minDate: (value) => value > new Date("1920-01-01").toISOString(),
-        maxDate: () => {
-          let today = new Date();
-          let year = today.getFullYear() - 18;
-          let date = today.setFullYear(year);
-          return new Date(date).toISOString();
-        },
-      },
-      actionNumberYear: {
+      annual_actions: {
         required,
         minLength: minLength(1),
         maxLength: maxLength(10),
@@ -418,7 +384,7 @@ export default {
         this.results_cusca = responses[2].data.resultsCusca;
         this.years = responses[3].data.years;
         this.financings = responses[4].data.financings;
-        console.log(responses);
+        // console.log(responses);
 
         // this.editedItem.user_name = this.users[0].user_name;
         this.recordsFiltered = this.records;

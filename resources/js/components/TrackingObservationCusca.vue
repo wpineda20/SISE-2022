@@ -14,12 +14,12 @@
     <v-data-table
       :headers="headers"
       :items="recordsFiltered"
-      sort-by="tracking_detail"
+      sort-by="observation"
       class="elevation-3 shadow p-3 mt-3"
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>Seguimientos</v-toolbar-title>
+          <v-toolbar-title>Observaciones de Seguimientos</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="600px" persistent>
             <template v-slot:activator="{ on, attrs }">
@@ -65,12 +65,12 @@
                   <!-- User -->
                   <!-- <v-row v-if="users.length > 0"> -->
                   <v-row>
-                    <!-- Tracking Detail -->
+                    <!-- Observation -->
                     <v-col cols="12" sm="6" md="12">
                       <base-text-area
-                        label="Detalle de seguimiento"
-                        v-model.trim="$v.editedItem.tracking_detail.$model"
-                        :validation="$v.editedItem.tracking_detail"
+                        label="Observación"
+                        v-model.trim="$v.editedItem.observation.$model"
+                        :validation="$v.editedItem.observation"
                         validationTextType="default"
                         :validationsInput="{
                           required: true,
@@ -82,30 +82,25 @@
                         :rows="3"
                       />
                     </v-col>
-                    <!-- Tracking Detail -->
-
-                    <!-- Users -->
-                    <v-col cols="12" sm="6" md="6">
-                      <base-select
-                        label="Usuario"
-                        v-model.trim="$v.editedItem.user_name.$model"
-                        :items="users"
-                        item="user_name"
-                        :validation="$v.editedItem.user_name"
+                    <!-- Observation -->
+                    <!-- Observation Reply -->
+                    <v-col cols="12" sm="6" md="12">
+                      <base-text-area
+                        label="Respuesta"
+                        v-model.trim="$v.editedItem.observation_reply.$model"
+                        :validation="$v.editedItem.observation_reply"
+                        validationTextType="default"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                          maxLength: true,
+                        }"
+                        :min="1"
+                        :max="500"
+                        :rows="3"
                       />
                     </v-col>
-                    <!-- Users -->
-                    <!-- Month -->
-                    <v-col cols="12" sm="6" md="6">
-                      <base-select
-                        label="Mes"
-                        v-model.trim="$v.editedItem.month_name.$model"
-                        :items="months"
-                        item="month_name"
-                        :validation="$v.editedItem.month_name"
-                      />
-                    </v-col>
-                    <!-- Month -->
+                    <!-- Observation Reply -->
                     <!-- Year -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select
@@ -117,17 +112,19 @@
                       />
                     </v-col>
                     <!-- Year -->
-                    <!-- Tracking Status -->
+
+                    <!-- Month -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select
-                        label="Estado de seguimiento"
-                        v-model.trim="$v.editedItem.status_name.$model"
-                        :items="trakingStatuses"
-                        item="status_name"
-                        :validation="$v.editedItem.status_name"
+                        label="Mes"
+                        v-model.trim="$v.editedItem.month_name.$model"
+                        :items="months"
+                        item="month_name"
+                        :validation="$v.editedItem.month_name"
                       />
                     </v-col>
-                    <!-- Tracking Status -->
+                    <!-- Month -->
+
                     <!-- Actions -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select
@@ -139,52 +136,19 @@
                       />
                     </v-col>
                     <!-- Actions -->
-                    <!-- Observations -->
-                    <v-col cols="12" sm="6" md="6">
-                      <base-select
-                        label="Observación"
-                        v-model.trim="$v.editedItem.observation.$model"
-                        :items="observations"
-                        item="observation"
-                        :validation="$v.editedItem.observation"
-                      />
-                    </v-col>
-                    <!-- Observations -->
-                    <!-- Monthly Actions -->
-                    <v-col cols="12" sm="12" md="6">
+                    <!-- Reply Date -->
+                    <v-col cols="12" xs="12" sm="12" md="6">
                       <base-input
-                        label="Acciones mensuales"
-                        v-model.trim="$v.editedItem.monthly_actions.$model"
-                        :validation="$v.editedItem.monthly_actions"
-                        type="number"
+                        label="Fecha de respuesta"
+                        v-model.trim="$v.editedItem.reply_date.$model"
+                        :validation="$v.editedItem.reply_date"
+                        type="date"
                         :validationsInput="{
                           required: true,
                         }"
                       />
                     </v-col>
-                    <!-- Monthly Actions -->
-                    <!-- Bubget executed -->
-                    <v-col cols="12" sm="12" md="6">
-                      <base-input
-                        label="Presupuesto ejecutado"
-                        v-model.trim="$v.editedItem.budget_executed.$model"
-                        :validation="$v.editedItem.budget_executed"
-                        type="number"
-                        :validationsInput="{
-                          required: true,
-                        }"
-                      />
-                    </v-col>
-                    <!-- Bubget executed -->
-
-                    <!-- Executed -->
-                    <v-col cols="12" sm="6" md="6" class="pt-0">
-                      <v-checkbox
-                        v-model="$v.editedItem.executed.$model"
-                        label="Ejecutado"
-                      ></v-checkbox>
-                    </v-col>
-                    <!-- Executed -->
+                    <!-- Reply Date -->
                   </v-row>
                   <!-- Form -->
                   <v-row>
@@ -256,12 +220,9 @@
 </template>
 
 <script>
-import userApi from "../apis/userApi";
+import trackingObservationCuscaApi from "../apis/trackingObservationCuscaApi";
 import yearApi from "../apis/yearApi";
 import monthApi from "../apis/monthApi";
-import trakingStatusApi from "../apis/trakingStatusApi";
-import trackingCuscaApi from "../apis/trackingCuscaApi";
-import trackingObservationCuscaApi from "../apis/trackingObservationCuscaApi";
 import actionsCuscaApi from "../apis/actionsCuscaApi";
 import lib from "../libs/function";
 import {
@@ -277,55 +238,40 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "SEGUIMIENTO", value: "tracking_detail" },
+      { text: "OBSERVACIÓN", value: "observation" },
+      { text: "RESPUESTA", value: "observation_reply" },
+      { text: "FECHA DE RESPUESTA", value: "reply_date" },
       { text: "ACCIÓN", value: "action_description" },
       { text: "MES", value: "month_name" },
       { text: "AÑO", value: "value" },
-      { text: "ACCIONES MENSUALES", value: "monthly_actions" },
-      { text: "PRESUPUESTO", value: "budget_executed" },
-      { text: "USUARIO", value: "user_name" },
-      { text: "EJECUTADO", value: "executed" },
-      { text: "ESTADO", value: "status_name" },
-      { text: "OBSERVACIÓN", value: "observation" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
     records: [],
     recordsFiltered: [],
     editedIndex: -1,
     editedItem: {
-      tracking_detail: "",
+      observation: "",
+      observation_reply: "",
       action_description: "",
       month_name: "",
-      budget_executed: "",
-      user_name: "",
+      reply_date: "",
       value: "",
-      status_name: "",
-      monthly_actions: "",
-      executed: "",
-      observation: "",
     },
     defaultItem: {
-      tracking_detail: "",
+      observation: "",
+      observation_reply: "",
       action_description: "",
       month_name: "",
-      budget_executed: "",
-      user_name: "",
+      reply_date: "",
       value: "",
-      status_name: "",
-      monthly_actions: "",
-      executed: "",
-      observation: "",
     },
 
     textAlert: "",
     alertEvent: "success",
     showAlert: false,
-    users: [],
     months: [],
     years: [],
     actions: [],
-    trakingStatuses: [],
-    observations: [],
 
     redirectSessionFinished: false,
   }),
@@ -333,24 +279,15 @@ export default {
   // Validations
   validations: {
     editedItem: {
-      tracking_detail: {
+      observation: {
         required,
         minLength: minLength(1),
         maxLength: maxLength(500),
       },
-
-      monthly_actions: {
+      observation_reply: {
         required,
         minLength: minLength(1),
-        maxLength: maxLength(10),
-      },
-      budget_executed: {
-        required,
-        minLength: minLength(1),
-        maxLength: maxLength(10),
-      },
-      user_name: {
-        required,
+        maxLength: maxLength(500),
       },
       month_name: {
         required,
@@ -361,14 +298,19 @@ export default {
       action_description: {
         required,
       },
-      status_name: {
+      reply_date: {
         required,
-      },
-      executed: {
-        required,
-      },
-      observation: {
-        required,
+        isValidBirthday: helpers.regex(
+          "isValidBirthday",
+          /([0-9]{4}-[0-9]{2}-[0-9]{2})/
+        ),
+        minDate: (value) => value > new Date("1920-01-01").toISOString(),
+        maxDate: () => {
+          let today = new Date();
+          let year = today.getFullYear() - 18;
+          let date = today.setFullYear(year);
+          return new Date(date).toISOString();
+        },
       },
     },
   },
@@ -398,15 +340,10 @@ export default {
       this.recordsFiltered = [];
 
       let requests = [
-        trackingCuscaApi.get(),
-        userApi.get(null, {
-          params: { skip: 0, take: 200 },
-        }),
-        trakingStatusApi.get(),
+        trackingObservationCuscaApi.get(),
         yearApi.get(),
         monthApi.get(),
         actionsCuscaApi.get(),
-        trackingObservationCuscaApi.get(),
       ];
       let responses = await Promise.all(requests).catch((error) => {
         this.updateAlert(true, "No fue posible obtener los registros.", "fail");
@@ -417,13 +354,10 @@ export default {
       });
 
       if (responses && responses[0].data.message == "success") {
-        this.records = responses[0].data.trackingsCusca;
-        this.users = responses[1].data.users;
-        this.trakingStatuses = responses[2].data.trakingStatuses;
-        this.years = responses[3].data.years;
-        this.months = responses[4].data.months;
-        this.actions = responses[5].data.actions_cusca;
-        this.observations = responses[6].data.trackingObservationsCusca;
+        this.records = responses[0].data.trackingObservationsCusca;
+        this.years = responses[1].data.years;
+        this.months = responses[2].data.months;
+        this.actions = responses[3].data.actions_cusca;
         // console.log(responses);
 
         // this.editedItem.user_name = this.users[0].user_name;
@@ -435,13 +369,10 @@ export default {
       this.dialog = true;
       this.editedIndex = this.recordsFiltered.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.$v.editedItem.user_name.$model = this.editedItem.user_name;
-      this.$v.editedItem.status_name.$model = this.editedItem.status_name;
       this.$v.editedItem.value.$model = this.editedItem.value;
       this.$v.editedItem.month_name.$model = this.editedItem.month_name;
       this.$v.editedItem.action_description.$model =
         this.editedItem.action_description;
-      this.$v.editedItem.observation.$model = this.editedItem.observation;
     },
 
     deleteItem(item) {
@@ -451,7 +382,7 @@ export default {
     },
 
     async deleteItemConfirm() {
-      const res = await trackingCuscaApi
+      const res = await trackingObservationCuscaApi
         .delete(`/${this.editedItem.id}`)
         .catch((error) => {
           this.updateAlert(
@@ -495,14 +426,14 @@ export default {
 
     async save() {
       this.$v.$touch();
-      if (this.$v.$invalid || this.editedItem.user_name == "") {
+      if (this.$v.$invalid || this.editedItem.value == "") {
         this.updateAlert(true, "Campos obligatorios.", "fail");
 
         return;
       }
 
       if (this.editedIndex > -1) {
-        const res = await trackingCuscaApi
+        const res = await trackingObservationCuscaApi
           .put(`/${this.editedItem.id}`, this.editedItem)
           .catch((error) => {
             this.updateAlert(true, "No fue posible crear el registro.", "fail");
@@ -521,7 +452,7 @@ export default {
           );
         }
       } else {
-        const res = await trackingCuscaApi
+        const res = await trackingObservationCuscaApi
           .post(null, this.editedItem)
           .catch((error) => {
             this.updateAlert(true, "No fue posible crear el registro.", "fail");
@@ -546,8 +477,8 @@ export default {
       if (this.search != "") {
         this.records.forEach((record) => {
           let searchConcat = "";
-          for (let i = 0; i < record.tracking_detail.length; i++) {
-            searchConcat += record.tracking_detail[i].toUpperCase();
+          for (let i = 0; i < record.observation.length; i++) {
+            searchConcat += record.observation[i].toUpperCase();
             if (
               searchConcat === this.search.toUpperCase() &&
               !this.recordsFiltered.some((rec) => rec == record)

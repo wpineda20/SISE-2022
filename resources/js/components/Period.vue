@@ -70,7 +70,7 @@
                         label="Período"
                         v-model="$v.editedItem.period_name.$model"
                         :validation="$v.editedItem.period_name"
-                        validationTextType="default"
+                        validationTextType="none"
                         :validationsInput="{
                           required: true,
                           minLength: true,
