@@ -20,10 +20,9 @@ class ActionsCuscaController extends Controller
     {
         $actionsCusca = ActionsCusca::select(
             'actions_cusca.id',
-            'description_action',
-            'actions_cusca.create_date',
-            'actionNumberYear',
-            'actions_cusca.percentage',
+            'action_description',
+            'annual_actions',
+            'actions_cusca.executed',
             'responsable_name',
             'user_name',
             'result_description',
@@ -61,7 +60,7 @@ class ActionsCuscaController extends Controller
      */
     public function store(Request $request)
     {
-         dd($request->all());
+        //  dd($request->all());
         $data = $request->except(['user_name', 'result_description', 'value', 'financing_name']);
 
         $user = User::where('user_name', $request->user_name)->first();
@@ -73,6 +72,7 @@ class ActionsCuscaController extends Controller
         $data['results_cusca_id'] = $result->id;
         $data['year_id'] = $year->id;
         $data['financings_id'] = $financing->id;
+        $data['executed'] = ($data['executed'])?"SI":"NO";
 
         ActionsCusca::insert($data);
 
@@ -123,6 +123,7 @@ class ActionsCuscaController extends Controller
         $data['results_cusca_id'] = $result->id;
         $data['year_id'] = $year->id;
         $data['financings_id'] = $financing->id;
+        $data['executed'] = ($data['executed'])?"SI":"NO";
 
 
         ActionsCusca::where('id', $data['id'])->update($data);

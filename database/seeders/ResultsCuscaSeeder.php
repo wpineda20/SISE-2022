@@ -25,6 +25,8 @@ class ResultsCuscaSeeder extends Seeder
                 'axis_cusca_id' => 1,
                 'indicator_id' => 1,
                 'organizational_units_id' => 1,
+                'year_id' => 1,
+                'period_id' => 1,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
@@ -37,6 +39,8 @@ class ResultsCuscaSeeder extends Seeder
                 'axis_cusca_id' => 2,
                 'indicator_id' => 2,
                 'organizational_units_id' => 2,
+                'year_id' => 8,
+                'period_id' => 2,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],

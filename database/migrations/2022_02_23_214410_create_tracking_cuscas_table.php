@@ -17,15 +17,14 @@ class CreateTrackingCuscasTable extends Migration
             $table->id();
             $table->string('tracking_detail', 500);
             $table->string('executed');
-            $table->date('create_date');
             $table->integer('monthly_actions');
-            $table->double('percentage', 8, 2);
             $table->double('budget_executed', 8, 2);
             $table->foreignId('user_id')->references('id')->on('users');
             $table->foreignId('year_id')->references('id')->on('years');
             $table->foreignId('month_id')->references('id')->on('months');
             $table->foreignId('traking_status_id')->references('id')->on('traking_statuses');
-            // $table->foreignId('actions_cusca_id')->references('id')->on('actions_cusca');
+            $table->foreignId('actions_cusca_id')->references('id')->on('actions_cusca');
+            $table->foreignId('tracking_observation_cusca_id')->references('id')->on('tracking_observation_cusca');
             $table->softDeletes();
             $table->timestamps();
         });

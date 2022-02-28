@@ -15,10 +15,9 @@ class CreateActionsCuscasTable extends Migration
     {
         Schema::create('actions_cusca', function (Blueprint $table) {
             $table->id();
-            $table->string('description_action',500);
-            $table->date('create_date');
-            $table->integer('actionNumberYear');
-            $table->double('percentage', 8, 2);
+            $table->string('action_description', 500);
+            $table->integer('annual_actions');
+            $table->string('executed');
             $table->string('responsable_name');
             $table->foreignId('user_id')->references('id')->on('users');
             $table->foreignId('results_cusca_id')->references('id')->on('results_cusca');

@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
-class MonthlyClosing extends Model
+class TrackingObservationCusca extends Model
 {
-    use HasFactory, SoftDeletes;
+   use HasFactory, SoftDeletes;
 
-    protected $table = 'monthly_closings';
+    protected $table = 'tracking_observation_cusca';
 
     public $incrementing = true;
 
@@ -18,11 +18,14 @@ class MonthlyClosing extends Model
 
     protected $fillable = [
         'id',
-        'year_id',
-        'month_id',
-        'active',
+        'observation',
+        'observation_reply',
+        'reply_date',
+        'year_id',        
+        'month_id',        
+        'actions_cusca_id',        
     ];
-
+    
     public $hidden = [
         'created_at',
         'updated_at',
@@ -30,14 +33,4 @@ class MonthlyClosing extends Model
     ];
 
     public $timestamps = false;
-
-    public function month()
-    {
-        return $this->belongsTo(Month::class, 'month_id', 'id');
-    }
-
-    public function year()
-    {
-        return $this->belongsTo(Year::class, 'year_id', 'id');
-    }
 }

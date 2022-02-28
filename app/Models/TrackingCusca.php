@@ -19,16 +19,15 @@ class TrackingCusca extends Model
     protected $fillable = [
         'id',
         'tracking_detail',
-        'create_date',
         'executed',
         'monthly_actions',
-        'percentage',
         'budget_executed',
         'user_id',        
         'year_id',        
         'month_id',        
         'traking_status_id',        
-        // 'actions_cusca_id',        
+        'actions_cusca_id',        
+        'tracking_observation_cusca_id',        
     ];
     public $hidden = [
         'created_at',
@@ -37,4 +36,9 @@ class TrackingCusca extends Model
     ];
 
     public $timestamps = false;
+
+     public function actionsCusca()
+    {
+        return $this->belongsTo(ActionsCusca::class, 'actions_cusca_id', 'id');
+    }
 }
