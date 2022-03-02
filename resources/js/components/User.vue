@@ -143,6 +143,17 @@
                       />
                     </v-col>
                     <!-- Rol  -->
+                    <!-- Unidad organizativa  -->
+                    <v-col cols="12" sm="6" md="6">
+                      <base-select
+                        label="Unidad organizativa"
+                        v-model.trim="$v.editedItem.ou_name.$model"
+                        :items="organizationalUnits"
+                        item="ou_name"
+                        :validation="$v.editedItem.ou_name"
+                      />
+                    </v-col>
+                    <!-- Unidad organizativa  -->
                     <!-- E-mail -->
                     <v-col cols="12" sm="6" md="6">
                       <base-input
@@ -202,10 +213,37 @@
               </v-card-text>
             </v-card>
           </v-dialog>
+          <v-dialog v-model="dialogDelete" max-width="400px">
+            <v-card class="h-100">
+              <v-container>
+                <h3 class="black-secondary text-center mt-3 mb-3">
+                  Eliminar registro
+                </h3>
+                <v-row>
+                  <v-col align="center">
+                    <v-btn
+                      color="btn-normal no-uppercase mt-3 mb-3 pr-5 pl-5 mx-auto"
+                      rounded
+                      @click="deleteItemConfirm"
+                      >Confirmar</v-btn
+                    >
+                    <v-btn
+                      color="btn-normal-close no-uppercase mt-3 mb-3"
+                      rounded
+                      @click="closeDelete"
+                    >
+                      Cancelar
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card>
+          </v-dialog>
         </v-toolbar>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
+        <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
       </template>
       <template v-slot:no-data>
         <a
@@ -223,6 +261,7 @@
 <script>
 import roleApi from "../apis/roleApi";
 import userApi from "../apis/userApi";
+import organizationalUnitApi from "../apis/organizationalUnitApi";
 import lib from "../libs/function";
 
 import {
@@ -238,10 +277,12 @@ export default {
     return {
       search: "",
       dialog: false,
+      dialogDelete: false,
       headers: [
         { text: "USUARIO", value: "user_name" },
         { text: "NOMBRE", value: "name" },
         { text: "CARGO", value: "job_title" },
+        { text: "UNIDAD ORGANIZATIVA", value: "ou_name" },
         { text: "CELULAR", value: "phone" },
         { text: "ROL", value: "rol" },
         { text: "CORREO ELECTRÓNICO", value: "email" },
@@ -249,6 +290,7 @@ export default {
       ],
       records: [],
       recordsFiltered: [],
+      organizationalUnits: [],
       editedIndex: -1,
       skip: 0,
       take: 50,
@@ -266,6 +308,7 @@ export default {
         email: "",
         password: "",
         rol: "",
+        ou_name: "",
       },
       defaultItem: {
         name: "",
@@ -275,6 +318,7 @@ export default {
         email: "",
         password: "",
         rol: "",
+        ou_name: "",
       },
       textAlert: "",
       alertEvent: "success",
@@ -307,6 +351,11 @@ export default {
         maxLength: maxLength(500),
       },
       user_name: {
+        required,
+        minLength: minLength(1),
+        maxLength: maxLength(500),
+      },
+      ou_name: {
         required,
         minLength: minLength(1),
         maxLength: maxLength(500),
@@ -344,9 +393,12 @@ export default {
     dialog(val) {
       val || this.close();
     },
-    dialogBlock(val) {
-      val || this.closeBlock();
+    dialogDelete(val) {
+      val || this.closeDelete();
     },
+    /*dialogBlock(val) {
+      val || this.closeBlock();
+    },*/
   },
 
   created() {
@@ -355,22 +407,23 @@ export default {
 
   methods: {
     async initialize() {
-      this.$v.$reset();
+      //this.$v.$reset();
       this.records = [];
       this.recordsFiltered = [];
 
       let requests = [
         userApi.get(null, {
-          params: { skip: this.skip, take: this.take },
+          params: {skip: 0, take: 200 },
         }),
         roleApi.get(),
+        organizationalUnitApi.get(),
       ];
 
       const responses = await Promise.all(requests).catch((error) => {
         this.updateAlert(true, "No fue posible obtener el registros.", "fail");
         this.redirectSessionFinished = lib.verifySessionFinished(
           error.response.status,
-          419
+          401
         );
       });
 
@@ -379,6 +432,7 @@ export default {
       this.total = responses[0].data.total;
 
       this.roles = responses[1].data.roles;
+      this.organizationalUnits = responses[2].data.organizationalUnits;
     },
 
     editItem(item) {
@@ -386,22 +440,53 @@ export default {
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
+      deleteItem(item) {
+      this.editedIndex = this.recordsFiltered.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialogDelete = true;
+    },
+
+    async deleteItemConfirm() {
+      const res = await userApi
+        .delete(`/${this.editedItem.id}`)
+        .catch((error) => {
+          this.updateAlert(
+            true,
+            "No fue posible eliminar el registros.",
+            "fail"
+          );
+          this.close();
+        });
+
+      if (res.data.message == "success") {
+        this.redirectSessionFinished = lib.verifySessionFinished(
+          res.status,
+          200
+        );
+        this.updateAlert(true, "Registro eliminado.", "success");
+      } else {
+        this.updateAlert(true, "No se pudo eliminar el registro.", "fail");
+      }
+
+      this.initialize();
+      this.closeDelete();
+    },
 
     close() {
       this.dialog = false;
       this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedItem = this.defaultItem;
         this.editedIndex = -1;
       });
     },
 
-    closeBlock() {
-      this.dialogBlock = false;
-
+    closeDelete() {
       this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedItem = this.defaultItem;
         this.editedIndex = -1;
       });
+
+      this.dialogDelete = false;
     },
 
     async save() {

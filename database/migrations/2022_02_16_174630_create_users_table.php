@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('job_title');
             $table->string('phone');
-            // $table->foreignId('ou_id')->references('id')->on('organizational_units');
+            $table->foreignId('organizational_units_id')->references('id')->on('organizational_units');
             // $table->foreignId('institution_id')->references('id')->on('institutions');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
