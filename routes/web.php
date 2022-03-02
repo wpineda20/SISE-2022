@@ -142,7 +142,6 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
         Route::get('/trackingObservationsCuscatlan', function () {
             return view('tracking_observation_cusca.index');
         });
-
     });
 
     Route::group(['middleware'=> ['has.role:Administrador,Enlace,Auditor']], function () {
@@ -174,6 +173,9 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
         Route::resource('/api/actionsCusca', ActionsCuscaController::class);
         Route::resource('/api/trackingObservationCusca', TrackingObservationCuscaController::class);
         Route::resource('/api/trackingCusca', TrackingCuscaController::class);
+      
+        Route::resource('/api/user', UserController::class);
+        Route::resource('/api/role', RoleController::class);
     });
 
     Route::group(['middleware'=> ['has.role:Administrador,Enlace,Auditor']], function () {
@@ -183,8 +185,6 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
         Route::post('/api/user/actualUserRole', [UserController::class, 'getActualUserRoles']);
     });
 
-
-    
     //Excel
     Route::get('export', [ExcelController::class, 'export']);
     Route::get('/home', [HomeController::class, 'index'])->name('home');
