@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OrganizationalUnit;
 use Illuminate\Http\Request;
 use App\Models\User;
 use DB;
@@ -21,6 +22,8 @@ class UserController extends Controller
         $limit = $request->take - $skip; // the limit
 
         $users = User::skip($skip)->take($limit)
+        ->select('*', 'users.id as id')
+        ->join('organizational_units as ou', 'users.organizational_units_id', '=', 'ou.id')
         ->get();
 
         $users->makeVisible(['password']);
@@ -29,7 +32,7 @@ class UserController extends Controller
             $user->rol = $user->getRoleNames()[0];
         }
 
-        $users = EncryptController::encryptArray($users, ['id']);
+        $users = EncryptController::encryptArray($users, ['id', 'organizational_units_id']);
 
         $total = User::count();
 
@@ -60,6 +63,8 @@ class UserController extends Controller
         //     return response()->json(['message' => 'Este dui ya existe.']);
         // }
 
+        $ou = OrganizationalUnit::where('ou_name', $request->ou_name)->first();
+
         $password = Hash::make($request->password);
 
         $user = new User;
@@ -67,6 +72,7 @@ class UserController extends Controller
         $user->user_name = $request->user_name;
         $user->email = $request->email;
         $user->job_title = $request->job_title;
+        $user->organizational_units_id = $ou->id;
         $user->phone = $request->phone;
         $user->password = $password;
         $user->email_verified_at = now();
@@ -102,19 +108,13 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
+        // dd($request);
         $id = EncryptController::decryptValue($request->id);
         $user = User::find($id);
 
         $password = Hash::make($request->password);
 
-        $data = [
-            'name' => $request->name,
-            'user_name' => $request->user_name,
-            'job_title' => $request->job_title,
-            'phone' => $request->phone,
-            'email' => $request->email,
-            'password' => $password,
-        ];
+        $ou = OrganizationalUnit::where('ou_name', $request->ou_name)->first();
 
         if (isset($request->rol)) {
             $oldRole = DB::table('model_has_roles')->where('model_id', $user->id)->delete();
@@ -123,7 +123,15 @@ class UserController extends Controller
             $user->assignRole($role);
         }
 
-        $user->update($data);
+        $user->name = $request->name;
+        $user->user_name = $request->user_name;
+        $user->job_title = $request->job_title;
+        $user->organizational_units_id = $ou->id;
+        $user->phone = $request->phone;
+        $user->email = $request->email;
+        $user->password = $password;
+
+        $user->save();
 
         return response()->json(["message"=>"success"]);
     }
@@ -134,10 +142,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $user->delete();
-        return response()->json(["message" => "success"]);
+        $id = EncryptController::decryptValue($id);
+
+        User::where('id', $id)->delete();
+        return response()->json(["message"=>"success"]);
     }
 
     /**
