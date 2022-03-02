@@ -18,7 +18,7 @@ class AxisCuscaSeeder extends Seeder
         AxisCusca::insert([
             [
                 'id' => 1,
-                'axis_description' =>  'Descripción',
+                'axis_description' =>  'Descripción de Eje Uno',
                 'executed' => 'SI',
                 'user_id' => 1,
                 'programmatic_objectives_id' => 1,
@@ -27,7 +27,7 @@ class AxisCuscaSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'axis_description' =>  'Descripción dos',
+                'axis_description' =>  'Descripción de Eje dos',
                 'executed' => 'NO',
                 'user_id' => 2,
                 'programmatic_objectives_id' => 2,

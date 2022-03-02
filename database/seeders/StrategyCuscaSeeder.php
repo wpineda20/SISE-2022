@@ -18,7 +18,7 @@ class StrategyCuscaSeeder extends Seeder
         StrategyCusca::insert([
             [
                 'id' => 1,
-                'description_strategy' =>  'Test',
+                'description_strategy' =>  'Descripción de estrategia Uno',
                 'executed'=>'SI',
                 'user_id'=>1,
                 'organizational_units_id' => 1,
@@ -28,7 +28,7 @@ class StrategyCuscaSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'description_strategy' =>  'Test2',
+                'description_strategy' =>  'Descripción de estrategia Dos',
                 'executed'=>'NO',
                 'user_id'=>2,
                 'organizational_units_id' => 2,
@@ -36,16 +36,7 @@ class StrategyCuscaSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
-            [
-                'id' => 3,
-                'description_strategy' =>  'Test 3',
-                'executed'=>'SI',
-                'user_id'=>2,
-                'organizational_units_id' => 2,
-                'programmatic_objectives_id' => 2,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ],
+           
         ]);
     }
 }

@@ -18,7 +18,7 @@ class TrackingCuscaSeeder extends Seeder
         TrackingCusca::insert([
             [
                 'id' => 1,
-                'tracking_detail' =>  'Detalle del seguimiento',
+                'tracking_detail' =>  'Detalle del seguimiento Uno',
                 'executed'=> 'SI',
                 'monthly_actions' => 10,
                 'budget_executed' => 50000,
@@ -39,28 +39,14 @@ class TrackingCuscaSeeder extends Seeder
                 'budget_executed' => 500000,
                 'user_id' => 2,
                 'year_id' => 2,
-                'month_id' => 5,
-                'traking_status_id' => 3,
+                'month_id' => 2,
+                'traking_status_id' => 2,
                 'actions_cusca_id' => 2,
                 'tracking_observation_cusca_id' => 2,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
-            [
-                'id' => 3,
-                'tracking_detail' =>  'Detalle del seguimiento Tres',
-                'executed'=> 'NO',
-                'monthly_actions' => 101,
-                'budget_executed' => 500000,
-                'user_id' => 2,
-                'year_id' => 6,
-                'month_id' => 5,
-                'traking_status_id' => 3,
-                'actions_cusca_id' => 3,
-                'tracking_observation_cusca_id' => 3,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ],
+            
         ]);
     }
 }
