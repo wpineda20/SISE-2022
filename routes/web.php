@@ -59,7 +59,7 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
     Route::get('export', [ExcelController::class, 'export']);
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-    Route::group(['middleware'=>['is.admin']], function () {
+    Route::group(['middleware'=>['is.admin', 'is.enlace', 'is.auditor']], function () {
         // Apis
         Route::resource('/api/department', DepartmentController::class);
         Route::resource('/api/municipality', MunicipalityController::class);
@@ -178,7 +178,8 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
             return view('tracking_observation_cusca.index');
         });
 
-    });
+}); //Admin
+
 });
 
 Route::post('import', [ExcelController::class, 'import']);

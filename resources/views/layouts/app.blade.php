@@ -68,9 +68,8 @@
                                 <p class="link">Catálogos</p>
                             </div>
                             <ul class="sub-menu">
-                                <!--<?php //$role = Auth::user()->role_id; ?>-->
                                 @role('Administrador')
-                                //if your login user role is admin show the content here
+                                {{-- // if your login user role is admin show the content here --}}
                                
                                  <li><a href="{{ url('/years') }}">Años</a></li>
                                  <li><a href="{{ url('/poaClosings') }}">Cierre POA</a></li>
