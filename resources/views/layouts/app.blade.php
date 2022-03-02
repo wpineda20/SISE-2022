@@ -262,7 +262,7 @@
                         <!-- Reportes -->
                         <li>
                             <div class="icon-link">
-                                <a href="{{ url('/programmaticObjective ') }}" class="mb-1">
+                                <a href="{{ url('/municipalities') }}" class="mb-1">
                                     <i class="material-icons md-19">description</i>
                                     <p class="link">Reportes</p>
                                 </a>
@@ -275,7 +275,7 @@
                         <!-- Gráficos -->
                             <li>
                                 <div class="icon-link">
-                                    <a href="{{ url('/programmaticObjective ') }}" class="mb-1">
+                                    <a href="{{ url('/municipalities') }}" class="mb-1">
                                         <i class="material-icons md-19">leaderboard</i>
                                         <p class="link">Gráficos</p>
                                     </a>
