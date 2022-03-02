@@ -27,6 +27,7 @@ use App\Http\Controllers\TrackingCuscaController;
 use App\Http\Controllers\TrackingObservationCuscaController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ExcelController;
+use GuzzleHttp\Middleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,53 +47,25 @@ Route::get('/', function () {
 Auth::routes(['verify' => true, 'remember_me'=>false]);
 
 Route::group(['middleware'=> ['auth', 'verified']], function () {
-    Route::get('/api/role/user', [RoleController::class, 'getActualUserRoles']);
-
-
-    Route::post('/api/user/actualUserRole', [UserController::class, 'getActualUserRoles']);
-
-
-    //Reports
-    Route::get('generate-pdf', [PDFController::class, 'generatePDF']);
-
-    //Excel
-    Route::get('export', [ExcelController::class, 'export']);
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-    Route::group(['middleware'=>['is.admin']], function () {
+    Route::group(['middleware'=>['has.role:Administrador']], function () {
         // Apis
-        Route::resource('/api/department', DepartmentController::class);
-        Route::resource('/api/municipality', MunicipalityController::class);
+        
         Route::resource('/api/direction', DirectionController::class);
         Route::resource('/api/financing', FinancingController::class);
-        Route::resource('/api/indicator', IndicatorController::class);
-        Route::resource('/api/institution', InstitutionController::class);
         Route::resource('/api/monthlyClosing', MonthlyClosingController::class);
-        Route::resource('/api/organizationalUnit', OrganizationalUnitController::class);
         Route::resource('/api/period', PeriodController::class);
         Route::resource('/api/poaClosing', PoaClosingController::class);
-        Route::resource('/api/unit', UnitController::class);
-        Route::resource('/api/trakingStatus', TrakingStatusController::class);
-        Route::resource('/api/month', MonthController::class);
-        Route::resource('/api/year', YearController::class);
+        
         Route::resource('/api/programmaticObjective', ProgrammaticObjectiveController::class);
         Route::resource('/api/strategyCusca', StrategyCuscaController::class);
         Route::resource('/api/axisCusca', AxisCuscaController::class);
         Route::resource('/api/resultsCusca', ResultsCuscaController::class);
-        Route::resource('/api/actionsCusca', ActionsCuscaController::class);
-        Route::resource('/api/trackingCusca', TrackingCuscaController::class);
-        Route::resource('/api/trackingObservationCusca', TrackingObservationCuscaController::class);
+        
         Route::resource('/api/user', UserController::class);
         Route::resource('/api/role', RoleController::class);
-
+        
         // Views
-        Route::get('/departments', function () {
-            return view('department.index');
-        });
-
-        Route::get('/municipalities', function () {
-            return view('municipality.index');
-        });
+        
        
         Route::get('/users', function () {
             return view('user.index');
@@ -104,10 +77,6 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
 
         Route::get('/financings', function () {
             return view('financing.index');
-        });
-
-        Route::get('/indicators', function () {
-            return view('indicator.index');
         });
 
         Route::get('/institutions', function () {
@@ -166,9 +135,7 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
             return view('results_cusca.index');
         });
 
-        Route::get('/trackingCuscatlan', function () {
-            return view('tracking_cusca.index');
-        });
+        
       
         Route::get('/actionsCuscatlan', function () {
             return view('actions_cusca.index');
@@ -179,6 +146,50 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
         });
 
     });
+
+    Route::group(['middleware'=> ['has.role:Administrador,Enlace,Auditor']], function () {
+        Route::get('/indicators', function () {
+            return view('indicator.index');
+        });
+
+        Route::get('/departments', function () {
+            return view('department.index');
+        });
+
+        Route::get('/municipalities', function () {
+            return view('municipality.index');
+        });
+
+        Route::get('/trackingCuscatlan', function () {
+            return view('tracking_cusca.index');
+        });
+
+        Route::resource('/api/indicator', IndicatorController::class);
+        Route::resource('/api/institution', InstitutionController::class);
+        Route::resource('/api/unit', UnitController::class);
+        Route::resource('/api/organizationalUnit', OrganizationalUnitController::class);
+        Route::resource('/api/department', DepartmentController::class);
+        Route::resource('/api/municipality', MunicipalityController::class);
+        Route::resource('/api/trakingStatus', TrakingStatusController::class);
+        Route::resource('/api/month', MonthController::class);
+        Route::resource('/api/year', YearController::class);
+        Route::resource('/api/actionsCusca', ActionsCuscaController::class);
+        Route::resource('/api/trackingObservationCusca', TrackingObservationCuscaController::class);
+        Route::resource('/api/trackingCusca', TrackingCuscaController::class);
+    });
+
+    Route::group(['middleware'=> ['has.role:Administrador,Enlace,Auditor']], function () {
+        //Reports
+        Route::get('generate-pdf', [PDFController::class, 'generatePDF']);
+        Route::get('/api/role/user', [RoleController::class, 'getActualUserRoles']);
+        Route::post('/api/user/actualUserRole', [UserController::class, 'getActualUserRoles']);
+    });
+
+
+    
+    //Excel
+    Route::get('export', [ExcelController::class, 'export']);
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 });
 
 Route::post('import', [ExcelController::class, 'import']);
