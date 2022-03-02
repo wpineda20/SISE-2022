@@ -357,10 +357,12 @@ export default {
         this.records = responses[0].data.trackingObservationsCusca;
         this.years = responses[1].data.years;
         this.months = responses[2].data.months;
-        this.actions = responses[3].data.actions_cusca;
+        this.actions = responses[3].data.actionsCusca;
         // console.log(responses);
 
-        // this.editedItem.user_name = this.users[0].user_name;
+        this.editedItem.value = this.years[0].value;
+        this.editedItem.month_name = this.months[0].month_name;
+
         this.recordsFiltered = this.records;
       }
     },

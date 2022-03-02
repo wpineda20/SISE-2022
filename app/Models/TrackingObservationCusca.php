@@ -33,4 +33,6 @@ class TrackingObservationCusca extends Model
     ];
 
     public $timestamps = false;
+
+   
 }

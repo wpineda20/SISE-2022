@@ -44,4 +44,6 @@ class Year extends Model
     {
         return $this->hasMany(poaClosings::class);
     }
+
+    
 }

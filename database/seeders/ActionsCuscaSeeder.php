@@ -18,8 +18,8 @@ class ActionsCuscaSeeder extends Seeder
         ActionsCusca::insert([
             [
                 'id' => 1,
-                'action_description' =>  'Acción Uno',
-                'annual_actions'=>2,
+                'action_description' =>  'Descripción de Acción Uno',
+                'annual_actions'=> 10,
                 'executed' => 'SI',
                 'responsable_name'=>'Maria Ruano',
                 'user_id' => 1,
@@ -31,23 +31,10 @@ class ActionsCuscaSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'action_description' =>  'Acción Dos',
-                'annual_actions'=>2,
+                'action_description' =>  'Descripción de Acción Dos',
+                'annual_actions'=> 20,
                 'executed' => 'SI',
                 'responsable_name'=> 'Unidad de informática',
-                'user_id' => 1,
-                'results_cusca_id' => 1,
-                'year_id' => 1,
-                'financings_id' => 1,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ],
-            [
-                'id' => 3,
-                'action_description' =>  'Acción Tres',
-                'annual_actions'=> 5,
-                'executed' => 'NO',
-                'responsable_name'=> 'Unidad de planificación',
                 'user_id' => 2,
                 'results_cusca_id' => 2,
                 'year_id' => 2,
@@ -55,6 +42,7 @@ class ActionsCuscaSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
+            
         ]);
     }
 }

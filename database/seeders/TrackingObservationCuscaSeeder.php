@@ -29,8 +29,8 @@ class TrackingObservationCuscaSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'observation' =>  'Observación dos',
-                'observation_reply'=> 'Respuesta a observación dos',
+                'observation' =>  'Observación Uno',
+                'observation_reply'=> 'Respuesta a observación Uno',
                 'reply_date' => Carbon::now(),
                 'year_id' => 2,
                 'month_id' => 2,
@@ -38,17 +38,7 @@ class TrackingObservationCuscaSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
-            [
-                'id' => 3,
-                'observation' =>  'Observación tres',
-                'observation_reply'=> 'Respuesta a observación tres',
-                'reply_date' => Carbon::now(),
-                'year_id' => 3,
-                'month_id' => 3,
-                'actions_cusca_id' => 3,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ],
+           
         ]);
     }
 }
