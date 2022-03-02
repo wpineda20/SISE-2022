@@ -29,17 +29,22 @@ class ActionsCuscaController extends Controller
             'value',
             'financing_name',
         )
-        ->join('users as user', 'actions_cusca.user_id', '=', 'user.id')
+        ->join('users as u', 'actions_cusca.user_id', '=', 'u.id')
         ->join('results_cusca as rs', 'actions_cusca.results_cusca_id', '=', 'rs.id')
         ->join('years as y', 'actions_cusca.year_id', '=', 'y.id')
         ->join('financings as f', 'actions_cusca.financings_id', '=', 'f.id')
         ->get();
-            
+        
+        $users = User::all();
+        $resultsCusca = ResultsCusca::all();
+        $years = Year::all();
+        $financings = Financing::all();
         
         $actionsCusca = EncryptController::encryptArray($actionsCusca, ['id', 'user_id', 
         'results_cusca_id','year_id','financings_id']);
 
-        return response()->json(['message' => 'success', 'actions_cusca'=>$actionsCusca]);
+        return response()->json(['message' => 'success', 'actionsCusca'=>$actionsCusca]);
+        
     }
 
     /**
@@ -63,15 +68,15 @@ class ActionsCuscaController extends Controller
         //  dd($request->all());
         $data = $request->except(['user_name', 'result_description', 'value', 'financing_name']);
 
-        $user = User::where('user_name', $request->user_name)->first();
-        $result = ResultsCusca::where('result_description', $request->result_description)->first();
-        $year = Year::where('value', $request->value)->first();
-        $financing = Financing::where('financing_name', $request->financing_name)->first();
-
-        $data['user_id'] = $user->id;
-        $data['results_cusca_id'] = $result->id;
-        $data['year_id'] = $year->id;
-        $data['financings_id'] = $financing->id;
+        $users = User::where('user_name', $request->user_name)->first();
+        $resultsCusca = ResultsCusca::where('result_description', $request->result_description)->first();
+        $years = Year::where('value', $request->value)->first();
+        $financings = Financing::where('financing_name', $request->financing_name)->first();
+        // dd($data);
+        $data['user_id'] = $users->id;
+        $data['results_cusca_id'] = $resultsCusca->id;
+        $data['year_id'] = $years->id;
+        $data['financings_id'] = $financings->id;
         $data['executed'] = ($data['executed'])?"SI":"NO";
 
         ActionsCusca::insert($data);
@@ -111,18 +116,19 @@ class ActionsCuscaController extends Controller
     public function update(Request $request)
     {
         $data = $request->except(['user_name', 'result_description', 'value', 'financing_name']);
-        $user = User::where('user_name', $request->user_name)->first();
-        $result = ResultsCusca::where('result_description', $request->result_description)->first();
-        $year = Year::where('value', $request->value)->first();
-        $financing = Financing::where('financing_name', $request->financing_name)->first();
+
+        $users = User::where('user_name', $request->user_name)->first();
+        $resultsCusca = ResultsCusca::where('result_description', $request->result_description)->first();
+        $years = Year::where('value', $request->value)->first();
+        $financings = Financing::where('financing_name', $request->financing_name)->first();
 
         $data = EncryptController::decryptModel($request->except(['user_name', 'result_description', 'value',
         'financing_name']), 'id');
 
-        $data['user_id'] = $user->id;
-        $data['results_cusca_id'] = $result->id;
-        $data['year_id'] = $year->id;
-        $data['financings_id'] = $financing->id;
+        $data['user_id'] = $users->id;
+        $data['results_cusca_id'] = $resultsCusca->id;
+        $data['year_id'] = $years->id;
+        $data['financings_id'] = $financings->id;
         $data['executed'] = ($data['executed'])?"SI":"NO";
 
 

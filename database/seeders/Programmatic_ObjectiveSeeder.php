@@ -18,7 +18,7 @@ class Programmatic_ObjectiveSeeder extends Seeder
         Programmatic_Objective::insert([
             [
                 'id' => 1,
-                'description' =>  'Test',
+                'description' =>  'Objetivo programático Uno',
                 'executed' => 'SI',
                 'institution_id' => 1,
                 'user_id' => 1,
@@ -27,22 +27,14 @@ class Programmatic_ObjectiveSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'description' =>  'Test2',
+                'description' =>  'Objetivo programático Dos',
                 'executed' => 'NO',
                 'institution_id' => 2,
                 'user_id' => 2,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
-            [
-                'id' => 3,
-                'description' =>  'Test2',
-                'executed' => 'NO',
-                'institution_id' => 1,
-                'user_id' => 2,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ],
+           
         ]);
     }
 }

@@ -67,8 +67,8 @@
                     <v-col cols="12" sm="6" md="12">
                       <base-text-area
                         label="Acciones"
-                        v-model.trim="$v.editedItem.description_action.$model"
-                        :validation="$v.editedItem.description_action"
+                        v-model.trim="$v.editedItem.action_description.$model"
+                        :validation="$v.editedItem.action_description"
                         validationTextType="default"
                         :validationsInput="{
                           required: true,
@@ -86,7 +86,7 @@
                       <base-select
                         label="Resultado"
                         v-model.trim="$v.editedItem.result_description.$model"
-                        :items="results_cusca"
+                        :items="resultsCusca"
                         item="result_description"
                         :validation="$v.editedItem.result_description"
                       />
@@ -257,7 +257,7 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "ACCIÓN", value: "description_action" },
+      { text: "ACCIÓN", value: "action_description" },
       { text: "RESULTADO", value: "result_description" },
       { text: "FINANCIAMIENTO", value: "financing_name" },
       { text: "RESPONSABLE", value: "responsable_name" },
@@ -271,7 +271,7 @@ export default {
     recordsFiltered: [],
     editedIndex: -1,
     editedItem: {
-      description_action: "",
+      action_description: "",
       annual_actions: "",
       responsable_name: "",
       user_name: "",
@@ -281,7 +281,7 @@ export default {
       executed: "",
     },
     defaultItem: {
-      description_action: "",
+      action_description: "",
       annual_actions: "",
       responsable_name: "",
       user_name: "",
@@ -295,7 +295,7 @@ export default {
     alertEvent: "success",
     showAlert: false,
     users: [],
-    results_cusca: [],
+    resultsCusca: [],
     years: [],
     financings: [],
     redirectSessionFinished: false,
@@ -304,7 +304,7 @@ export default {
   // Validations
   validations: {
     editedItem: {
-      description_action: {
+      action_description: {
         required,
         minLength: minLength(1),
         maxLength: maxLength(500),
@@ -379,14 +379,19 @@ export default {
       });
 
       if (responses && responses[0].data.message == "success") {
-        this.records = responses[0].data.actions_cusca;
+        this.records = responses[0].data.actionsCusca;
         this.users = responses[1].data.users;
-        this.results_cusca = responses[2].data.resultsCusca;
+        this.resultsCusca = responses[2].data.resultsCusca;
         this.years = responses[3].data.years;
         this.financings = responses[4].data.financings;
         // console.log(responses);
 
-        // this.editedItem.user_name = this.users[0].user_name;
+        this.editedItem.user_name = this.users[0].user_name;
+        this.editedItem.result_description =
+          this.resultsCusca[0].result_description;
+        this.editedItem.value = this.years[0].value;
+        this.editedItem.financing_name = this.financings[0].financing_name;
+
         this.recordsFiltered = this.records;
       }
     },

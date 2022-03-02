@@ -422,7 +422,7 @@ export default {
         this.trakingStatuses = responses[2].data.trakingStatuses;
         this.years = responses[3].data.years;
         this.months = responses[4].data.months;
-        this.actions = responses[5].data.actions_cusca;
+        this.actions = responses[5].data.actionsCusca;
         this.observations = responses[6].data.trackingObservationsCusca;
         // console.log(responses);
 

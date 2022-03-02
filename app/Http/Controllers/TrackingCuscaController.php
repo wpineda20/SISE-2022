@@ -36,6 +36,13 @@ class TrackingCuscaController extends Controller
         ->join('traking_statuses as ts', 'tracking_cusca.traking_status_id', '=', 'ts.id')
         ->join('tracking_observation_cusca as toc', 'tracking_cusca.tracking_observation_cusca_id', '=', 'toc.id')
         ->get();
+
+        $user = User::all();
+        $month = Month::all();
+        $year = Year::all();
+        $status = TrakingStatus::all();
+        $observation = TrackingObservationCusca::all();
+        $action_description = ActionsCusca::all();
         
         $trackingsCusca = EncryptController::encryptArray($trackingsCusca, ['id', 'user_id', 'year_id', 
         'month_id', 'traking_status_id', 'actions_cusca_id', 'tracking_observation_cusca_id']);
