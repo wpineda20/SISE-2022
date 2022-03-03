@@ -85,15 +85,16 @@
                     <!-- Tracking Detail -->
 
                     <!-- Users -->
-                    <v-col cols="12" sm="6" md="6">
+                    <!-- <v-col cols="12" sm="6" md="6">
                       <base-select
                         label="Usuario"
                         v-model.trim="$v.editedItem.user_name.$model"
                         :items="users"
                         item="user_name"
                         :validation="$v.editedItem.user_name"
+                        :readonly="true"
                       />
-                    </v-col>
+                    </v-col> -->
                     <!-- Users -->
                     <!-- Month -->
                     <v-col cols="12" sm="6" md="6">
@@ -297,7 +298,7 @@ export default {
       action_description: "",
       month_name: "",
       budget_executed: "",
-      user_name: "",
+      // user_name: "",
       value: "",
       status_name: "",
       monthly_actions: "",
@@ -309,7 +310,7 @@ export default {
       action_description: "",
       month_name: "",
       budget_executed: "",
-      user_name: "",
+      // user_name: "",
       value: "",
       status_name: "",
       monthly_actions: "",
@@ -349,9 +350,9 @@ export default {
         minLength: minLength(1),
         maxLength: maxLength(10),
       },
-      user_name: {
-        required,
-      },
+      // user_name: {
+      //   required,
+      // },
       month_name: {
         required,
       },
@@ -365,7 +366,7 @@ export default {
         required,
       },
       executed: {
-        required,
+        // required,
       },
       observation: {
         required,
@@ -435,7 +436,7 @@ export default {
       this.dialog = true;
       this.editedIndex = this.recordsFiltered.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.$v.editedItem.user_name.$model = this.editedItem.user_name;
+      // this.$v.editedItem.user_name.$model = this.editedItem.user_name;
       this.$v.editedItem.status_name.$model = this.editedItem.status_name;
       this.$v.editedItem.value.$model = this.editedItem.value;
       this.$v.editedItem.month_name.$model = this.editedItem.month_name;
@@ -462,14 +463,20 @@ export default {
           this.close();
         });
 
-      if (res.data.message == "success") {
+        if(res.data.reason){
+            this.updateAlert(
+            true,
+            res.data.reason,
+            "fail"
+          );
+        }
+
+      if (res.data.message == "success" && !res.data.reason) {
         this.redirectSessionFinished = lib.verifySessionFinished(
           res.status,
           200
         );
         this.updateAlert(true, "Registro eliminado.", "success");
-      } else {
-        this.updateAlert(true, "No se pudo eliminar el registro.", "fail");
       }
 
       this.initialize();
@@ -495,7 +502,7 @@ export default {
 
     async save() {
       this.$v.$touch();
-      if (this.$v.$invalid || this.editedItem.user_name == "") {
+      if (this.$v.$invalid) {
         this.updateAlert(true, "Campos obligatorios.", "fail");
 
         return;
@@ -505,7 +512,7 @@ export default {
         const res = await trackingCuscaApi
           .put(`/${this.editedItem.id}`, this.editedItem)
           .catch((error) => {
-            this.updateAlert(true, "No fue posible crear el registro.", "fail");
+            this.updateAlert(true, "No fue posible modificar el registro.", "fail");
             this.close();
             this.redirectSessionFinished = lib.verifySessionFinished(
               error.response.status,
@@ -513,7 +520,15 @@ export default {
             );
           });
 
-        if (res.data.message == "success") {
+          if(res.data.reason){
+            this.updateAlert(
+            true,
+            res.data.reason,
+            "fail"
+          );
+          }
+
+        if (res.data.message == "success" && !res.data.reason) {
           this.updateAlert(
             true,
             "Registro actualizado correctamente.",

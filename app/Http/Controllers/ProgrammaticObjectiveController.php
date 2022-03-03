@@ -18,6 +18,7 @@ class ProgrammaticObjectiveController extends Controller
      */
     public function index()
     {
+
         $programmaticObjectives = Programmatic_Objective::select(
             'programmatic_objectives.id',
             'programmatic_objectives.description',
@@ -27,6 +28,7 @@ class ProgrammaticObjectiveController extends Controller
         )
         ->join('institutions as inst', 'programmatic_objectives.institution_id', '=', 'inst.id')
         ->join('users as user', 'programmatic_objectives.user_id', '=', 'user.id')
+        ->join('organizational_units as ou', 'user.organizational_units_id', '=', 'ou.id')
         ->get();
 
         $programmaticObjectives = EncryptController::encryptArray($programmaticObjectives, ['id', 'institution_id', 'user_id']);
@@ -58,7 +60,7 @@ class ProgrammaticObjectiveController extends Controller
         $user = User::where('user_name', $request->user_name)->first();
 
         $data['institution_id'] = $institution->id;
-        $data['user_id'] = $user->id;
+        $data['user_id'] = auth()->user()->id;
         $data['executed'] = ($data['executed'])?"SI":"NO";
 
         Programmatic_Objective::insert($data);
@@ -105,7 +107,7 @@ class ProgrammaticObjectiveController extends Controller
         $data = EncryptController::decryptModel($request->except(['institution_name', 'user_name']), 'id');
 
         $data['institution_id'] = $institution->id;
-        $data['user_id'] = $user->id;
+        $data['user_id'] = auth()->user()->id;
         $data['executed'] = ($data['executed'])?"SI":"NO";
 
         Programmatic_Objective::where('id', $data['id'])->update($data);
