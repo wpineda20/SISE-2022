@@ -71,4 +71,11 @@ class RoleController extends Controller
 
         return response()->json(['message' => 'success', 'roles' => $roles]);
     }
+
+    public static function getAllowedRoles()
+    {
+        $roles = auth()->user()->getRoleNames();
+
+        return $roles;
+    }
 }

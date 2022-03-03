@@ -92,10 +92,11 @@
                         :items="institutions"
                         item="institution_name"
                         :validation="$v.editedItem.institution_name"
+                        :readonly="true"
                       />
                     </v-col>
                     <!-- Institution -->
-                    <!-- User -->
+                    <!-- User
                     <v-col cols="12" sm="6" md="6">
                       <base-select
                         label="Usuario"
@@ -105,7 +106,7 @@
                         :validation="$v.editedItem.user_name"
                       />
                     </v-col>
-                    <!-- User -->
+                    User -->
                     <!-- Executed -->
                     <v-col cols="12" sm="6" md="6" class="pt-0">
                       <v-checkbox
@@ -211,13 +212,13 @@ export default {
     recordsFiltered: [],
     editedIndex: -1,
     editedItem: {
-      user_name: "",
+      /*user_name: "",*/
       institution_name: "",
       description: "",
       executed: "",
     },
     defaultItem: {
-      user_name: "",
+      /*user_name: "",*/
       institution_name: "",
       description: "",
       executed: "",
@@ -236,9 +237,9 @@ export default {
       executed: {
         required,
       },
-      user_name: {
+      /*user_name: {
         required,
-      },
+      },*/
       institution_name: {
         required,
       },
@@ -302,7 +303,7 @@ export default {
       this.dialog = true;
       this.editedIndex = this.recordsFiltered.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.$v.editedItem.user_name.$model = this.editedItem.user_name;
+      //this.$v.editedItem.user_name.$model = this.editedItem.user_name;
       this.$v.editedItem.institution_name.$model =
         this.editedItem.institution_name;
     },
