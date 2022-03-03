@@ -6,6 +6,7 @@
       :label="label"
       :items="items"
       :item-text="item"
+      :readonly="readonly"
       v-model="validation.$model"
       class="p-0 mt-0"
       @change="$emit('change', validation.$model)"
@@ -41,6 +42,10 @@ export default {
     item: {
       type: String,
       default: "name",
+    },
+    readonly: {
+      type: Boolean,
+      default: false,
     },
   },
   mounted() {
