@@ -35,10 +35,10 @@ class ActionsCuscaController extends Controller
         ->join('financings as f', 'actions_cusca.financings_id', '=', 'f.id')
         ->get();
         
-        $users = User::all();
-        $resultsCusca = ResultsCusca::all();
-        $years = Year::all();
-        $financings = Financing::all();
+        // $users = User::all();
+        // $resultsCusca = ResultsCusca::all();
+        // $years = Year::all();
+        // $financings = Financing::all();
         
         $actionsCusca = EncryptController::encryptArray($actionsCusca, ['id', 'user_id', 
         'results_cusca_id','year_id','financings_id']);

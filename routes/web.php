@@ -47,7 +47,19 @@ Route::get('/', function () {
 Auth::routes(['verify' => true, 'remember_me'=>false]);
 
 Route::group(['middleware'=> ['auth', 'verified']], function () {
+
+
+       Route::group(['middleware'=> ['has.role:Administrador,Enlace,Auditor']], function () {
+        //Reports
+        Route::get('generate-pdf', [PDFController::class, 'generatePDF']);
+        Route::get('/api/role/user', [RoleController::class, 'getActualUserRoles']);
+        Route::post('/api/user/actualUserRole', [UserController::class, 'getActualUserRoles']);
+    });
+    
     Route::group(['middleware'=>['has.role:Administrador']], function () {
+
+     
+
         // Apis
         
         Route::resource('/api/direction', DirectionController::class);
@@ -178,17 +190,10 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
         Route::resource('/api/role', RoleController::class);
     });
 
-    Route::group(['middleware'=> ['has.role:Administrador,Enlace,Auditor']], function () {
-        //Reports
-        Route::get('generate-pdf', [PDFController::class, 'generatePDF']);
-        Route::get('/api/role/user', [RoleController::class, 'getActualUserRoles']);
-        Route::post('/api/user/actualUserRole', [UserController::class, 'getActualUserRoles']);
-    });
-
+    
     //Excel
     Route::get('export', [ExcelController::class, 'export']);
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-
 });
 
 Route::post('import', [ExcelController::class, 'import']);

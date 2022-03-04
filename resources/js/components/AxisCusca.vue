@@ -22,15 +22,10 @@
           <v-toolbar-title>Ejes</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="600px" persistent>
-            <template v-slot:activator="{ on, attrs }">
+            <template v-slot:activator="{}">
               <v-row>
                 <v-col align="end">
-                  <v-btn
-                    class="mb-2 btn-normal"
-                    v-bind="attrs"
-                    v-on="on"
-                    rounded
-                  >
+                  <v-btn class="mb-2 btn-normal" rounded @click="openModal">
                     Agregar
                   </v-btn>
                 </v-col>
@@ -105,7 +100,7 @@
                       />
                     </v-col>
                     <!-- Users -->
-                     <!-- Executed -->
+                    <!-- Executed -->
                     <v-col cols="12" sm="6" md="6" class="pt-0">
                       <v-checkbox
                         v-model="$v.editedItem.executed.$model"
@@ -188,11 +183,7 @@ import userApi from "../apis/userApi";
 import programmaticObjectiveApi from "../apis/programmaticObjectiveApi";
 import axisCuscaApi from "../apis/axisCuscaApi";
 import lib from "../libs/function";
-import {
-  required,
-  minLength,
-  maxLength,
-} from "vuelidate/lib/validators";
+import { required, minLength, maxLength } from "vuelidate/lib/validators";
 
 export default {
   data: () => ({
@@ -213,13 +204,13 @@ export default {
       user_name: "",
       description: "",
       axis_description: "",
-      executed: "",
+      executed: false,
     },
     defaultItem: {
       user_name: "",
       description: "",
       axis_description: "",
-      executed: "",
+      executed: false,
     },
     textAlert: "",
     alertEvent: "success",
@@ -430,6 +421,14 @@ export default {
 
     updateTimeOut(event) {
       this.redirectSessionFinished = event;
+    },
+
+    openModal() {
+      this.dialog = true;
+      this.editedItem.user_name = this.users[0].user_name;
+      this.editedItem.description = this.descriptions[0].description;
+      this.editedItem.axis_description = "";
+      this.editedItem.executed = false;
     },
   },
 };

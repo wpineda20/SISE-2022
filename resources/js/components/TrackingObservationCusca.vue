@@ -22,15 +22,10 @@
           <v-toolbar-title>Observaciones de Seguimientos</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="600px" persistent>
-            <template v-slot:activator="{ on, attrs }">
+            <template v-slot:activator="{}">
               <v-row>
                 <v-col align="end">
-                  <v-btn
-                    class="mb-2 btn-normal"
-                    v-bind="attrs"
-                    v-on="on"
-                    rounded
-                  >
+                  <v-btn class="mb-2 btn-normal" rounded @click="openModal">
                     Agregar
                   </v-btn>
                 </v-col>
@@ -360,9 +355,6 @@ export default {
         this.actions = responses[3].data.actionsCusca;
         // console.log(responses);
 
-        this.editedItem.value = this.years[0].value;
-        this.editedItem.month_name = this.months[0].month_name;
-
         this.recordsFiltered = this.records;
       }
     },
@@ -503,6 +495,16 @@ export default {
 
     updateTimeOut(event) {
       this.redirectSessionFinished = event;
+    },
+
+    openModal() {
+      this.dialog = true;
+      this.editedItem.value = this.years[0].value;
+      this.editedItem.month_name = this.months[0].month_name;
+      this.editedItem.action_description = this.actions[0].action_description;
+      this.editedItem.observation = "";
+      this.editedItem.observation_reply = "";
+      this.editedItem.reply_date = "";
     },
   },
 };

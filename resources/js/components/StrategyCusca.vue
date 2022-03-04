@@ -22,15 +22,10 @@
           <v-toolbar-title>Estrategias</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="600px" persistent>
-            <template v-slot:activator="{ on, attrs }">
+            <template v-slot:activator="{}">
               <v-row>
                 <v-col align="end">
-                  <v-btn
-                    class="mb-2 btn-normal"
-                    v-bind="attrs"
-                    v-on="on"
-                    rounded
-                  >
+                  <v-btn class="mb-2 btn-normal" @click="openModal" rounded>
                     Agregar
                   </v-btn>
                 </v-col>
@@ -447,6 +442,15 @@ export default {
 
     updateTimeOut(event) {
       this.redirectSessionFinished = event;
+    },
+
+    openModal() {
+      this.dialog = true;
+      this.editedItem.user_name = this.users[0].user_name;
+      this.editedItem.ou_name = this.organizational_units[0].ou_name;
+      this.editedItem.description = this.programmatic_objectives[0].description;
+      this.editedItem.description_strategy = "";
+      this.editedItem.executed = false;
     },
   },
 };

@@ -131,9 +131,9 @@
                                 <li><a href="{{ url('/resultsCuscatlan') }}">Resultados</a></li>
                                 <li><a href="{{ url('/actionsCuscatlan') }}">Acciones</a></li>
                                 @endrole
-                                @role('Enlace')
+                                @hasanyrole('Administrador|Enlace')
                                 <li><a href="{{ url('/trackingCuscatlan') }}">Seguimientos</a></li>
-                                @endrole
+                                @endhasanyrole
                                 @role('Administrador')
                                 <li><a href="{{ url('/trackingObservationsCuscatlan') }}">Observaciones de seguimientos</a></li>
                                 @endrole

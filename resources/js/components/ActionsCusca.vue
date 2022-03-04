@@ -22,15 +22,10 @@
           <v-toolbar-title>Acciones</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="600px" persistent>
-            <template v-slot:activator="{ on, attrs }">
+            <template v-slot:activator="{}">
               <v-row>
                 <v-col align="end">
-                  <v-btn
-                    class="mb-2 btn-normal"
-                    v-bind="attrs"
-                    v-on="on"
-                    rounded
-                  >
+                  <v-btn class="mb-2 btn-normal" rounded @click="openModal">
                     Agregar
                   </v-btn>
                 </v-col>
@@ -272,23 +267,23 @@ export default {
     editedIndex: -1,
     editedItem: {
       action_description: "",
-      annual_actions: "",
+      annual_actions: 0,
       responsable_name: "",
       user_name: "",
       result_description: "",
       value: "",
       financing_name: "",
-      executed: "",
+      executed: false,
     },
     defaultItem: {
       action_description: "",
-      annual_actions: "",
+      annual_actions: 0,
       responsable_name: "",
       user_name: "",
       result_description: "",
       value: "",
       financing_name: "",
-      executed: "",
+      executed: false,
     },
 
     textAlert: "",
@@ -385,12 +380,6 @@ export default {
         this.years = responses[3].data.years;
         this.financings = responses[4].data.financings;
         // console.log(responses);
-
-        this.editedItem.user_name = this.users[0].user_name;
-        this.editedItem.result_description =
-          this.resultsCusca[0].result_description;
-        this.editedItem.value = this.years[0].value;
-        this.editedItem.financing_name = this.financings[0].financing_name;
 
         this.recordsFiltered = this.records;
       }
@@ -533,6 +522,19 @@ export default {
 
     updateTimeOut(event) {
       this.redirectSessionFinished = event;
+    },
+
+    openModal() {
+      this.dialog = true;
+      this.editedItem.user_name = this.users[0].user_name;
+      this.editedItem.result_description =
+        this.resultsCusca[0].result_description;
+      this.editedItem.value = this.years[0].value;
+      this.editedItem.financing_name = this.financings[0].financing_name;
+      this.editedItem.action_description = "";
+      this.editedItem.responsable_name = "";
+      this.editedItem.annual_actions = 0;
+      this.editedItem.executed = false;
     },
   },
 };
