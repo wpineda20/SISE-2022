@@ -22,15 +22,10 @@
           <v-toolbar-title>Resultados</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="600px" persistent>
-            <template v-slot:activator="{ on, attrs }">
+            <template v-slot:activator="{}">
               <v-row>
                 <v-col align="end">
-                  <v-btn
-                    class="mb-2 btn-normal"
-                    v-bind="attrs"
-                    v-on="on"
-                    rounded
-                  >
+                  <v-btn class="mb-2 btn-normal" @click="openModal" rounded>
                     Agregar
                   </v-btn>
                 </v-col>
@@ -276,7 +271,7 @@ export default {
     editedItem: {
       result_description: "",
       responsible_name: "",
-      executed: "",
+      executed: false,
       user_name: "",
       axis_description: "",
       indicator_name: "",
@@ -287,7 +282,7 @@ export default {
     defaultItem: {
       result_description: "",
       responsible_name: "",
-      executed: "",
+      executed: false,
       user_name: "",
       axis_description: "",
       indicator_name: "",
@@ -544,6 +539,19 @@ export default {
 
     updateTimeOut(event) {
       this.redirectSessionFinished = event;
+    },
+
+    openModal() {
+      this.dialog = true;
+      this.editedItem.user_name = this.users[0].user_name;
+      this.editedItem.indicator_name = this.indicators[0].indicator_name;
+      this.editedItem.period_name = this.periods[0].period_name;
+      this.editedItem.value = this.years[0].value;
+      this.editedItem.ou_name = this.organizationalUnits[0].ou_name;
+      this.editedItem.axis_description = this.axisCuscas[0].axis_description;
+      this.editedItem.executed = false;
+      this.editedItem.result_description = "";
+      this.editedItem.responsible_name = "";
     },
   },
 };

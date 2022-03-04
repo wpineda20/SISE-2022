@@ -39,7 +39,7 @@ class TrackingCuscaController extends Controller
 
          $trackingsCusca = TrackingCusca::select('tracking_cusca.id', 'tracking_detail', 'tracking_cusca.executed', 
         'monthly_actions', 'budget_executed', 'action_description', 
-        'u.user_name', 'value', 'month_name', 'status_name', 'observation', 'u.institution_id')
+        'u.user_name', 'value', 'month_name', 'status_name', 'observation')
         ->join('users as u', 'tracking_cusca.user_id', '=', 'u.id')
         ->join('years as y', 'tracking_cusca.year_id', '=', 'y.id')
         ->join('months as m', 'tracking_cusca.month_id', '=', 'm.id')

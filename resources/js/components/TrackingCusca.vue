@@ -22,15 +22,10 @@
           <v-toolbar-title>Seguimientos</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="600px" persistent>
-            <template v-slot:activator="{ on, attrs }">
+            <template v-slot:activator="{}">
               <v-row>
                 <v-col align="end">
-                  <v-btn
-                    class="mb-2 btn-normal"
-                    v-bind="attrs"
-                    v-on="on"
-                    rounded
-                  >
+                  <v-btn class="mb-2 btn-normal" rounded @click="openModal">
                     Agregar
                   </v-btn>
                 </v-col>
@@ -297,24 +292,24 @@ export default {
       tracking_detail: "",
       action_description: "",
       month_name: "",
-      budget_executed: "",
+      budget_executed: 0,
       // user_name: "",
       value: "",
       status_name: "",
-      monthly_actions: "",
-      executed: "",
+      monthly_actions: 0,
+      executed: false,
       observation: "",
     },
     defaultItem: {
       tracking_detail: "",
       action_description: "",
       month_name: "",
-      budget_executed: "",
+      budget_executed: 0,
       // user_name: "",
       value: "",
       status_name: "",
-      monthly_actions: "",
-      executed: "",
+      monthly_actions: 0,
+      executed: false,
       observation: "",
     },
 
@@ -427,7 +422,6 @@ export default {
         this.observations = responses[6].data.trackingObservationsCusca;
         // console.log(responses);
 
-        // this.editedItem.user_name = this.users[0].user_name;
         this.recordsFiltered = this.records;
       }
     },
@@ -463,13 +457,9 @@ export default {
           this.close();
         });
 
-        if(res.data.reason){
-            this.updateAlert(
-            true,
-            res.data.reason,
-            "fail"
-          );
-        }
+      if (res.data.reason) {
+        this.updateAlert(true, res.data.reason, "fail");
+      }
 
       if (res.data.message == "success" && !res.data.reason) {
         this.redirectSessionFinished = lib.verifySessionFinished(
@@ -512,7 +502,11 @@ export default {
         const res = await trackingCuscaApi
           .put(`/${this.editedItem.id}`, this.editedItem)
           .catch((error) => {
-            this.updateAlert(true, "No fue posible modificar el registro.", "fail");
+            this.updateAlert(
+              true,
+              "No fue posible modificar el registro.",
+              "fail"
+            );
             this.close();
             this.redirectSessionFinished = lib.verifySessionFinished(
               error.response.status,
@@ -520,13 +514,9 @@ export default {
             );
           });
 
-          if(res.data.reason){
-            this.updateAlert(
-            true,
-            res.data.reason,
-            "fail"
-          );
-          }
+        if (res.data.reason) {
+          this.updateAlert(true, res.data.reason, "fail");
+        }
 
         if (res.data.message == "success" && !res.data.reason) {
           this.updateAlert(
@@ -585,6 +575,20 @@ export default {
 
     updateTimeOut(event) {
       this.redirectSessionFinished = event;
+    },
+
+    openModal() {
+      this.dialog = true;
+      // this.editedItem.user_name = users[0].user_name;
+      this.editedItem.month_name = this.months[0].month_name;
+      this.editedItem.value = this.years[0].value;
+      this.editedItem.status_name = this.trakingStatuses[0].status_name;
+      this.editedItem.action_description = this.actions[0].action_description;
+      this.editedItem.observation = this.observations[0].observation;
+      this.editedItem.tracking_detail = "";
+      this.editedItem.budget_executed = 0;
+      this.editedItem.monthly_actions = 0;
+      this.editedItem.executed = false;
     },
   },
 };

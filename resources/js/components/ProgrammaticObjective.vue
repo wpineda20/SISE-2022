@@ -22,15 +22,10 @@
           <v-toolbar-title>Objetivos programáticos</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="600px" persistent>
-            <template v-slot:activator="{ on, attrs }">
+            <template v-slot:activator="{}">
               <v-row>
                 <v-col align="end">
-                  <v-btn
-                    class="mb-2 btn-normal"
-                    v-bind="attrs"
-                    v-on="on"
-                    rounded
-                  >
+                  <v-btn class="mb-2 btn-normal" rounded @click="openModal">
                     Agregar
                   </v-btn>
                 </v-col>
@@ -92,7 +87,7 @@
                         :items="institutions"
                         item="institution_name"
                         :validation="$v.editedItem.institution_name"
-                        :readonly="true"
+                        :readonly="false"
                       />
                     </v-col>
                     <!-- Institution -->
@@ -190,11 +185,7 @@ import institutionApi from "../apis/institutionApi";
 import userApi from "../apis/userApi";
 import programmaticObjectiveApi from "../apis/programmaticObjectiveApi";
 import lib from "../libs/function";
-import {
-  required,
-  minLength,
-  maxLength,
-} from "vuelidate/lib/validators";
+import { required, minLength, maxLength } from "vuelidate/lib/validators";
 
 export default {
   data: () => ({
@@ -215,13 +206,13 @@ export default {
       /*user_name: "",*/
       institution_name: "",
       description: "",
-      executed: "",
+      executed: false,
     },
     defaultItem: {
       /*user_name: "",*/
       institution_name: "",
       description: "",
-      executed: "",
+      executed: false,
     },
     textAlert: "",
     alertEvent: "success",
@@ -281,6 +272,7 @@ export default {
           params: { skip: 0, take: 200 },
         }),
         institutionApi.get(),
+        userApi.get("/actualUserRole"),
       ];
       let responses = await Promise.all(requests).catch((error) => {
         this.updateAlert(true, "No fue posible obtener los registros.", "fail");
@@ -294,6 +286,8 @@ export default {
         this.records = responses[0].data.programmatic_objectives;
         this.users = responses[1].data.users;
         this.institutions = responses[2].data.institutions;
+
+        // console.log(responses);
 
         this.recordsFiltered = this.records;
       }
@@ -433,6 +427,13 @@ export default {
 
     updateTimeOut(event) {
       this.redirectSessionFinished = event;
+    },
+
+    openModal() {
+      this.dialog = true;
+      this.editedItem.institution_name = this.institutions[0].institution_name;
+      this.editedItem.description = "";
+      this.editedItem.executed = false;
     },
   },
 };
