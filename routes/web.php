@@ -154,6 +154,16 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
         Route::get('/trackingObservationsCuscatlan', function () {
             return view('tracking_observation_cusca.index');
         });
+
+        // Reports Cusca
+        Route::get('/reportsCuscatlan', function () {
+            return view('reports_cusca.index');
+        });
+
+        // Graphics Cusca
+        Route::get('/graphicsCuscatlan', function () {
+            return view('graphics_cusca.index');
+        });
     });
 
     Route::group(['middleware'=> ['has.role:Administrador,Enlace,Auditor']], function () {
