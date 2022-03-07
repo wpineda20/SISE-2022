@@ -261,12 +261,12 @@
                         @role('Administrador|Auditor|Enlace')
                         <!-- Reportes -->
                         <li>
+                            <a href="{{ url('/reportsCuscatlan') }}" class="mb-1">
                             <div class="icon-link">
-                                <a href="{{ url('/municipalities') }}" class="mb-1">
                                     <i class="material-icons md-19">description</i>
                                     <p class="link">Reportes</p>
-                                </a>
-                            </div>
+                                </div>
+                            </a>    
                         </li>
                         @endrole
                         <!-- Reportes -->
@@ -274,12 +274,12 @@
                         @if (auth()->user()->hasRole('Administrador'))
                         <!-- Gráficos -->
                             <li>
+                                <a href="{{ url('/graphicsCuscatlan') }}" class="mb-1">
                                 <div class="icon-link">
-                                    <a href="{{ url('/municipalities') }}" class="mb-1">
                                         <i class="material-icons md-19">leaderboard</i>
                                         <p class="link">Gráficos</p>
-                                    </a>
-                                </div>
+                                    </div>
+                                </a>
                             </li>
                             <!-- Gráficos -->
                         @endif
