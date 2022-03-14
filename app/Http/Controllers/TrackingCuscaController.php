@@ -22,7 +22,7 @@ class TrackingCuscaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $roles = RoleController::getAllowedRoles();
         $filters = [];
@@ -33,6 +33,20 @@ class TrackingCuscaController extends Controller
                         'ou.id'=>auth()->user()->organizational_units_id,
                         'inst.id' => auth()->user()->institution_id
                     ];
+                    break;
+            }
+        }
+
+        if (isset($request->filter)) {
+            switch($request->filter){
+                case "Mensuales": 
+                    $filters['m.id'] = intval(date('n'));
+                    break;
+                case "Atrasados": 
+                    $filters['ts.status_name'] = "Atrasado";
+                    break;
+                case "Completados": 
+                    $filters['ts.status_name'] = "Completado";
                     break;
             }
         }
@@ -55,7 +69,7 @@ class TrackingCuscaController extends Controller
         
         $trackingsCusca = EncryptController::encryptArray($trackingsCusca, ['id', 'user_id', 'year_id', 
         'month_id', 'traking_status_id', 'actions_cusca_id', 'tracking_observation_cusca_id']);
-
+        // dd($trackingsCusca);
         return response()->json(['message' => 'success', 'trackingsCusca'=>$trackingsCusca]);
         
     }

@@ -47,15 +47,18 @@ class UserSeeder extends Seeder
         ]);
         $admin->assignRole($roleAdmin);
 
-        // $admin = User::create([
-        //     'id' => 3,
-        //     'name' => 'Tzec',
-        //     'dui' => '12345678-1',
-        //     'email' => 'giovanni.tzec@gmail.com',
-        //     'password' => Hash::make('12345678'),
-        //     'name' => 'Tzec',
-        //     'email_verified_at' => now(),
-        // ]);
-        // $admin->assignRole($roleAdmin);
+        $admin = User::create([
+            'id' => 3,
+            'user_name' => 'leolopez48',
+            'name' => 'Leonel Antonio López Valencia',
+            'job_title' => 'Ingeniero',
+            'phone' => '7941-9348',
+            'organizational_units_id' => 1,
+            // 'institution_id' => 2,
+            'email' => 'leonellopez647@gmail.com',
+            'password' => Hash::make('Leonel23'),
+            'email_verified_at' => now(),
+        ]);
+        $admin->assignRole($roleAdmin);
     }
 }

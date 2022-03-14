@@ -17,12 +17,11 @@ class TrackingObservationCuscaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
 
         $trackingObservationsCusca = TrackingObservationCusca::select('tracking_observation_cusca.id', 'observation', 
         'observation_reply', 'reply_date', 'month_name', 'value', 'action_description')
-        
         ->join('years as y', 'tracking_observation_cusca.year_id', '=', 'y.id')
         ->join('months as m', 'tracking_observation_cusca.month_id', '=', 'm.id')
         ->join('actions_cusca as ac', 'tracking_observation_cusca.actions_cusca_id', '=', 'ac.id')

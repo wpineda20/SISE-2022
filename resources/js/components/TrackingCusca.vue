@@ -11,6 +11,17 @@
       @show-alert="updateAlert($event)"
       class="mb-2"
     />
+
+    <div class="container">
+      <v-row>
+        <v-tabs>
+          <v-tab @click="filterTracking('Mensuales')">Mensuales</v-tab>
+          <v-tab @click="filterTracking('Atrasados')">Atrasados</v-tab>
+          <v-tab @click="filterTracking('Completados')">Completados</v-tab>
+        </v-tabs>
+     </v-row>
+    </div>
+
     <v-data-table
       :headers="headers"
       :items="recordsFiltered"
@@ -394,7 +405,11 @@ export default {
       this.recordsFiltered = [];
 
       let requests = [
-        trackingCuscaApi.get(),
+        trackingCuscaApi.get(null, {
+        params: {
+          filter: "Mensuales"
+        }
+      }),
         userApi.get(null, {
           params: { skip: 0, take: 200 },
         }),
@@ -420,7 +435,6 @@ export default {
         this.months = responses[4].data.months;
         this.actions = responses[5].data.actionsCusca;
         this.observations = responses[6].data.trackingObservationsCusca;
-        // console.log(responses);
 
         this.recordsFiltered = this.records;
       }
@@ -589,6 +603,28 @@ export default {
       this.editedItem.budget_executed = 0;
       this.editedItem.monthly_actions = 0;
       this.editedItem.executed = false;
+    },
+
+    async filterTracking(filter ="Mensuales"){
+      const response = await trackingCuscaApi.get(null, {
+        params: {
+          filter: filter
+        }
+      })
+      .catch((error) => {
+        this.updateAlert(
+          true,
+          "No fue posible obtener los registro del filtro.",
+          "fail"
+        );
+        this.redirectSessionFinished = lib.verifySessionFinished(
+          error.response.status,
+          419
+        );
+      });
+
+      this.records = response.data.trackingsCusca;
+      this.recordsFiltered = this.records;
     },
   },
 };
