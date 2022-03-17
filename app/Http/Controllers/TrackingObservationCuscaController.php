@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Crypt;
 use App\Models\TrackingObservationCusca;
-use App\Models\ActionsCusca;
+use App\Models\trakingCusca;
 use App\Models\Year;
 use App\Models\Month;
 use Illuminate\Http\Request;
@@ -19,21 +19,24 @@ class TrackingObservationCuscaController extends Controller
      */
     public function index(Request $request)
     {
-
-        $trackingObservationsCusca = TrackingObservationCusca::select('tracking_observation_cusca.id', 'observation', 
-        'observation_reply', 'reply_date', 'month_name', 'value', 'action_description')
-        ->join('years as y', 'tracking_observation_cusca.year_id', '=', 'y.id')
+        $trackingObservationsCusca = TrackingObservationCusca::select(
+            'tracking_observation_cusca.id',
+            'observation',
+            'observation_reply',
+            'reply_date',
+            'month_name',
+            'value',
+            'action_description'
+        )
+        ->join('years as y', 'tracking_cusca.year_id', '=', 'y.id')
         ->join('months as m', 'tracking_observation_cusca.month_id', '=', 'm.id')
-        ->join('actions_cusca as ac', 'tracking_observation_cusca.actions_cusca_id', '=', 'ac.id')
+        ->join('tracking_cusca as ac', 'tracking_observation_cusca.tracking_cusca_id', '=', 'ac.id')
         ->get();
 
-        // $trackingObservationsCusca = TrackingObservationCusca::all();
-        $years = Year::all();
-        $months = Month::all();
-        $actionsCusca = ActionsCusca::all();
-
-        $trackingObservationsCusca = EncryptController::encryptArray($trackingObservationsCusca, 
-        ['id', 'year_id', 'month_id', 'actions_cusca_id']);
+        $trackingObservationsCusca = EncryptController::encryptArray(
+            $trackingObservationsCusca,
+            ['id', 'year_id', 'month_id', 'tracking_cusca_id']
+        );
 
         return response()->json(['message' => 'success', 'trackingObservationsCusca' => $trackingObservationsCusca]);
     }
@@ -46,25 +49,19 @@ class TrackingObservationCuscaController extends Controller
      */
     public function store(Request $request)
     {
-         // dd($request->all());
         $data = $request->except(['month_name', 'value', 'action_description']);
 
         $month = Month::where('month_name', $request->month_name)->first();
         $year = Year::where('value', $request->value)->first();
-        $actionsCusca = ActionsCusca::where('action_description', $request->action_description)->first();
-        // dd($data);
-        
+        $trackingCusca = TrackingCusca::where('action_description', $request->action_description)->first();
+
         $data['month_id'] = $month->id;
         $data['year_id'] = $year->id;
-        $data['actions_cusca_id'] = $actionsCusca->id;
+        $data['tracking_cusca_id'] = $trackingCusca->id;
 
         TrackingObservationCusca::insert($data);
 
         return response()->json(['message'=>'success']);
-
-        // TrackingObservationCusca::insert($request->all());
-
-        // return response()->json(['message'=>'success']);
     }
 
     /**
@@ -87,19 +84,17 @@ class TrackingObservationCuscaController extends Controller
      */
     public function update(Request $request)
     {
-       //  dd($request->all());
         $data = $request->except(['month_name', 'value']);
-        // dd($data);
+
         $month = Month::where('month_name', $request->month_name)->first();
         $year = Year::where('value', $request->value)->first();
-        $actionsCusca = ActionsCusca::where('action_description', $request->action_description)->first();
+        $trakingCusca = TrakingCusca::where('tracking_detail', $request->action_description)->first();
 
         $data = EncryptController::decryptModel($request->except(['month_name', 'value', 'action_description']), 'id');
 
         $data['year_id'] = $year->id;
         $data['month_id'] = $month->id;
-        $data['actions_cusca_id'] = $actionsCusca->id;
-        // dd($data);
+        $data['traking_cusca_id'] = $trakingCusca->id;
 
         TrackingObservationCusca::where('id', $data['id'])->update($data);
         return response()->json(["message"=>"success"]);

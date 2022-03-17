@@ -37,19 +37,26 @@ class TrackingCuscaController extends Controller
         if (isset($request->filter)) {
             switch ($request->filter) {
                 case "Mensuales":
-                    $filters['m.id'] = intval(date('n'));
+                    $month = "m.id = ".intval(date('n'));
+                    $filters['ts.status_name'] = "En proceso";
                     break;
-                case "Atrasados":
+                case "Atrasado":
+                    $month = "m.id <= ".intval(date('n'));
                     $filters['ts.status_name'] = "Atrasado";
+                    $filters['tracking_cusca.executed'] = 'NO';
                     break;
-                case "Completados":
+                case "Completado":
+                    $month = "m.id <= ".intval(date('n'));
                     $filters['ts.status_name'] = "Completado";
+
                     break;
             }
         }
 
+        $filters['y.value'] = date('Y');
+
         $trackingsCusca = TrackingCusca::select(
-            'tracking_cusca.id',
+            'tracking_cusca.id as id',
             'tracking_detail',
             'tracking_cusca.executed',
             'monthly_actions',
@@ -59,7 +66,8 @@ class TrackingCuscaController extends Controller
             'value',
             'month_name',
             'status_name',
-            'observation'
+            'tracking_cusca.observation',
+            'reply'
         )
         ->join('users as u', 'tracking_cusca.user_id', '=', 'u.id')
         ->join('years as y', 'tracking_cusca.year_id', '=', 'y.id')
@@ -70,8 +78,9 @@ class TrackingCuscaController extends Controller
         ->join('directions as di', 'ou.direction_id', '=', 'di.id')
         ->join('institutions as inst', 'di.institution_id', '=', 'inst.id')
         ->join('traking_statuses as ts', 'tracking_cusca.traking_status_id', '=', 'ts.id')
-        ->join('tracking_observation_cusca as toc', 'tracking_cusca.tracking_observation_cusca_id', '=', 'toc.id')
         ->where($filters)
+        ->whereRaw($month)
+        ->orderBy('id', 'desc')
         ->get();
 
         $trackingsCusca = EncryptController::encryptArray($trackingsCusca, ['id', 'user_id', 'year_id',
@@ -95,15 +104,16 @@ class TrackingCuscaController extends Controller
         $action_description = ActionsCusca::where('action_description', $request->action_description)->first();
         $year = Year::where('value', $request->value)->first();
         $status = TrakingStatus::where('status_name', $request->status_name)->first();
-        $observation = TrackingObservationCusca::where('observation', $request->observation)->first();
 
         $data['user_id'] = auth()->user()->id;
         $data['month_id'] = $month->id;
         $data['actions_cusca_id'] = $action_description->id;
         $data['year_id'] = $year->id;
         $data['traking_status_id'] = $status->id;
-        $data['tracking_observation_cusca_id'] = $observation->id;
         $data['executed'] = ($data['executed'])?"SI":"NO";
+        $data['observation'] = $request->observation;
+        $data['reply'] = $request->reply;
+        $data['tracking_detail'] = $request->tracking_detail;
 
         TrackingCusca::insert($data);
 
@@ -134,11 +144,11 @@ class TrackingCuscaController extends Controller
         'observation']);
         if (auth()->user()->user_name == $request->user_name || auth()->user()->hasRole('Administrador')) {
             $user = User::where('user_name', $request->user_name)->first();
+
             $month = Month::where('month_name', $request->month_name)->first();
             $year = Year::where('value', $request->value)->first();
             $action_description = ActionsCusca::where('action_description', $request->action_description)->first();
             $status = TrakingStatus::where('status_name', $request->status_name)->first();
-            $observation = TrackingObservationCusca::where('observation', $request->observation)->first();
 
             $data = EncryptController::decryptModel($request->except(['user_name', 'month_name', 'action_description',
             'value', 'status_name', 'observation']), 'id');
@@ -149,8 +159,10 @@ class TrackingCuscaController extends Controller
             $model->month_id = $month->id;
             $model->actions_cusca_id = $action_description->id;
             $model->traking_status_id = $status->id;
-            $model->tracking_observation_cusca_id = $observation->id;
             $model->executed = ($data['executed'])?"SI":"NO";
+            $model->observation = $request->observation;
+            $model->reply = $request->reply;
+            $model->tracking_detail = $request->tracking_detail;
 
             $model->save();
 

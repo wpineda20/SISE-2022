@@ -15,12 +15,13 @@ class CreateTrackingObservationCuscasTable extends Migration
     {
         Schema::create('tracking_observation_cusca', function (Blueprint $table) {
             $table->id();
-            $table->string('observation', 500);
             $table->string('observation_reply', 500)->nullable();
             $table->date('reply_date')->nullable();
-             $table->foreignId('year_id')->references('id')->on('years');
+            $table->string('observation', 500)->nullable();
+            $table->string('reply', 500)->nullable();
+            $table->foreignId('year_id')->references('id')->on('years');
             $table->foreignId('month_id')->references('id')->on('months');
-            $table->foreignId('actions_cusca_id')->references('id')->on('actions_cusca');
+            // $table->foreignId('tracking_cusca_id')->references('id')->on('tracking_cusca');
             $table->softDeletes();
             $table->timestamps();
         });

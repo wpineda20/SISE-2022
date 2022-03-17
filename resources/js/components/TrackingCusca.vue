@@ -16,10 +16,10 @@
       <v-row>
         <v-tabs>
           <v-tab @click="filterTracking('Mensuales')">Mensuales</v-tab>
-          <v-tab @click="filterTracking('Atrasados')">Atrasados</v-tab>
-          <v-tab @click="filterTracking('Completados')">Completados</v-tab>
+          <v-tab @click="filterTracking('Atrasado')">Atrasados</v-tab>
+          <v-tab @click="filterTracking('Completado')">Completados</v-tab>
         </v-tabs>
-     </v-row>
+      </v-row>
     </div>
 
     <v-data-table
@@ -192,6 +192,54 @@
                       ></v-checkbox>
                     </v-col>
                     <!-- Executed -->
+
+                    <!-- Observation -->
+                    <v-col
+                      cols="12"
+                      sm="12"
+                      md="12"
+                      v-if="role == 'Administrador'"
+                    >
+                      <base-text-area
+                        label="Observación"
+                        v-model.trim="$v.editedItem.observation.$model"
+                        :validation="$v.editedItem.observation"
+                        validationTextType="default"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                          maxLength: true,
+                        }"
+                        :min="1"
+                        :max="500"
+                        :rows="3"
+                      />
+                    </v-col>
+                    <!-- Observation -->
+
+                    <!-- Reply -->
+                    <v-col
+                      cols="12"
+                      sm="12"
+                      md="12"
+                      v-if="role == 'Administrador'"
+                    >
+                      <base-text-area
+                        label="Respuesta"
+                        v-model.trim="$v.editedItem.reply.$model"
+                        :validation="$v.editedItem.reply"
+                        validationTextType="default"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                          maxLength: true,
+                        }"
+                        :min="1"
+                        :max="500"
+                        :rows="3"
+                      />
+                    </v-col>
+                    <!-- Reply -->
                   </v-row>
                   <!-- Form -->
                   <v-row>
@@ -268,8 +316,8 @@ import yearApi from "../apis/yearApi";
 import monthApi from "../apis/monthApi";
 import trakingStatusApi from "../apis/trakingStatusApi";
 import trackingCuscaApi from "../apis/trackingCuscaApi";
-import trackingObservationCuscaApi from "../apis/trackingObservationCuscaApi";
 import actionsCuscaApi from "../apis/actionsCuscaApi";
+import roleApi from "../apis/roleApi";
 import lib from "../libs/function";
 import {
   required,
@@ -310,6 +358,7 @@ export default {
       monthly_actions: 0,
       executed: false,
       observation: "",
+      reply: "",
     },
     defaultItem: {
       tracking_detail: "",
@@ -322,6 +371,7 @@ export default {
       monthly_actions: 0,
       executed: false,
       observation: "",
+      reply: "",
     },
 
     textAlert: "",
@@ -335,6 +385,8 @@ export default {
     observations: [],
 
     redirectSessionFinished: false,
+    filter: "Mensuales",
+    role: "",
   }),
 
   // Validations
@@ -371,14 +423,18 @@ export default {
       status_name: {
         required,
       },
-      executed: {
-        // required,
-      },
+      executed: {},
       observation: {
-        required,
+        minLength: minLength(0),
+        maxLength: maxLength(500),
+      },
+      reply: {
+        minLength: minLength(0),
+        maxLength: maxLength(500),
       },
     },
   },
+
   // Validations
   computed: {
     formTitle() {
@@ -406,10 +462,10 @@ export default {
 
       let requests = [
         trackingCuscaApi.get(null, {
-        params: {
-          filter: "Mensuales"
-        }
-      }),
+          params: {
+            filter: this.filter,
+          },
+        }),
         userApi.get(null, {
           params: { skip: 0, take: 200 },
         }),
@@ -417,7 +473,7 @@ export default {
         yearApi.get(),
         monthApi.get(),
         actionsCuscaApi.get(),
-        trackingObservationCuscaApi.get(),
+        roleApi.get("/user"),
       ];
       let responses = await Promise.all(requests).catch((error) => {
         this.updateAlert(true, "No fue posible obtener los registros.", "fail");
@@ -434,7 +490,7 @@ export default {
         this.years = responses[3].data.years;
         this.months = responses[4].data.months;
         this.actions = responses[5].data.actionsCusca;
-        this.observations = responses[6].data.trackingObservationsCusca;
+        this.role = responses[6].data.roles[0];
 
         this.recordsFiltered = this.records;
       }
@@ -444,13 +500,14 @@ export default {
       this.dialog = true;
       this.editedIndex = this.recordsFiltered.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      // this.$v.editedItem.user_name.$model = this.editedItem.user_name;
-      this.$v.editedItem.status_name.$model = this.editedItem.status_name;
-      this.$v.editedItem.value.$model = this.editedItem.value;
-      this.$v.editedItem.month_name.$model = this.editedItem.month_name;
-      this.$v.editedItem.action_description.$model =
-        this.editedItem.action_description;
-      this.$v.editedItem.observation.$model = this.editedItem.observation;
+
+      this.editedItem.status_name = this.editedItem.status_name;
+      this.editedItem.value = this.editedItem.value;
+      this.editedItem.month_name = this.editedItem.month_name;
+      this.editedItem.action_description = this.editedItem.action_description;
+      this.editedItem.observation = this.editedItem.observation;
+      this.editedItem.executed =
+        this.editedItem.executed == "SI" ? true : false;
     },
 
     deleteItem(item) {
@@ -593,35 +650,39 @@ export default {
 
     openModal() {
       this.dialog = true;
-      // this.editedItem.user_name = users[0].user_name;
+
       this.editedItem.month_name = this.months[0].month_name;
-      this.editedItem.value = this.years[0].value;
+      this.editedItem.value = new Date().getFullYear();
       this.editedItem.status_name = this.trakingStatuses[0].status_name;
       this.editedItem.action_description = this.actions[0].action_description;
-      this.editedItem.observation = this.observations[0].observation;
       this.editedItem.tracking_detail = "";
+      this.editedItem.observation = "";
+      this.editedItem.reply = "";
       this.editedItem.budget_executed = 0;
       this.editedItem.monthly_actions = 0;
       this.editedItem.executed = false;
     },
 
-    async filterTracking(filter ="Mensuales"){
-      const response = await trackingCuscaApi.get(null, {
-        params: {
-          filter: filter
-        }
-      })
-      .catch((error) => {
-        this.updateAlert(
-          true,
-          "No fue posible obtener los registro del filtro.",
-          "fail"
-        );
-        this.redirectSessionFinished = lib.verifySessionFinished(
-          error.response.status,
-          419
-        );
-      });
+    async filterTracking(filter = "Mensuales") {
+      this.filter = filter;
+
+      const response = await trackingCuscaApi
+        .get(null, {
+          params: {
+            filter: filter,
+          },
+        })
+        .catch((error) => {
+          this.updateAlert(
+            true,
+            "No fue posible obtener los registro del filtro.",
+            "fail"
+          );
+          this.redirectSessionFinished = lib.verifySessionFinished(
+            error.response.status,
+            419
+          );
+        });
 
       this.records = response.data.trackingsCusca;
       this.recordsFiltered = this.records;

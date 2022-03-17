@@ -23,7 +23,7 @@ class TrackingObservationCuscaSeeder extends Seeder
                 'reply_date' => Carbon::now(),
                 'year_id' => 1,
                 'month_id' => 1,
-                'actions_cusca_id' => 1,
+                // 'actions_cusca_id' => 1,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
@@ -34,11 +34,11 @@ class TrackingObservationCuscaSeeder extends Seeder
                 'reply_date' => Carbon::now(),
                 'year_id' => 2,
                 'month_id' => 2,
-                'actions_cusca_id' => 2,
+                // 'actions_cusca_id' => 2,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
-           
+
         ]);
     }
 }

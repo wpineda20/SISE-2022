@@ -194,7 +194,7 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
         Route::resource('/api/month', MonthController::class);
         Route::resource('/api/year', YearController::class);
         Route::resource('/api/actionsCusca', ActionsCuscaController::class);
-        Route::resource('/api/trackingObservationCusca', TrackingObservationCuscaController::class);
+        // Route::resource('/api/trackingObservationCusca', TrackingObservationCuscaController::class);
         Route::resource('/api/trackingCusca', TrackingCuscaController::class);
 
         Route::resource('/api/user', UserController::class);
