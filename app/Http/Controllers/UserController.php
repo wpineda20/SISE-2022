@@ -160,6 +160,8 @@ class UserController extends Controller
     {
         $user = User::find(auth()->user()->id);
 
+        $user->id = EncryptController::encryptValue($user, 'id');
+
         return response()->json(['message'=> 'success', 'user'=> $user]);
     }
 }

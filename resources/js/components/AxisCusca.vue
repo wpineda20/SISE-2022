@@ -95,12 +95,17 @@
                     <!-- Objectives -->
                     <!-- Users -->
                     <v-col cols="12" sm="6" md="6">
-                      <base-select
+                      <base-select-search
                         label="Usuario"
                         v-model.trim="$v.editedItem.user_name.$model"
                         :items="users"
                         item="user_name"
                         :validation="$v.editedItem.user_name"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                        }"
+                        :readonly="true"
                       />
                     </v-col>
                     <!-- Users -->
@@ -222,6 +227,7 @@ export default {
     users: [],
     descriptions: [],
     redirectSessionFinished: false,
+    actualUser: {},
   }),
 
   // Validations
@@ -276,6 +282,7 @@ export default {
           params: { skip: 0, take: 200 },
         }),
         programmaticObjectiveApi.get(),
+        userApi.post("/actualUser"),
       ];
       let responses = await Promise.all(requests).catch((error) => {
         this.updateAlert(true, "No fue posible obtener los registros.", "fail");
@@ -289,6 +296,7 @@ export default {
         this.records = responses[0].data.axisCuscas;
         this.users = responses[1].data.users;
         this.descriptions = responses[2].data.programmatic_objectives;
+        this.actualUser = responses[3].data.user;
 
         this.recordsFiltered = this.records;
 
@@ -437,6 +445,7 @@ export default {
       this.editedItem.description = this.descriptions[0].description;
       this.editedItem.axis_description = "";
       this.editedItem.executed = false;
+      this.editedItem.user_name = this.actualUser.user_name;
     },
   },
 };

@@ -51,7 +51,7 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
         //Reports
         Route::get('generate-pdf', [PDFController::class, 'generatePDF']);
         Route::get('/api/role/user', [RoleController::class, 'getActualUserRoles']);
-        Route::post('/api/user/actualUserRole', [UserController::class, 'getActualUserRoles']);
+        Route::post('/api/user/actualUser', [UserController::class, 'actualUser']);
     });
 
     Route::group(['middleware'=>['has.role:Administrador']], function () {
