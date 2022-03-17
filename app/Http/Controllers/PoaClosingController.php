@@ -38,8 +38,8 @@ class PoaClosingController extends Controller
     public function store(Request $request)
     {
          // dd($request->all());
-        $data = $request->except('value');
-        $year = Year::where('value', $request->value)->first();
+        $data = $request->except('year_name');
+        $year = Year::where('year_name', $request->value)->first();
         $data['year_id'] = $year->id;
         PoaClosing::insert($data);
 
@@ -66,8 +66,8 @@ class PoaClosingController extends Controller
      */
     public function update(Request $request)
     {
-        $year = Year::where('value', $request->value)->first();
-        $data = EncryptController::decryptModel($request->except(['value']), 'id');
+        $year = Year::where('year_name', $request->value)->first();
+        $data = EncryptController::decryptModel($request->except(['year_name']), 'id');
         // dd($data, $year);
 
         $data['year_id'] = $year->id;

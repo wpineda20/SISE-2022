@@ -67,10 +67,10 @@
                     <v-col cols="12" sm="6" md="6">
                       <base-select
                         label="Año"
-                        v-model.trim="$v.editedItem.value.$model"
+                        v-model.trim="$v.editedItem.year_name.$model"
                         :items="years"
-                        item="value"
-                        :validation="$v.editedItem.value"
+                        item="year_name"
+                        :validation="$v.editedItem.year_name"
                       />
                     </v-col>
                     <!-- Years -->
@@ -176,7 +176,7 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "AÑO", value: "value" },
+      { text: "AÑO", value: "year_name" },
       { text: "MES", value: "month_name" },
       { text: "ACTIVO", value: "active" },
       { text: "ACCIONES", value: "actions", sortable: false },
@@ -186,12 +186,12 @@ export default {
     editedIndex: -1,
     editedItem: {
       active: "",
-      value: "",
+      year_name: "",
       month_name: "",
     },
     defaultItem: {
       active: "",
-      value: "",
+      year_name: "",
       month_name: "",
     },
     textAlert: "",
@@ -210,7 +210,7 @@ export default {
         minLength: minLength(1),
         maxLength: maxLength(150),
       },
-      value: {
+      year_name: {
         required,
       },
       month_name: {
@@ -266,7 +266,7 @@ export default {
       this.dialog = true;
       this.editedIndex = this.recordsFiltered.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.$v.editedItem.value.$model = this.editedItem.value;
+      this.$v.editedItem.year_name.$model = this.editedItem.year_name;
       this.$v.editedItem.month_name.$model = this.editedItem.month_name;
     },
 

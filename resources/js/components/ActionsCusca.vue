@@ -147,10 +147,10 @@
                     <v-col cols="12" sm="6" md="6">
                       <base-select
                         label="Año"
-                        v-model.trim="$v.editedItem.value.$model"
+                        v-model.trim="$v.editedItem.year_name.$model"
                         :items="years"
-                        item="value"
-                        :validation="$v.editedItem.value"
+                        item="year_name"
+                        :validation="$v.editedItem.year_name"
                       />
                     </v-col>
                     <!-- Years -->
@@ -258,7 +258,7 @@ export default {
       { text: "RESPONSABLE", value: "responsable_name" },
       { text: "NO. ACCIONES", value: "annual_actions" },
       { text: "EJECUTADO", value: "executed" },
-      { text: "AÑO", value: "value" },
+      { text: "AÑO", value: "year_name" },
       { text: "USUARIO", value: "user_name" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
@@ -271,7 +271,7 @@ export default {
       responsable_name: "",
       user_name: "",
       result_description: "",
-      value: "",
+      year_name: "",
       financing_name: "",
       executed: false,
     },
@@ -281,7 +281,7 @@ export default {
       responsable_name: "",
       user_name: "",
       result_description: "",
-      value: "",
+      year_name: "",
       financing_name: "",
       executed: false,
     },
@@ -315,7 +315,7 @@ export default {
       result_description: {
         required,
       },
-      value: {
+      year_name: {
         required,
       },
       executed: {
@@ -392,7 +392,7 @@ export default {
       this.$v.editedItem.user_name.$model = this.editedItem.user_name;
       this.$v.editedItem.result_description.$model =
         this.editedItem.result_description;
-      this.$v.editedItem.value.$model = this.editedItem.value;
+      this.$v.editedItem.year_name.$model = this.editedItem.year_name;
       this.$v.editedItem.financing_name.$model = this.editedItem.financing_name;
     },
 
@@ -529,7 +529,7 @@ export default {
       this.editedItem.user_name = this.users[0].user_name;
       this.editedItem.result_description =
         this.resultsCusca[0].result_description;
-      this.editedItem.value = this.years[0].value;
+      this.editedItem.year_name = this.years[0].year_name;
       this.editedItem.financing_name = this.financings[0].financing_name;
       this.editedItem.action_description = "";
       this.editedItem.responsable_name = "";

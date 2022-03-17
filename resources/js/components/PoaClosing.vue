@@ -67,10 +67,10 @@
                     <v-col cols="12" sm="6" md="12">
                       <base-select
                         label="Año"
-                        v-model.trim="$v.editedItem.value.$model"
+                        v-model.trim="$v.editedItem.year_name.$model"
                         :items="years"
-                        item="value"
-                        :validation="$v.editedItem.value"
+                        item="year_name"
+                        :validation="$v.editedItem.year_name"
                       />
                     </v-col>
                     <!-- Year -->
@@ -156,17 +156,17 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "AÑO", value: "value" },
+      { text: "AÑO", value: "year_name" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
     records: [],
     recordsFiltered: [],
     editedIndex: -1,
     editedItem: {
-      value: "",
+      year_name: "",
     },
     defaultItem: {
-      value: "",
+      year_name: "",
     },
     textAlert: "",
     alertEvent: "success",

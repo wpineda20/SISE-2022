@@ -18,7 +18,7 @@ class Year extends Model
 
     protected $fillable = [
         'id',
-        'value',
+        'year_name',
         'period_id',
     ];
 

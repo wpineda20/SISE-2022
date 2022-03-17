@@ -119,7 +119,7 @@
                       />
                     </v-col>
                     <!-- Axis -->
-                    <!-- Indicator -->
+                    <!-- Indicator 
                     <v-col cols="12" sm="6" md="6">
                       <base-select
                         label="Indicador"
@@ -129,7 +129,7 @@
                         :validation="$v.editedItem.indicator_name"
                       />
                     </v-col>
-                    <!-- Indicator -->
+                    Indicator -->
                     <!-- Users -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select
@@ -156,10 +156,10 @@
                     <v-col cols="12" sm="6" md="6">
                       <base-select
                         label="Año"
-                        v-model.trim="$v.editedItem.value.$model"
+                        v-model.trim="$v.editedItem.year_name.$model"
                         :items="years"
-                        item="value"
-                        :validation="$v.editedItem.value"
+                        item="year_name"
+                        :validation="$v.editedItem.year_name"
                       />
                     </v-col>
                     <!-- Years -->
@@ -244,7 +244,7 @@
 <script>
 import userApi from "../apis/userApi";
 import organizationalUnitApi from "../apis/organizationalUnitApi";
-import indicatorApi from "../apis/indicatorApi";
+//import indicatorApi from "../apis/indicatorApi";
 import axisCuscaApi from "../apis/axisCuscaApi";
 import resultsCuscaApi from "../apis/resultsCuscaApi";
 import periodApi from "../apis/periodApi";
@@ -260,13 +260,13 @@ export default {
     headers: [
       { text: "RESULTADO", value: "result_description" },
       { text: "EJE", value: "axis_description" },
-      { text: "INDICADOR", value: "indicator_name" },
+      //{ text: "INDICADOR", value: "indicator_name" },
       { text: "UNIDAD ORGANIZATIVA", value: "ou_name" },
       { text: "RESPONSABLE", value: "responsible_name" },
       { text: "EJECUTADO", value: "executed" },
       { text: "USUARIO", value: "user_name" },
       { text: "PERIODO", value: "period_name" },
-      { text: "AÑO", value: "value" },
+      { text: "AÑO", value: "year_name" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
     records: [],
@@ -278,10 +278,10 @@ export default {
       executed: false,
       user_name: "",
       axis_description: "",
-      indicator_name: "",
+      //indicator_name: "",
       ou_name: "",
       period_name: "",
-      value: "",
+      year_name: "",
     },
     defaultItem: {
       result_description: "",
@@ -289,10 +289,10 @@ export default {
       executed: false,
       user_name: "",
       axis_description: "",
-      indicator_name: "",
+      //indicator_name: "",
       ou_name: "",
       period_name: "",
-      value: "",
+      year_name: "",
     },
 
     textAlert: "",
@@ -300,7 +300,7 @@ export default {
     showAlert: false,
     users: [],
     axisCuscas: [],
-    indicators: [],
+    //indicators: [],
     organizationalUnits: [],
     periods: [],
     years: [],
@@ -330,17 +330,17 @@ export default {
       },
       axis_description: {
         required,
-      },
+      },/*
       indicator_name: {
         required,
-      },
+      },*/
       ou_name: {
         required,
       },
       period_name: {
         required,
       },
-      value: {
+      year_name: {
         required,
       },
     },
@@ -377,7 +377,7 @@ export default {
         }),
         axisCuscaApi.get(),
         organizationalUnitApi.get(),
-        indicatorApi.get(),
+        //indicatorApi.get(),
         periodApi.get(),
         yearApi.get(),
       ];
@@ -394,9 +394,9 @@ export default {
         this.users = responses[1].data.users;
         this.axisCuscas = responses[2].data.axisCuscas;
         this.organizationalUnits = responses[3].data.organizationalUnits;
-        this.indicators = responses[4].data.indicators;
-        this.periods = responses[5].data.periods;
-        this.years = responses[6].data.years;
+        //this.indicators = responses[4].data.indicators;
+        this.periods = responses[4].data.periods;
+        this.years = responses[5].data.years;
         // console.log(responses[4].data);
 
         // this.editedItem.user_name = this.users[0].user_name;
@@ -411,10 +411,10 @@ export default {
       this.$v.editedItem.user_name.$model = this.editedItem.user_name;
       this.$v.editedItem.axis_description.$model =
         this.editedItem.axis_description;
-      this.$v.editedItem.indicator_name.$model = this.editedItem.indicator_name;
+      //this.$v.editedItem.indicator_name.$model = this.editedItem.indicator_name;
       this.$v.editedItem.ou_name.$model = this.editedItem.ou_name;
       this.$v.editedItem.period_name.$model = this.editedItem.period_name;
-      this.$v.editedItem.value.$model = this.editedItem.value;
+      this.$v.editedItem.year_name.$model = this.editedItem.year_name;
     },
 
     deleteItem(item) {
@@ -548,9 +548,9 @@ export default {
     openModal() {
       this.dialog = true;
       this.editedItem.user_name = this.users[0].user_name;
-      this.editedItem.indicator_name = this.indicators[0].indicator_name;
+      //this.editedItem.indicator_name = this.indicators[0].indicator_name;
       this.editedItem.period_name = this.periods[0].period_name;
-      this.editedItem.value = this.years[0].value;
+      this.editedItem.year_name = this.years[0].year_name;
       this.editedItem.ou_name = this.organizationalUnits[0].ou_name;
       this.editedItem.axis_description = this.axisCuscas[0].axis_description;
       this.editedItem.executed = false;
