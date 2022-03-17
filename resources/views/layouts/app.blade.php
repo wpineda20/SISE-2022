@@ -59,7 +59,6 @@
 
                     <!-- Catálogos -->
                     @if (auth()->user()->hasRole(['Auditor', 'Enlace', 'Administrador']))
-                    
                         <li class="text-center">
                             <div class="icon-link">
                                 <a href="#" class="mb-1">
@@ -69,33 +68,33 @@
                             </div>
                             <ul class="sub-menu">
                                 @role('Administrador')
-                                {{-- // if your login user role is admin show the content here --}}
-                               
-                                 <li><a href="{{ url('/years') }}">Años</a></li>
-                                 <li><a href="{{ url('/poaClosings') }}">Cierre POA</a></li>
-                                 <li><a href="{{ url('/monthlyClosings') }}">Cierres mensuales</a></li>
-                                 <li><a href="{{ url('/directions') }}">Direcciones</a></li>
-                                 <li><a href="{{ url('/trakingStatus') }}">Estados de seguimiento</a></li>
-                                 <li><a href="{{ url('/financings') }}">Financiamientos</a></li>
-                                 @endrole
-                                 <li><a href="{{ url('/indicators') }}">Indicadores</a></li>
+                                    {{-- // if your login user role is admin show the content here --}}
 
-                                 @role('Administrador')
-                                 <li><a href="{{ url('/institutions') }}">Instituciones</a></li>
-                                 <li><a href="{{ url('/months') }}">Meses</a></li>
-                                 <li><a href="{{ url('/periods') }}">Períodos</a></li>
-                                 <li><a href="{{ url('/annualResults') }}">Resultados anuales</a></li>
-                                 <li><a href="{{ url('/units') }}">Unidades de medida</a></li>
-                                 <li><a href="{{ url('/organizationalUnits') }}">Unidades organizativas</a></li>
-                                 <li><a href="{{ url('/users') }}">Usuarios</a></li>   
-                                 @endrole
-                                
+                                    <li><a href="{{ url('/years') }}">Años</a></li>
+                                    <li><a href="{{ url('/poaClosings') }}">Cierre POA</a></li>
+                                    <li><a href="{{ url('/monthlyClosings') }}">Cierres mensuales</a></li>
+                                    <li><a href="{{ url('/directions') }}">Direcciones</a></li>
+                                    <li><a href="{{ url('/trakingStatus') }}">Estados de seguimiento</a></li>
+                                    <li><a href="{{ url('/financings') }}">Financiamientos</a></li>
+                                @endrole
+                                <li><a href="{{ url('/indicators') }}">Indicadores</a></li>
+
+                                @role('Administrador')
+                                    <li><a href="{{ url('/institutions') }}">Instituciones</a></li>
+                                    <li><a href="{{ url('/months') }}">Meses</a></li>
+                                    <li><a href="{{ url('/periods') }}">Períodos</a></li>
+                                    <li><a href="{{ url('/annualResults') }}">Resultados anuales</a></li>
+                                    <li><a href="{{ url('/units') }}">Unidades de medida</a></li>
+                                    <li><a href="{{ url('/organizationalUnits') }}">Unidades organizativas</a></li>
+                                    <li><a href="{{ url('/users') }}">Usuarios</a></li>
+                                @endrole
+
                             </ul>
                         </li>
                     @endif
                     <!-- Catálogos -->
-                   @if (auth()->user()->hasRole(['Enlace', 'Administrador']))
-                    <!-- Plan Desarrollo Social -->
+                    @if (auth()->user()->hasRole(['Enlace', 'Administrador']))
+                        <!-- Plan Desarrollo Social -->
                         <li>
                             <div class="icon-link">
                                 <a href="" class="mb-1">
@@ -105,17 +104,17 @@
                             </div>
                             <ul class="sub-menu">
                                 @role('Administrador')
-                                <li><a href="{{ url('/programmaticObjective ') }}">Resultado</a></li>   
-                                <li><a href="{{ url('/municipalities') }}">Resultados Intermedios</a></li>
-                                <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
+                                    <li><a href="{{ url('/programmaticObjective ') }}">Resultado</a></li>
+                                    <li><a href="{{ url('/municipalities') }}">Resultados Intermedios</a></li>
+                                    <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
                                 @endrole
                                 @role('Enlace')
-                                <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
+                                    <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
                                 @endrole
                             </ul>
                         </li>
-                    <!-- Plan Desarrollo Social -->
-                    <!-- Plan Cuscatlán -->
+                        <!-- Plan Desarrollo Social -->
+                        <!-- Plan Cuscatlán -->
                         <li>
                             <div class="icon-link">
                                 <a href="#" class="mb-1">
@@ -125,22 +124,23 @@
                             </div>
                             <ul class="sub-menu">
                                 @role('Administrador')
-                                <li><a href="{{ url('/programmaticObjective ') }}">Objetivos Programáticos</a></li>
-                                <li><a href="{{ url('/axisCuscatlan') }}">Ejes</a></li>
-                                <li><a href="{{ url('/strategyCusca') }}">Estrategias</a></li>
-                                <li><a href="{{ url('/resultsCuscatlan') }}">Resultados</a></li>
-                                <li><a href="{{ url('/actionsCuscatlan') }}">Acciones</a></li>
+                                    <li><a href="{{ url('/programmaticObjective ') }}">Objetivos Programáticos</a></li>
+                                    <li><a href="{{ url('/axisCuscatlan') }}">Ejes</a></li>
+                                    <li><a href="{{ url('/strategyCusca') }}">Estrategias</a></li>
+                                    <li><a href="{{ url('/resultsCuscatlan') }}">Resultados</a></li>
+                                    <li><a href="{{ url('/actionsCuscatlan') }}">Acciones</a></li>
                                 @endrole
                                 @hasanyrole('Administrador|Enlace')
-                                <li><a href="{{ url('/trackingCuscatlan') }}">Seguimientos</a></li>
+                                    <li><a href="{{ url('/trackingCuscatlan') }}">Seguimientos</a></li>
                                 @endhasanyrole
                                 @role('Administrador')
-                                <li><a href="{{ url('/trackingObservationsCuscatlan') }}">Observaciones de seguimientos</a></li>
+                                    <li><a href="{{ url('/trackingObservationsCuscatlan') }}">Observaciones de
+                                            seguimientos</a></li>
                                 @endrole
                             </ul>
                         </li>
-                    <!-- Plan Cuscatlán -->
-                    <!-- Política Crecer Juntos -->
+                        <!-- Plan Cuscatlán -->
+                        <!-- Política Crecer Juntos -->
                         <li>
                             <div class="icon-link ">
                                 <a href="#" class="mb-1">
@@ -150,18 +150,18 @@
                             </div>
                             <ul class="sub-menu">
                                 @role('Administrador')
-                                <li><a href="{{ url('/municipalities') }}">Resultado de Desarrollo</a></li>
-                                <li><a href="{{ url('/programmaticObjective ') }}">Ejes</a></li>   
-                                <li><a href="{{ url('/municipalities') }}">Resultados</a></li>
-                                <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
+                                    <li><a href="{{ url('/municipalities') }}">Resultado de Desarrollo</a></li>
+                                    <li><a href="{{ url('/programmaticObjective ') }}">Ejes</a></li>
+                                    <li><a href="{{ url('/municipalities') }}">Resultados</a></li>
+                                    <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
                                 @endrole
                                 @role('Enlace')
-                                <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
+                                    <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
                                 @endrole
                             </ul>
                         </li>
                         <!-- Política Crecer Juntos -->
-                    <!-- Plan Control Territorial -->
+                        <!-- Plan Control Territorial -->
                         <li>
                             <div class="icon-link ">
                                 <a href="#" class="mb-1">
@@ -171,17 +171,17 @@
                             </div>
                             <ul class="sub-menu">
                                 @role('Administrador')
-                                <li><a href="{{ url('/municipalities') }}">Componentes</a></li>
-                                <li><a href="{{ url('/programmaticObjective ') }}">Resultados</a></li>   
-                                <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
+                                    <li><a href="{{ url('/municipalities') }}">Componentes</a></li>
+                                    <li><a href="{{ url('/programmaticObjective ') }}">Resultados</a></li>
+                                    <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
                                 @endrole
                                 @role('Enlace')
-                                <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
+                                    <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
                                 @endrole
                             </ul>
                         </li>
                         <!-- Plan Control Territorial -->
-                    <!-- Programa de Inversión -->
+                        <!-- Programa de Inversión -->
                         <li>
                             <div class="icon-link">
                                 <a href="#" class="mb-1">
@@ -191,16 +191,16 @@
                             </div>
                             <ul class="sub-menu">
                                 @role('Administrador')
-                                <li><a href="{{ url('/programmaticObjective ') }}">Proyectos</a></li>   
-                                <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
+                                    <li><a href="{{ url('/programmaticObjective ') }}">Proyectos</a></li>
+                                    <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
                                 @endrole
                                 @role('Enlace')
-                                <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
+                                    <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
                                 @endrole
                             </ul>
                         </li>
                         <!-- Programa de Inversión -->
-                    <!-- Agenda Digital -->
+                        <!-- Agenda Digital -->
                         <li>
                             <div class="icon-link">
                                 <a href="#" class="mb-1">
@@ -210,33 +210,34 @@
                             </div>
                             <ul class="sub-menu">
                                 @role('Administrador')
-                                <li><a href="{{ url('/programmaticObjective ') }}">Resultado</a></li>   
-                                <li><a href="{{ url('/municipalities') }}">Actividades</a></li>
+                                    <li><a href="{{ url('/programmaticObjective ') }}">Resultado</a></li>
+                                    <li><a href="{{ url('/municipalities') }}">Actividades</a></li>
                                 @endrole
                                 @role('Enlace')
-                                <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
+                                    <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
                                 @endrole
                             </ul>
                         </li>
                         <!-- Agenda Digital -->
-                    <!-- Programación estratégica institucional -->
+                        <!-- Programación estratégica institucional -->
                         <li>
                             @role('Administrador')
-                            <div class="icon-link">
-                                <a href="#" class="mb-1">
-                                    <i class="material-icons md-19">folder_off</i>
-                                </a>
-                                <p class="link">SISE 2.0</p>
-                            </div>
-                            <ul class="sub-menu">
-                                <li><a href="https://10.30.0.121:8181/SISE/content/index.xhtml">Programación Estratégica Institucional</a></li>   
-                                <li><a href="https://10.30.0.121:8181/SISE/content/index.xhtml">Operativo</a></li>
-                            </ul>
+                                <div class="icon-link">
+                                    <a href="#" class="mb-1">
+                                        <i class="material-icons md-19">folder_off</i>
+                                    </a>
+                                    <p class="link">SISE 2.0</p>
+                                </div>
+                                <ul class="sub-menu">
+                                    <li><a href="https://10.30.0.121:8181/SISE/content/index.xhtml">Programación Estratégica
+                                            Institucional</a></li>
+                                    <li><a href="https://10.30.0.121:8181/SISE/content/index.xhtml">Operativo</a></li>
+                                </ul>
                             @endrole
                         </li>
                         <!-- Programación estratégica institucional -->
-                   
-                    <!-- Ejes transversales -->
+
+                        <!-- Ejes transversales -->
                         <li>
                             <div class="icon-link">
                                 <a href="#" class="mb-1">
@@ -246,43 +247,53 @@
                             </div>
                             <ul class="sub-menu">
                                 @role('Administrador')
-                                <li><a href="{{ url('/programmaticObjective ') }}">Ejes</a></li>   
-                                <li><a href="{{ url('/municipalities') }}">Resultados</a></li>
-                                <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
+                                    <li><a href="{{ url('/programmaticObjective ') }}">Ejes</a></li>
+                                    <li><a href="{{ url('/municipalities') }}">Resultados</a></li>
+                                    <li><a href="{{ url('/municipalities') }}">Acciones</a></li>
                                 @endrole
                                 @role('Enlace')
-                                <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
+                                    <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
                                 @endrole
                             </ul>
                         </li>
                         <!-- Ejes transversales -->
-                        @endif
+                    @endif
 
-                        @role('Administrador|Auditor|Enlace')
+                    @role('Administrador|Auditor|Enlace')
                         <!-- Reportes -->
                         <li>
-                            <a href="{{ url('/reportsCuscatlan') }}" class="mb-1">
                             <div class="icon-link">
+                                <a href="#" class="mb-1">
                                     <i class="material-icons md-19">description</i>
-                                    <p class="link">Reportes</p>
-                                </div>
-                            </a>    
-                        </li>
-                        @endrole
-                        <!-- Reportes -->
-                        
-                        @if (auth()->user()->hasRole('Administrador'))
-                        <!-- Gráficos -->
-                            <li>
-                                <a href="{{ url('/graphicsCuscatlan') }}" class="mb-1">
-                                <div class="icon-link">
-                                        <i class="material-icons md-19">leaderboard</i>
-                                        <p class="link">Gráficos</p>
-                                    </div>
                                 </a>
-                            </li>
-                            <!-- Gráficos -->
-                        @endif
+                                <p class="link">Reportes</p>
+                            </div>
+                            <ul class="sub-menu">
+                                @role('Administrador')
+                                    {{-- <li><a href="{{ url('/programmaticObjective') }}">Mensuales</a></li> --}}
+                                    <li><a href="{{ url('/municipalities') }}">Mensuales</a></li>
+                                    <li><a href="{{ url('/municipalities') }}">Acumulados</a></li>
+                                @endrole
+                                @role('Enlace')
+                                    <li><a href="{{ url('/municipalities') }}">Seguimientos</a></li>
+                                @endrole
+                            </ul>
+                        </li>
+                    @endrole
+                    <!-- Reportes -->
+
+                    @if (auth()->user()->hasRole('Administrador'))
+                        <!-- Gráficos -->
+                        <li>
+                            <a href="{{ url('/graphicsCuscatlan') }}" class="mb-1">
+                                <div class="icon-link">
+                                    <i class="material-icons md-19">leaderboard</i>
+                                    <p class="link">Gráficos</p>
+                                </div>
+                            </a>
+                        </li>
+                        <!-- Gráficos -->
+                    @endif
                     <!-- Logout -->
                     {{-- <li class="text-center pb-1">
                         <a href="{{ route('register') }}" class="text-center"
@@ -308,7 +319,7 @@
                         </a>
                     </li>
 
-                    {{--@if (Route::has('register'))
+                    {{-- @if (Route::has('register'))
                         <li class="text-center pb-1">
                             <a href="{{ url('/register') }}" class="text-center">
                                 <i class="material-icons md-18 mx-auto">person_add_alt_1</i>
@@ -317,7 +328,7 @@
                                 <p class="link mx-auto">Registrarse</p>
                             </a>
                         </li>
-                    @endif--}}
+                    @endif --}}
                 @endguest
                 <!-- Login/Logout -->
             </ul>
@@ -373,8 +384,8 @@
                                         <div class=" col-md-12 text-end">
                                             <a href="{{ url('/login') }}" class="btn btn-normal-nav shadow-none">Iniciar
                                                 sesión</a>
-                                            {{--<a href="{{ route('register') }}"
-                                                class="btn btn-normal-secondary-nav shadow-none">Registrarme</a>--}}
+                                            {{-- <a href="{{ route('register') }}"
+                                                class="btn btn-normal-secondary-nav shadow-none">Registrarme</a> --}}
                                         </div>
 
                                     </div>

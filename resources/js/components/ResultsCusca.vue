@@ -95,12 +95,16 @@
                     <!-- Responsible Name -->
                     <!-- Organizational Unit -->
                     <v-col cols="12" sm="6" md="6">
-                      <base-select
+                      <base-select-search
                         label="Unidad organizativa"
                         v-model.trim="$v.editedItem.ou_name.$model"
                         :items="organizationalUnits"
                         item="ou_name"
                         :validation="$v.editedItem.ou_name"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                        }"
                       />
                     </v-col>
                     <!-- Organizational Unit -->

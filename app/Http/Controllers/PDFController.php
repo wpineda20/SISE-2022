@@ -12,9 +12,19 @@ class PDFController extends Controller
     *
     * @return \Illuminate\Http\Response
     */
-    public function generatePDF()
+    public function generatePDF(Request $request)
     {
-        $data = [];
+        $ou_name = $request->ou_name;
+        $month_name = $request->month_name;
+        $value = $request->value;
+        $planification_name = $request->planification_name;
+        $type_name = $request->type_name;
+
+        switch ($planification_name) {
+            case "Plan cuscatlán":
+                dd("Plan cuscatlán");
+                break;
+        }
 
         $pdf = PDF::loadView('PDF.report', compact('data'));
 

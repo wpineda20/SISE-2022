@@ -72,34 +72,42 @@
                         }"
                         :min="1"
                         :max="500"
-                        :rows="2"
+                        :rows="4"
                       />
                     </v-col>
                     <!-- Description Estrategica-->
                     <!-- Objetivo Programatico -->
                     <v-col cols="12" sm="6" md="6">
-                      <base-select
+                      <base-select-search
                         label="Objetivo Programático"
                         v-model.trim="$v.editedItem.description.$model"
                         :items="programmatic_objectives"
                         item="description"
                         :validation="$v.editedItem.description"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                        }"
                       />
                     </v-col>
                     <!-- Objetivo Programatico -->
                     <!-- Unidad Organizativa -->
                     <v-col cols="12" sm="6" md="6">
-                      <base-select
+                      <base-select-search
                         label="Unidad Organizativa"
                         v-model.trim="$v.editedItem.ou_name.$model"
                         :items="organizational_units"
                         item="ou_name"
                         :validation="$v.editedItem.ou_name"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                        }"
                       />
                     </v-col>
                     <!-- Unidad Organizativa -->
                     <!-- User -->
-                    <v-col cols="12" sm="6" md="6">
+                    <v-col cols="12" sm="6" md="6" class="mt-2">
                       <base-select
                         label="Usuario"
                         v-model.trim="$v.editedItem.user_name.$model"
@@ -110,7 +118,7 @@
                     </v-col>
                     <!-- User -->
                     <!-- Executed -->
-                    <v-col cols="12" sm="6" md="6" class="pt-0">
+                    <v-col cols="12" sm="6" md="6" class="pt-2">
                       <v-checkbox
                         v-model="$v.editedItem.executed.$model"
                         label="Ejecutado"
@@ -242,9 +250,11 @@ export default {
       },
       ou_name: {
         required,
+        minLength: minLength(1),
       },
       description: {
         required,
+        minLength: minLength(1),
       },
       description_strategy: {
         required,

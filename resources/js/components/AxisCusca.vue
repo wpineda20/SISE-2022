@@ -74,18 +74,22 @@
                         }"
                         :min="1"
                         :max="500"
-                        :rows="2"
+                        :rows="4"
                       />
                     </v-col>
                     <!-- Axis -->
                     <!-- Objectives -->
                     <v-col cols="12" sm="6" md="6">
-                      <base-select
+                      <base-select-search
                         label="Objetivo programático"
                         v-model.trim="$v.editedItem.description.$model"
                         :items="descriptions"
                         item="description"
                         :validation="$v.editedItem.description"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                        }"
                       />
                     </v-col>
                     <!-- Objectives -->
@@ -229,10 +233,12 @@ export default {
         maxLength: maxLength(500),
       },
       user_name: {
+        minLength: minLength(1),
         required,
       },
       description: {
         required,
+        minLength: minLength(1),
       },
       executed: {
         required,
@@ -285,6 +291,8 @@ export default {
         this.descriptions = responses[2].data.programmatic_objectives;
 
         this.recordsFiltered = this.records;
+
+        this.editedItem.user_name = this.users[0].user_name;
       }
     },
 

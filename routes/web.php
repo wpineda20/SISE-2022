@@ -47,38 +47,30 @@ Route::get('/', function () {
 Auth::routes(['verify' => true, 'remember_me'=>false]);
 
 Route::group(['middleware'=> ['auth', 'verified']], function () {
-
-
-       Route::group(['middleware'=> ['has.role:Administrador,Enlace,Auditor']], function () {
+    Route::group(['middleware'=> ['has.role:Administrador,Enlace,Auditor']], function () {
         //Reports
         Route::get('generate-pdf', [PDFController::class, 'generatePDF']);
         Route::get('/api/role/user', [RoleController::class, 'getActualUserRoles']);
         Route::post('/api/user/actualUserRole', [UserController::class, 'getActualUserRoles']);
     });
-    
+
     Route::group(['middleware'=>['has.role:Administrador']], function () {
-
-     
-
         // Apis
-        
         Route::resource('/api/direction', DirectionController::class);
         Route::resource('/api/financing', FinancingController::class);
         Route::resource('/api/monthlyClosing', MonthlyClosingController::class);
         Route::resource('/api/period', PeriodController::class);
         Route::resource('/api/poaClosing', PoaClosingController::class);
-        
+
         Route::resource('/api/programmaticObjective', ProgrammaticObjectiveController::class);
         Route::resource('/api/strategyCusca', StrategyCuscaController::class);
         Route::resource('/api/axisCusca', AxisCuscaController::class);
         Route::resource('/api/resultsCusca', ResultsCuscaController::class);
-        
+
         Route::resource('/api/user', UserController::class);
         Route::resource('/api/role', RoleController::class);
-        
+
         // Views
-        
-       
         Route::get('/users', function () {
             return view('user.index');
         });
@@ -94,7 +86,7 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
         Route::get('/institutions', function () {
             return view('institution.index');
         });
-        
+
         Route::get('/monthlyClosings', function () {
             return view('monthly_closing.index');
         });
@@ -150,7 +142,7 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
         Route::get('/actionsCuscatlan', function () {
             return view('actions_cusca.index');
         });
-        
+
         Route::get('/trackingObservationsCuscatlan', function () {
             return view('tracking_observation_cusca.index');
         });
@@ -183,6 +175,15 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
             return view('tracking_cusca.index');
         });
 
+        Route::get('/reports', function () {
+            return view('reports.index');
+        });
+
+        Route::get(
+            '/generatePdf/{ou_name}/{month_name}/{value}/{planification_name}/{type_name}',
+            [PDFController::class, 'generatePdf']
+        );
+
         Route::resource('/api/indicator', IndicatorController::class);
         Route::resource('/api/institution', InstitutionController::class);
         Route::resource('/api/unit', UnitController::class);
@@ -195,12 +196,11 @@ Route::group(['middleware'=> ['auth', 'verified']], function () {
         Route::resource('/api/actionsCusca', ActionsCuscaController::class);
         Route::resource('/api/trackingObservationCusca', TrackingObservationCuscaController::class);
         Route::resource('/api/trackingCusca', TrackingCuscaController::class);
-      
+
         Route::resource('/api/user', UserController::class);
         Route::resource('/api/role', RoleController::class);
     });
 
-    
     //Excel
     Route::get('export', [ExcelController::class, 'export']);
     Route::get('/home', [HomeController::class, 'index'])->name('home');
