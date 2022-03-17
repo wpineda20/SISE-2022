@@ -308,8 +308,11 @@ export default {
       this.dialog = true;
       this.editedIndex = this.recordsFiltered.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.$v.editedItem.user_name.$model = this.editedItem.user_name;
-      this.$v.editedItem.description.$model = this.editedItem.description;
+      this.editedItem.user_name = this.editedItem.user_name;
+
+      this.editedItem.executed =
+        this.editedItem.executed == "SI" ? true : false;
+      this.editedItem.description = this.editedItem.description;
     },
 
     deleteItem(item) {

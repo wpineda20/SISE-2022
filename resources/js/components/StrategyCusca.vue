@@ -114,6 +114,7 @@
                         :items="users"
                         item="user_name"
                         :validation="$v.editedItem.user_name"
+                        :readonly="true"
                       />
                     </v-col>
                     <!-- User -->
@@ -240,6 +241,7 @@ export default {
     organizational_units: [],
     programmatic_objectives: [],
     redirectSessionFinished: false,
+    actualUser: {},
   }),
 
   // Validations
@@ -298,6 +300,7 @@ export default {
         strategyCuscaApi.get(),
         programmaticObjectiveApi.get(),
         organizationalUnitApi.get(),
+        userApi.post("/actualUser"),
       ];
       let responses = await Promise.all(requests).catch((error) => {
         this.updateAlert(true, "No fue posible obtener los registros.", "fail");
@@ -313,7 +316,8 @@ export default {
         this.programmatic_objectives =
           responses[2].data.programmatic_objectives;
         this.organizational_units = responses[3].data.organizationalUnits;
-        //console.log(responses);
+        this.actualUser = responses[4].data.user;
+
         this.recordsFiltered = this.records;
       }
     },
@@ -322,9 +326,11 @@ export default {
       this.dialog = true;
       this.editedIndex = this.recordsFiltered.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.$v.editedItem.user_name.$model = this.editedItem.user_name;
-      this.$v.editedItem.ou_name.$model = this.editedItem.ou_name;
-      this.$v.editedItem.description.$model = this.editedItem.description;
+      this.editedItem.executed =
+        this.editedItem.executed == "SI" ? true : false;
+      this.editedItem.user_name = this.editedItem.user_name;
+      this.editedItem.ou_name = this.editedItem.ou_name;
+      this.editedItem.description = this.editedItem.description;
     },
 
     deleteItem(item) {
@@ -456,7 +462,7 @@ export default {
 
     openModal() {
       this.dialog = true;
-      this.editedItem.user_name = this.users[0].user_name;
+      this.editedItem.user_name = this.actualUser.user_name;
       this.editedItem.ou_name = this.organizational_units[0].ou_name;
       this.editedItem.description = this.programmatic_objectives[0].description;
       this.editedItem.description_strategy = "";

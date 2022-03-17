@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use DB;
 use Crypt;
 use App\Models\User;
@@ -23,10 +22,20 @@ class ResultsCuscaController extends Controller
      */
     public function index()
     {
-        $resultsCusca = ResultsCusca::select('results_cusca.id', 'result_description', 'responsible_name', 
-        'results_cusca.executed', 'user_name', 'axis_description', 'indicator_name', 'ou_name', 'value', 'period_name')
+        $resultsCusca = ResultsCusca::select(
+            'results_cusca.id',
+            'result_description',
+            'responsible_name',
+            'results_cusca.executed',
+            'user_name',
+            'axis_description',
+            'indicator_name',
+            'ou_name',
+            'value',
+            'period_name'
+        )
 
-       
+
         ->join('users as u', 'results_cusca.user_id', '=', 'u.id')
         ->join('axis_cusca as a', 'results_cusca.axis_cusca_id', '=', 'a.id')
         ->join('indicators as i', 'results_cusca.indicator_id', '=', 'i.id')
@@ -34,12 +43,11 @@ class ResultsCuscaController extends Controller
         ->join('years as y', 'results_cusca.year_id', '=', 'y.id')
         ->join('periods as p', 'results_cusca.period_id', '=', 'p.id')
         ->get();
-        
-        $resultsCusca = EncryptController::encryptArray($resultsCusca, ['id', 'user_id', 'axis_cusca_id', 
+
+        $resultsCusca = EncryptController::encryptArray($resultsCusca, ['id', 'user_id', 'axis_cusca_id',
         'indicator_id', 'organizational_units_id', 'year_id', 'period_id']);
 
         return response()->json(['message' => 'success', 'resultsCusca'=>$resultsCusca]);
-
     }
 
     /**
@@ -50,7 +58,7 @@ class ResultsCuscaController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except(['user_name', 'axis_description', 'indicator_name', 'ou_name', 'value', 
+        $data = $request->except(['user_name', 'axis_description', 'indicator_name', 'ou_name', 'value',
         'period_name']);
 
         $user = User::where('user_name', $request->user_name)->first();

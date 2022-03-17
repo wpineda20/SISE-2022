@@ -121,12 +121,16 @@
                     <!-- Axis -->
                     <!-- Indicator -->
                     <v-col cols="12" sm="6" md="6">
-                      <base-select
+                      <base-select-search
                         label="Indicador"
                         v-model.trim="$v.editedItem.indicator_name.$model"
                         :items="indicators"
                         item="indicator_name"
                         :validation="$v.editedItem.indicator_name"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                        }"
                       />
                     </v-col>
                     <!-- Indicator -->
@@ -138,17 +142,22 @@
                         :items="users"
                         item="user_name"
                         :validation="$v.editedItem.user_name"
+                        :readonly="true"
                       />
                     </v-col>
                     <!-- Users -->
                     <!-- Period -->
                     <v-col cols="12" sm="6" md="6">
-                      <base-select
+                      <base-select-search
                         label="Periodo"
                         v-model.trim="$v.editedItem.period_name.$model"
                         :items="periods"
                         item="period_name"
                         :validation="$v.editedItem.period_name"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                        }"
                       />
                     </v-col>
                     <!-- Period -->
@@ -160,6 +169,10 @@
                         :items="years"
                         item="value"
                         :validation="$v.editedItem.value"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                        }"
                       />
                     </v-col>
                     <!-- Years -->
@@ -305,6 +318,7 @@ export default {
     periods: [],
     years: [],
     redirectSessionFinished: false,
+    actualUser: {},
   }),
 
   // Validations
@@ -380,6 +394,7 @@ export default {
         indicatorApi.get(),
         periodApi.get(),
         yearApi.get(),
+        userApi.post("/actualUser"),
       ];
       let responses = await Promise.all(requests).catch((error) => {
         this.updateAlert(true, "No fue posible obtener los registros.", "fail");
@@ -397,9 +412,8 @@ export default {
         this.indicators = responses[4].data.indicators;
         this.periods = responses[5].data.periods;
         this.years = responses[6].data.years;
-        // console.log(responses[4].data);
+        this.actualUser = responses[7].data.user;
 
-        // this.editedItem.user_name = this.users[0].user_name;
         this.recordsFiltered = this.records;
       }
     },
@@ -547,10 +561,10 @@ export default {
 
     openModal() {
       this.dialog = true;
-      this.editedItem.user_name = this.users[0].user_name;
+      this.editedItem.user_name = this.actualUser.user_name;
       this.editedItem.indicator_name = this.indicators[0].indicator_name;
       this.editedItem.period_name = this.periods[0].period_name;
-      this.editedItem.value = this.years[0].value;
+      this.editedItem.value = new Date().getFullYear();
       this.editedItem.ou_name = this.organizationalUnits[0].ou_name;
       this.editedItem.axis_description = this.axisCuscas[0].axis_description;
       this.editedItem.executed = false;

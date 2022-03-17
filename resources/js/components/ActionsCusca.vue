@@ -76,25 +76,32 @@
                       />
                     </v-col>
                     <!-- Description Acciones-->
+
                     <!-- Results -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select
                         label="Resultado"
-                        v-model.trim="$v.editedItem.result_description.$model"
+                        v-model="$v.editedItem.result_description.$model"
                         :items="resultsCusca"
                         item="result_description"
                         :validation="$v.editedItem.result_description"
+                        @change="changeSelect"
                       />
                     </v-col>
                     <!-- Results -->
+
                     <!-- Financing -->
                     <v-col cols="12" sm="6" md="6">
-                      <base-select
+                      <base-select-search
                         label="Financiamiento"
                         v-model.trim="$v.editedItem.financing_name.$model"
                         :items="financings"
                         item="financing_name"
                         :validation="$v.editedItem.financing_name"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                        }"
                       />
                     </v-col>
                     <!-- Financing -->
@@ -122,6 +129,7 @@
                         :items="users"
                         item="user_name"
                         :validation="$v.editedItem.user_name"
+                        :readonly="true"
                       />
                     </v-col>
                     <!-- Users -->
@@ -294,6 +302,7 @@ export default {
     years: [],
     financings: [],
     redirectSessionFinished: false,
+    actualUser: {},
   }),
 
   // Validations
@@ -314,15 +323,18 @@ export default {
       },
       result_description: {
         required,
+        minLength: minLength(1),
       },
       value: {
         required,
+        minLength: minLength(1),
       },
       executed: {
         required,
       },
       financing_name: {
         required,
+        minLength: minLength(1),
       },
       annual_actions: {
         required,
@@ -364,6 +376,7 @@ export default {
         resultsCuscaApi.get(),
         yearApi.get(),
         financingApi.get(),
+        userApi.post("/actualUser"),
       ];
       let responses = await Promise.all(requests).catch((error) => {
         this.updateAlert(true, "No fue posible obtener los registros.", "fail");
@@ -379,7 +392,7 @@ export default {
         this.resultsCusca = responses[2].data.resultsCusca;
         this.years = responses[3].data.years;
         this.financings = responses[4].data.financings;
-        // console.log(responses);
+        this.actualUser = responses[5].data.user;
 
         this.recordsFiltered = this.records;
       }
@@ -389,11 +402,10 @@ export default {
       this.dialog = true;
       this.editedIndex = this.recordsFiltered.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.$v.editedItem.user_name.$model = this.editedItem.user_name;
-      this.$v.editedItem.result_description.$model =
-        this.editedItem.result_description;
-      this.$v.editedItem.value.$model = this.editedItem.value;
-      this.$v.editedItem.financing_name.$model = this.editedItem.financing_name;
+      //   this.editedItem.user_name = item.user_name;
+      //   this.editedItem.result_description = item.result_description;
+      //   this.editedItem.value = item.value;
+      //   this.editedItem.financing_name = item.financing_name;
     },
 
     deleteItem(item) {
@@ -526,15 +538,20 @@ export default {
 
     openModal() {
       this.dialog = true;
-      this.editedItem.user_name = this.users[0].user_name;
       this.editedItem.result_description =
         this.resultsCusca[0].result_description;
-      this.editedItem.value = this.years[0].value;
+      this.editedItem.user_name = this.actualUser.user_name;
+      this.editedItem.value = new Date().getFullYear();
       this.editedItem.financing_name = this.financings[0].financing_name;
       this.editedItem.action_description = "";
       this.editedItem.responsable_name = "";
       this.editedItem.annual_actions = 0;
+
       this.editedItem.executed = false;
+    },
+
+    changeSelect() {
+      console.log(this.resultsCusca, this.editedItem.result_description);
     },
   },
 };

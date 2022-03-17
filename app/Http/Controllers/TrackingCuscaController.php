@@ -76,7 +76,7 @@ class TrackingCuscaController extends Controller
 
         $trackingsCusca = EncryptController::encryptArray($trackingsCusca, ['id', 'user_id', 'year_id',
         'month_id', 'traking_status_id', 'actions_cusca_id', 'tracking_observation_cusca_id']);
-        // dd($trackingsCusca);
+
         return response()->json(['message' => 'success', 'trackingsCusca'=>$trackingsCusca]);
     }
 
@@ -88,17 +88,14 @@ class TrackingCuscaController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $data = $request->except(['user_name', 'action_description', 'month_name', 'value', 'status_name',
         'observation']);
 
-        // $user = User::where('user_name', $request->user_name)->first();
         $month = Month::where('month_name', $request->month_name)->first();
         $action_description = ActionsCusca::where('action_description', $request->action_description)->first();
         $year = Year::where('value', $request->value)->first();
         $status = TrakingStatus::where('status_name', $request->status_name)->first();
         $observation = TrackingObservationCusca::where('observation', $request->observation)->first();
-        // dd($user);
 
         $data['user_id'] = auth()->user()->id;
         $data['month_id'] = $month->id;
@@ -135,7 +132,7 @@ class TrackingCuscaController extends Controller
     {
         $data = $request->except(['user_name', 'action_description', 'month_name', 'value', 'status_name',
         'observation']);
-        if (auth()->user()->user_name == $request->user_name) {
+        if (auth()->user()->user_name == $request->user_name || auth()->user()->hasRole('Administrador')) {
             $user = User::where('user_name', $request->user_name)->first();
             $month = Month::where('month_name', $request->month_name)->first();
             $year = Year::where('value', $request->value)->first();
@@ -160,7 +157,7 @@ class TrackingCuscaController extends Controller
             return response()->json(["message"=>"success"]);
         }
 
-        return response()->json(["message"=>"success", "reason"=>"Únicamente $request->user_name puede modificar el registro."]);
+        return response()->json(["message"=>"success", "reason"=>"Únicamente $request->user_name o el administrador puede modificar el registro."]);
     }
 
     /**
@@ -175,11 +172,11 @@ class TrackingCuscaController extends Controller
         $tracking = TrackingCusca::where('id', $id)->first();
         $user = User::where('id', $tracking->user_id)->first();
 
-        if (auth()->user()->id == $tracking->user_id) {
+        if (auth()->user()->id == $tracking->user_id || auth()->user()->hasRole('Administrador')) {
             TrackingCusca::where('id', $id)->delete();
             return response()->json(["message"=>"success"]);
         }
 
-        return response()->json(["message"=>"success", "reason"=>"Únicamente $user->user_name puede eliminar el registro."]);
+        return response()->json(["message"=>"success", "reason"=>"Únicamente $user->user_name o el administrador puede eliminar el registro."]);
     }
 }
