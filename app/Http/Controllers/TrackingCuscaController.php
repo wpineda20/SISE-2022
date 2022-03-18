@@ -38,7 +38,6 @@ class TrackingCuscaController extends Controller
             switch ($request->filter) {
                 case "Mensuales":
                     $month = "m.id = ".intval(date('n'));
-                    $filters['ts.status_name'] = "En proceso";
                     break;
                 case "Atrasado":
                     $month = "m.id <= ".intval(date('n'));
