@@ -53,7 +53,7 @@ class TrackingCuscaController extends Controller
             }
         }
 
-        $filters['y.value'] = date('Y');
+        $filters['y.year_name'] = date('Y');
 
         $trackingsCusca = TrackingCusca::select(
             'tracking_cusca.id as id',

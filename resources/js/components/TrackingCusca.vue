@@ -92,68 +92,92 @@
 
                     <!-- Users -->
                     <!-- <v-col cols="12" sm="6" md="6">
-                      <base-select
+                      <base-select-search
                         label="Usuario"
                         v-model.trim="$v.editedItem.user_name.$model"
                         :items="users"
                         item="user_name"
                         :validation="$v.editedItem.user_name"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true
+                        }"
                         :readonly="true"
                       />
                     </v-col> -->
                     <!-- Users -->
                     <!-- Month -->
                     <v-col cols="12" sm="6" md="6">
-                      <base-select
+                      <base-select-search
                         label="Mes"
                         v-model.trim="$v.editedItem.month_name.$model"
                         :items="months"
                         item="month_name"
                         :validation="$v.editedItem.month_name"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                        }"
                       />
                     </v-col>
                     <!-- Month -->
                     <!-- Year -->
                     <v-col cols="12" sm="6" md="6">
-                      <base-select
+                      <base-select-search
                         label="Año"
                         v-model.trim="$v.editedItem.year_name.$model"
                         :items="years"
                         item="year_name"
                         :validation="$v.editedItem.year_name"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                        }"
                       />
                     </v-col>
                     <!-- Year -->
                     <!-- Tracking Status -->
                     <v-col cols="12" sm="6" md="6">
-                      <base-select
+                      <base-select-search
                         label="Estado de seguimiento"
                         v-model.trim="$v.editedItem.status_name.$model"
                         :items="trakingStatuses"
                         item="status_name"
                         :validation="$v.editedItem.status_name"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                        }"
                       />
                     </v-col>
                     <!-- Tracking Status -->
                     <!-- Actions -->
                     <v-col cols="12" sm="6" md="6">
-                      <base-select
+                      <base-select-search
                         label="Acción"
                         v-model.trim="$v.editedItem.action_description.$model"
                         :items="actions"
                         item="action_description"
                         :validation="$v.editedItem.action_description"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                        }"
                       />
                     </v-col>
                     <!-- Actions -->
                     <!-- Observations -->
                     <v-col cols="12" sm="6" md="6">
-                      <base-select
+                      <base-select-search
                         label="Observación"
                         v-model.trim="$v.editedItem.observation.$model"
                         :items="observations"
                         item="observation"
                         :validation="$v.editedItem.observation"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                        }"
                       />
                     </v-col>
                     <!-- Observations -->
@@ -502,7 +526,7 @@ export default {
       this.editedItem = Object.assign({}, item);
 
       this.editedItem.status_name = this.editedItem.status_name;
-      this.editedItem.value = this.editedItem.value;
+      this.editedItem.year_name = this.editedItem.year_name;
       this.editedItem.month_name = this.editedItem.month_name;
       this.editedItem.action_description = this.editedItem.action_description;
       this.editedItem.observation = this.editedItem.observation;
@@ -651,8 +675,9 @@ export default {
     openModal() {
       this.dialog = true;
 
-      this.editedItem.month_name = this.months[0].month_name;
-      this.editedItem.value = new Date().getFullYear();
+      this.editedItem.month_name =
+        this.months[new Date().getMonth()].month_name;
+      this.editedItem.year_name = new Date().getFullYear();
       this.editedItem.status_name = this.trakingStatuses[0].status_name;
       this.editedItem.action_description = this.actions[0].action_description;
       this.editedItem.tracking_detail = "";
