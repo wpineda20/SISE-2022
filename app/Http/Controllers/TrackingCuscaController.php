@@ -63,7 +63,7 @@ class TrackingCuscaController extends Controller
             'budget_executed',
             'action_description',
             'u.user_name',
-            'value',
+            'year_name',
             'month_name',
             'status_name',
             'tracking_cusca.observation',
@@ -97,12 +97,13 @@ class TrackingCuscaController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except(['user_name', 'action_description', 'month_name', 'value', 'status_name',
+        // dd($request->all());
+        $data = $request->except(['user_name', 'action_description', 'month_name', 'year_name', 'status_name',
         'observation']);
 
         $month = Month::where('month_name', $request->month_name)->first();
         $action_description = ActionsCusca::where('action_description', $request->action_description)->first();
-        $year = Year::where('value', $request->value)->first();
+        $year = Year::where('year_name', $request->year_name)->first();
         $status = TrakingStatus::where('status_name', $request->status_name)->first();
 
         $data['user_id'] = auth()->user()->id;
@@ -140,18 +141,18 @@ class TrackingCuscaController extends Controller
      */
     public function update(Request $request)
     {
-        $data = $request->except(['user_name', 'action_description', 'month_name', 'value', 'status_name',
+        $data = $request->except(['user_name', 'action_description', 'month_name', 'year_name', 'status_name',
         'observation']);
         if (auth()->user()->user_name == $request->user_name || auth()->user()->hasRole('Administrador')) {
             $user = User::where('user_name', $request->user_name)->first();
 
             $month = Month::where('month_name', $request->month_name)->first();
-            $year = Year::where('value', $request->value)->first();
+            $year = Year::where('year_name', $request->year_name)->first();
             $action_description = ActionsCusca::where('action_description', $request->action_description)->first();
             $status = TrakingStatus::where('status_name', $request->status_name)->first();
 
             $data = EncryptController::decryptModel($request->except(['user_name', 'month_name', 'action_description',
-            'value', 'status_name', 'observation']), 'id');
+            'year_name', 'status_name', 'observation']), 'id');
 
             $model = TrackingCusca::where('id', $data['id'])->first();
             $model->user_id = $user->id;

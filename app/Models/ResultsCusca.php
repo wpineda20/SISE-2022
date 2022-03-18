@@ -23,7 +23,7 @@ class ResultsCusca extends Model
         'executed',
         'user_id',
         'axis_cusca_id',
-        'indicator_id',
+        //'indicator_id',
         'organizational_units_id',
         'year_id',
         'period_id',

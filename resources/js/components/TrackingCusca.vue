@@ -117,10 +117,10 @@
                     <v-col cols="12" sm="6" md="6">
                       <base-select
                         label="Año"
-                        v-model.trim="$v.editedItem.value.$model"
+                        v-model.trim="$v.editedItem.year_name.$model"
                         :items="years"
-                        item="value"
-                        :validation="$v.editedItem.value"
+                        item="year_name"
+                        :validation="$v.editedItem.year_name"
                       />
                     </v-col>
                     <!-- Year -->
@@ -335,7 +335,7 @@ export default {
       { text: "SEGUIMIENTO", value: "tracking_detail" },
       { text: "ACCIÓN", value: "action_description" },
       { text: "MES", value: "month_name" },
-      { text: "AÑO", value: "value" },
+      { text: "AÑO", value: "year_name" },
       { text: "ACCIONES MENSUALES", value: "monthly_actions" },
       { text: "PRESUPUESTO", value: "budget_executed" },
       { text: "USUARIO", value: "user_name" },
@@ -353,7 +353,7 @@ export default {
       month_name: "",
       budget_executed: 0,
       // user_name: "",
-      value: "",
+      year_name: "",
       status_name: "",
       monthly_actions: 0,
       executed: false,
@@ -366,7 +366,7 @@ export default {
       month_name: "",
       budget_executed: 0,
       // user_name: "",
-      value: "",
+      year_name: "",
       status_name: "",
       monthly_actions: 0,
       executed: false,
@@ -414,7 +414,7 @@ export default {
       month_name: {
         required,
       },
-      value: {
+      year_name: {
         required,
       },
       action_description: {

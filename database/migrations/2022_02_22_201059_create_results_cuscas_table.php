@@ -20,7 +20,7 @@ class CreateResultsCuscasTable extends Migration
             $table->string('executed');
             $table->foreignId('user_id')->references('id')->on('users');
             $table->foreignId('axis_cusca_id')->references('id')->on('axis_cusca');
-            $table->foreignId('indicator_id')->references('id')->on('indicators');
+            //$table->foreignId('indicator_id')->references('id')->on('indicators');
             $table->foreignId('organizational_units_id')->references('id')->on('organizational_units');
             $table->foreignId('year_id')->references('id')->on('years');
             $table->foreignId('period_id')->references('id')->on('periods');

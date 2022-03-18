@@ -18,7 +18,7 @@ class MonthlyClosingController extends Controller
     */
     public function index()
     {
-        $monthlyClosings = MonthlyClosing::select('monthly_closings.id', 'month_name', 'value', 'active')
+        $monthlyClosings = MonthlyClosing::select('monthly_closings.id', 'month_name', 'year_name', 'active')
         ->join('years as y', 'monthly_closings.year_id', '=', 'y.id')
         ->join('months as m', 'monthly_closings.month_id', '=', 'm.id')
         ->get();
@@ -36,9 +36,9 @@ class MonthlyClosingController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except(['value', 'month_name']);
+        $data = $request->except(['year_name', 'month_name']);
 
-        $year = Year::where('value', $request->value)->first();
+        $year = Year::where('year_name', $request->value)->first();
         $month = Month::where('month_name', $request->month_name)->first();
 
         $data['year_id'] = $year->id;
@@ -56,10 +56,7 @@ class MonthlyClosingController extends Controller
      * @param  \App\Models\Municipality  $monthly
      * @return \Illuminate\Http\Response
      */
-    public function show(Municipality $monthly)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
@@ -71,11 +68,11 @@ class MonthlyClosingController extends Controller
     public function update(Request $request)
     {
         // dd($request->all());
-        $data = $request->except(['value', 'month_name']);
+        $data = $request->except(['year_name', 'month_name']);
         // dd($data);
-        $year = Year::where('value', $request->value)->first();
+        $year = Year::where('year_name', $request->year_name)->first();
         $month = Month::where('month_name', $request->month_name)->first();
-        $data = EncryptController::decryptModel($request->except(['value', 'month_name']), 'id');
+        $data = EncryptController::decryptModel($request->except(['year_name', 'month_name']), 'id');
 
         $data['year_id'] = $year->id;
         $data['month_id'] = $month->id;

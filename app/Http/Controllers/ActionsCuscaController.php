@@ -26,7 +26,7 @@ class ActionsCuscaController extends Controller
             'responsable_name',
             'user_name',
             'result_description',
-            'value',
+            'year_name',
             'financing_name',
         )
         ->join('users as u', 'actions_cusca.user_id', '=', 'u.id')
@@ -66,11 +66,11 @@ class ActionsCuscaController extends Controller
     public function store(Request $request)
     {
         //  dd($request->all());
-        $data = $request->except(['user_name', 'result_description', 'value', 'financing_name']);
+        $data = $request->except(['user_name', 'result_description', 'year_name', 'financing_name']);
 
         $users = User::where('user_name', $request->user_name)->first();
         $resultsCusca = ResultsCusca::where('result_description', $request->result_description)->first();
-        $years = Year::where('value', $request->value)->first();
+        $years = Year::where('year_name', $request->year_name)->first();
         $financings = Financing::where('financing_name', $request->financing_name)->first();
         // dd($data);
         $data['user_id'] = $users->id;
@@ -115,14 +115,14 @@ class ActionsCuscaController extends Controller
      */
     public function update(Request $request)
     {
-        $data = $request->except(['user_name', 'result_description', 'value', 'financing_name']);
+        $data = $request->except(['user_name', 'result_description', 'year_name', 'financing_name']);
 
         $users = User::where('user_name', $request->user_name)->first();
         $resultsCusca = ResultsCusca::where('result_description', $request->result_description)->first();
-        $years = Year::where('value', $request->value)->first();
+        $years = Year::where('year_name', $request->year_name)->first();
         $financings = Financing::where('financing_name', $request->financing_name)->first();
 
-        $data = EncryptController::decryptModel($request->except(['user_name', 'result_description', 'value',
+        $data = EncryptController::decryptModel($request->except(['user_name', 'result_description', 'year_name',
         'financing_name']), 'id');
 
         $data['user_id'] = $users->id;

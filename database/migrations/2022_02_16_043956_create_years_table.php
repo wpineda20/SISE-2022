@@ -15,7 +15,7 @@ class CreateYearsTable extends Migration
     {
         Schema::create('years', function (Blueprint $table) {
             $table->id();
-            $table->integer('value');
+            $table->integer('year_name');
             $table->foreignId('period_id')->references('id')->on('periods');
             $table->softDeletes();
             $table->timestamps();

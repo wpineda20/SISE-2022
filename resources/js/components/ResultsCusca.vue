@@ -119,7 +119,7 @@
                       />
                     </v-col>
                     <!-- Axis -->
-                    <!-- Indicator -->
+                    <!-- Indicator
                     <v-col cols="12" sm="6" md="6">
                       <base-select-search
                         label="Indicador"
@@ -133,7 +133,7 @@
                         }"
                       />
                     </v-col>
-                    <!-- Indicator -->
+                    Indicator -->
                     <!-- Users -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select
@@ -165,10 +165,10 @@
                     <v-col cols="12" sm="6" md="6">
                       <base-select
                         label="Año"
-                        v-model.trim="$v.editedItem.value.$model"
+                        v-model.trim="$v.editedItem.year_name.$model"
                         :items="years"
-                        item="value"
-                        :validation="$v.editedItem.value"
+                        item="year_name"
+                        :validation="$v.editedItem.year_name"
                         :validationsInput="{
                           required: true,
                           minLength: true,
@@ -257,7 +257,7 @@
 <script>
 import userApi from "../apis/userApi";
 import organizationalUnitApi from "../apis/organizationalUnitApi";
-import indicatorApi from "../apis/indicatorApi";
+//import indicatorApi from "../apis/indicatorApi";
 import axisCuscaApi from "../apis/axisCuscaApi";
 import resultsCuscaApi from "../apis/resultsCuscaApi";
 import periodApi from "../apis/periodApi";
@@ -273,13 +273,13 @@ export default {
     headers: [
       { text: "RESULTADO", value: "result_description" },
       { text: "EJE", value: "axis_description" },
-      { text: "INDICADOR", value: "indicator_name" },
+      //{ text: "INDICADOR", value: "indicator_name" },
       { text: "UNIDAD ORGANIZATIVA", value: "ou_name" },
       { text: "RESPONSABLE", value: "responsible_name" },
       { text: "EJECUTADO", value: "executed" },
       { text: "USUARIO", value: "user_name" },
       { text: "PERIODO", value: "period_name" },
-      { text: "AÑO", value: "value" },
+      { text: "AÑO", value: "year_name" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
     records: [],
@@ -291,10 +291,10 @@ export default {
       executed: false,
       user_name: "",
       axis_description: "",
-      indicator_name: "",
+      //indicator_name: "",
       ou_name: "",
       period_name: "",
-      value: "",
+      year_name: "",
     },
     defaultItem: {
       result_description: "",
@@ -302,10 +302,10 @@ export default {
       executed: false,
       user_name: "",
       axis_description: "",
-      indicator_name: "",
+      //indicator_name: "",
       ou_name: "",
       period_name: "",
-      value: "",
+      year_name: "",
     },
 
     textAlert: "",
@@ -313,7 +313,7 @@ export default {
     showAlert: false,
     users: [],
     axisCuscas: [],
-    indicators: [],
+    //indicators: [],
     organizationalUnits: [],
     periods: [],
     years: [],
@@ -344,17 +344,17 @@ export default {
       },
       axis_description: {
         required,
-      },
+      } /*
       indicator_name: {
         required,
-      },
+      },*/,
       ou_name: {
         required,
       },
       period_name: {
         required,
       },
-      value: {
+      year_name: {
         required,
       },
     },
@@ -391,7 +391,7 @@ export default {
         }),
         axisCuscaApi.get(),
         organizationalUnitApi.get(),
-        indicatorApi.get(),
+        //indicatorApi.get(),
         periodApi.get(),
         yearApi.get(),
         userApi.post("/actualUser"),
@@ -425,10 +425,10 @@ export default {
       this.$v.editedItem.user_name.$model = this.editedItem.user_name;
       this.$v.editedItem.axis_description.$model =
         this.editedItem.axis_description;
-      this.$v.editedItem.indicator_name.$model = this.editedItem.indicator_name;
+      //this.$v.editedItem.indicator_name.$model = this.editedItem.indicator_name;
       this.$v.editedItem.ou_name.$model = this.editedItem.ou_name;
       this.$v.editedItem.period_name.$model = this.editedItem.period_name;
-      this.$v.editedItem.value.$model = this.editedItem.value;
+      this.$v.editedItem.year_name.$model = this.editedItem.year_name;
     },
 
     deleteItem(item) {
