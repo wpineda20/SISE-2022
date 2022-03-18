@@ -36,7 +36,12 @@
             <template v-slot:activator="{}">
               <v-row>
                 <v-col align="end">
-                  <v-btn class="mb-2 btn-normal" rounded @click="openModal">
+                  <v-btn
+                    class="mb-2 btn-normal"
+                    rounded
+                    @click="openModal"
+                    :disabled="loadingDataForm"
+                  >
                     Agregar
                   </v-btn>
                 </v-col>
@@ -411,6 +416,7 @@ export default {
     redirectSessionFinished: false,
     filter: "Mensuales",
     role: "",
+    loadingDataForm: false,
   }),
 
   // Validations
@@ -481,6 +487,7 @@ export default {
 
   methods: {
     async initialize() {
+      this.loadingDataForm = true;
       this.records = [];
       this.recordsFiltered = [];
 
@@ -518,6 +525,8 @@ export default {
 
         this.recordsFiltered = this.records;
       }
+
+      this.loadingDataForm = false;
     },
 
     editItem(item) {
