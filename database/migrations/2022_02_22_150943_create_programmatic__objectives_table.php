@@ -15,9 +15,9 @@ class CreateProgrammaticObjectivesTable extends Migration
     {
         Schema::create('programmatic_objectives', function (Blueprint $table) {
             $table->id();
-            $table->string('description',500);
+            $table->text('description');
             $table->string('executed');
-            $table->foreignId('institution_id')->references('id')->on('institutions');
+            $table->foreignId('axis_cusca_id')->references('id')->on('axis_cusca');
             $table->foreignId('user_id')->references('id')->on('users');
             $table->softDeletes();
             $table->timestamps();

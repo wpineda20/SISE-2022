@@ -15,15 +15,16 @@ class CreateResultsCuscasTable extends Migration
     {
         Schema::create('results_cusca', function (Blueprint $table) {
             $table->id();
-            $table->string('result_description', 500);
-            $table->string('responsible_name');
+            $table->text('result_description');
+            $table->string('mesure_unit', 500);
+            $table->integer('year_goal');
             $table->string('executed');
             $table->foreignId('user_id')->references('id')->on('users');
-            $table->foreignId('axis_cusca_id')->references('id')->on('axis_cusca');
-            //$table->foreignId('indicator_id')->references('id')->on('indicators');
+            $table->foreignId('indicator_id')->references('id')->on('indicators');
             $table->foreignId('organizational_units_id')->references('id')->on('organizational_units');
             $table->foreignId('year_id')->references('id')->on('years');
             $table->foreignId('period_id')->references('id')->on('periods');
+            $table->foreignId('strategy_cusca_id')->references('id')->on('strategy_cusca');
             $table->softDeletes();
             $table->timestamps();
         });

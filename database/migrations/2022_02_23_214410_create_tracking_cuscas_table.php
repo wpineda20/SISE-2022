@@ -15,7 +15,7 @@ class CreateTrackingCuscasTable extends Migration
     {
         Schema::create('tracking_cusca', function (Blueprint $table) {
             $table->id();
-            $table->string('tracking_detail', 500)->default("");
+            $table->text('tracking_detail')->default("");
             $table->string('executed');
             $table->integer('monthly_actions');
             $table->double('budget_executed', 8, 2);

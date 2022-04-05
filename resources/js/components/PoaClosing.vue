@@ -14,7 +14,7 @@
     <v-data-table
       :headers="headers"
       :items="recordsFiltered"
-      sort-by="value"
+      sort-by="year_name"
       class="elevation-3 shadow p-3 mt-3"
     >
       <template v-slot:top>
@@ -163,7 +163,7 @@ export default {
     recordsFiltered: [],
     editedIndex: -1,
     editedItem: {
-      year_name: "",
+    year_name: "",
     },
     defaultItem: {
       year_name: "",
@@ -178,7 +178,7 @@ export default {
   // Validations
   validations: {
     editedItem: {
-      value: {
+      year_name: {
         required,
       },
     },
@@ -227,7 +227,7 @@ export default {
       this.dialog = true;
       this.editedIndex = this.recordsFiltered.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.$v.editedItem.value.$model = this.editedItem.value;
+      this.$v.editedItem.year_name.$model = this.editedItem.year_name;
     },
 
     deleteItem(item) {
@@ -331,8 +331,8 @@ export default {
       if (this.search != "") {
         this.records.forEach((record) => {
           let searchConcat = "";
-          for (let i = 0; i < record.value.length; i++) {
-            searchConcat += record.value[i].toUpperCase();
+          for (let i = 0; i < record.year_name.length; i++) {
+            searchConcat += record.year_name[i].toUpperCase();
             if (
               searchConcat === this.search.toUpperCase() &&
               !this.recordsFiltered.some((rec) => rec == record)

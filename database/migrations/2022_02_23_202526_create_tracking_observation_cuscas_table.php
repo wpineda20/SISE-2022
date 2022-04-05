@@ -15,7 +15,7 @@ class CreateTrackingObservationCuscasTable extends Migration
     {
         Schema::create('tracking_observation_cusca', function (Blueprint $table) {
             $table->id();
-            $table->string('observation_reply', 500)->nullable();
+            $table->text('observation_reply')->nullable();
             $table->date('reply_date')->nullable();
             $table->string('observation', 500)->nullable();
             $table->string('reply', 500)->nullable();

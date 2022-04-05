@@ -76,10 +76,7 @@
                                     <li><a href="{{ url('/directions') }}">Direcciones</a></li>
                                     <li><a href="{{ url('/trakingStatus') }}">Estados de seguimiento</a></li>
                                     <li><a href="{{ url('/financings') }}">Financiamientos</a></li>
-                                @endrole
-                                <li><a href="{{ url('/indicators') }}">Indicadores</a></li>
-
-                                @role('Administrador')
+                                    <li><a href="{{ url('/indicators') }}">Indicadores</a></li>
                                     <li><a href="{{ url('/institutions') }}">Instituciones</a></li>
                                     <li><a href="{{ url('/months') }}">Meses</a></li>
                                     <li><a href="{{ url('/periods') }}">Períodos</a></li>
@@ -124,8 +121,8 @@
                             </div>
                             <ul class="sub-menu">
                                 @role('Administrador')
-                                    <li><a href="{{ url('/programmaticObjective ') }}">Objetivos Programáticos</a></li>
                                     <li><a href="{{ url('/axisCuscatlan') }}">Ejes</a></li>
+                                    <li><a href="{{ url('/programmaticObjective ') }}">Objetivos Programáticos</a></li>
                                     <li><a href="{{ url('/strategyCusca') }}">Estrategias</a></li>
                                     <li><a href="{{ url('/resultsCuscatlan') }}">Resultados</a></li>
                                     <li><a href="{{ url('/actionsCuscatlan') }}">Acciones</a></li>

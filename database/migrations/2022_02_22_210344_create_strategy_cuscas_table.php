@@ -15,7 +15,7 @@ class CreateStrategyCuscasTable extends Migration
     {
         Schema::create('strategy_cusca', function (Blueprint $table){
             $table->id();
-            $table->string('description_strategy',500);
+            $table->text('description_strategy');
             $table->string('executed');
             $table->foreignId('user_id')->references('id')->on('users');
             $table->foreignId('organizational_units_id')->references('id')->on('organizational_units');

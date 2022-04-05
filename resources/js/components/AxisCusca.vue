@@ -81,11 +81,11 @@
                     <!-- Objectives -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select-search
-                        label="Objetivo programático"
-                        v-model.trim="$v.editedItem.description.$model"
-                        :items="descriptions"
-                        item="description"
-                        :validation="$v.editedItem.description"
+                        label="Institución"
+                        v-model.trim="$v.editedItem.institution_name.$model"
+                        :items="institutions"
+                        item="institution_name"
+                        :validation="$v.editedItem.institution_name"
                         :validationsInput="{
                           required: true,
                           minLength: true,
@@ -189,7 +189,7 @@
 
 <script>
 import userApi from "../apis/userApi";
-import programmaticObjectiveApi from "../apis/programmaticObjectiveApi";
+import institutionApi from "../apis/institutionApi";
 import axisCuscaApi from "../apis/axisCuscaApi";
 import lib from "../libs/function";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
@@ -201,7 +201,7 @@ export default {
     dialogDelete: false,
     headers: [
       { text: "EJE", value: "axis_description" },
-      { text: "OBJETIVO PROGRAMÁTICO", value: "description" },
+      { text: "INSTITUCION", value: "institution_name" },
       { text: "EJECUTADO", value: "executed" },
       { text: "USUARIO", value: "user_name" },
       { text: "ACCIONES", value: "actions", sortable: false },
@@ -211,13 +211,13 @@ export default {
     editedIndex: -1,
     editedItem: {
       user_name: "",
-      description: "",
+      institution_name: "",
       axis_description: "",
       executed: false,
     },
     defaultItem: {
       user_name: "",
-      description: "",
+      institution_name: "",
       axis_description: "",
       executed: false,
     },
@@ -225,7 +225,7 @@ export default {
     alertEvent: "success",
     showAlert: false,
     users: [],
-    descriptions: [],
+    institutions: [],
     redirectSessionFinished: false,
     actualUser: {},
   }),
@@ -242,7 +242,7 @@ export default {
         minLength: minLength(1),
         required,
       },
-      description: {
+      institution_name: {
         required,
         minLength: minLength(1),
       },
@@ -281,7 +281,7 @@ export default {
         userApi.get(null, {
           params: { skip: 0, take: 200 },
         }),
-        programmaticObjectiveApi.get(),
+       institutionApi.get(),
         userApi.post("/actualUser"),
       ];
       let responses = await Promise.all(requests).catch((error) => {
@@ -295,7 +295,7 @@ export default {
       if (responses && responses[0].data.message == "success") {
         this.records = responses[0].data.axisCuscas;
         this.users = responses[1].data.users;
-        this.descriptions = responses[2].data.programmatic_objectives;
+        this.institutions = responses[2].data.institutions;
         this.actualUser = responses[3].data.user;
 
         this.recordsFiltered = this.records;
@@ -312,7 +312,7 @@ export default {
 
       this.editedItem.executed =
         this.editedItem.executed == "SI" ? true : false;
-      this.editedItem.description = this.editedItem.description;
+      this.editedItem.institution_name = this.editedItem.institution_name;
     },
 
     deleteItem(item) {
@@ -445,7 +445,7 @@ export default {
     openModal() {
       this.dialog = true;
       this.editedItem.user_name = this.users[0].user_name;
-      this.editedItem.description = this.descriptions[0].description;
+      this.editedItem.institution_name = this.institution_name[0].institution_name;
       this.editedItem.axis_description = "";
       this.editedItem.executed = false;
       this.editedItem.user_name = this.actualUser.user_name;
