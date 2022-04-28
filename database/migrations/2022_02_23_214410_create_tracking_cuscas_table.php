@@ -23,7 +23,7 @@ class CreateTrackingCuscasTable extends Migration
             $table->string('reply', 500)->nullable();
             $table->foreignId('user_id')->references('id')->on('users');
             $table->foreignId('year_id')->references('id')->on('years');
-            $table->foreignId('month_id')->references('id')->on('months');
+            //$table->foreignId('month_id')->references('id')->on('months');
             $table->foreignId('traking_status_id')->references('id')->on('traking_statuses');
             $table->foreignId('actions_cusca_id')->references('id')->on('actions_cusca');
             // $table->foreignId('tracking_observation_cusca_id')->references('id')->on('tracking_observation_cusca');

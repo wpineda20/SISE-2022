@@ -159,6 +159,9 @@ class UserController extends Controller
     public function actualUser(Request $request)
     {
         $user = User::find(auth()->user()->id);
+        // Getting the role of the user
+        $role = auth()->user()->getRoleNames()[0];
+        $user->role = $role;
 
         $user->id = EncryptController::encryptValue($user, 'id');
 

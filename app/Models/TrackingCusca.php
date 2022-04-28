@@ -24,7 +24,7 @@ class TrackingCusca extends Model
         'budget_executed',
         'user_id',        
         'year_id',        
-        'month_id',        
+        //'month_id',        
         'traking_status_id',        
         'actions_cusca_id',        
         'tracking_observation_cusca_id',        

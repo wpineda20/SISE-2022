@@ -22,10 +22,14 @@ class ActionsCusca extends Model
         'annual_actions',
         'executed',
         'responsable_name',
+        'verification_method',
+        'data_source',
+        'mesure_unit',
+        'budget_executed',
         'user_id',
         'results_cusca_id',
-        'year_id',
-        'financings_id'
+        'month_id',
+        'year_id'
     ];
     public $hidden = [
         'created_at',
@@ -34,9 +38,5 @@ class ActionsCusca extends Model
     ];
     public $timestamps = false;
 
-    public function TrackingCusca()
-    {
-        return $this->hasMany(ActionsCusca::class);
-    }
 
 }

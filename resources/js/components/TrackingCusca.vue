@@ -37,6 +37,7 @@
               <v-row>
                 <v-col align="end">
                   <v-btn
+                    v-if="actualUser.role == 'Administrador'"
                     class="mb-2 btn-normal"
                     rounded
                     @click="openModal"
@@ -112,7 +113,7 @@
                     </v-col> -->
                     <!-- Users -->
                     <!-- Month -->
-                    <v-col cols="12" sm="6" md="6">
+                    <!--<v-col cols="12" sm="6" md="6">
                       <base-select-search
                         label="Mes"
                         v-model.trim="$v.editedItem.month_name.$model"
@@ -124,7 +125,7 @@
                           minLength: true,
                         }"
                       />
-                    </v-col>
+                    </v-col>-->
                     <!-- Month -->
                     <!-- Year -->
                     <v-col cols="12" sm="6" md="6">
@@ -342,7 +343,7 @@
 <script>
 import userApi from "../apis/userApi";
 import yearApi from "../apis/yearApi";
-import monthApi from "../apis/monthApi";
+//import monthApi from "../apis/monthApi";
 import trakingStatusApi from "../apis/trakingStatusApi";
 import trackingCuscaApi from "../apis/trackingCuscaApi";
 import actionsCuscaApi from "../apis/actionsCuscaApi";
@@ -363,7 +364,7 @@ export default {
     headers: [
       { text: "SEGUIMIENTO", value: "tracking_detail" },
       { text: "ACCIÓN", value: "action_description" },
-      { text: "MES", value: "month_name" },
+      //{ text: "MES", value: "month_name" },
       { text: "AÑO", value: "year_name" },
       { text: "ACCIONES MENSUALES", value: "monthly_actions" },
       { text: "PRESUPUESTO", value: "budget_executed" },
@@ -379,7 +380,7 @@ export default {
     editedItem: {
       tracking_detail: "",
       action_description: "",
-      month_name: "",
+      //month_name: "",
       budget_executed: 0,
       // user_name: "",
       year_name: "",
@@ -392,7 +393,7 @@ export default {
     defaultItem: {
       tracking_detail: "",
       action_description: "",
-      month_name: "",
+      //month_name: "",
       budget_executed: 0,
       // user_name: "",
       year_name: "",
@@ -407,7 +408,7 @@ export default {
     alertEvent: "success",
     showAlert: false,
     users: [],
-    months: [],
+    //months: [],
     years: [],
     actions: [],
     trakingStatuses: [],
@@ -417,6 +418,7 @@ export default {
     filter: "Mensuales",
     role: "",
     loadingDataForm: false,
+    actualUser: {}
   }),
 
   // Validations
@@ -505,6 +507,7 @@ export default {
         monthApi.get(),
         actionsCuscaApi.get(),
         roleApi.get("/user"),
+        userApi.post("/actualUser"),
       ];
       let responses = await Promise.all(requests).catch((error) => {
         this.updateAlert(true, "No fue posible obtener los registros.", "fail");
@@ -519,9 +522,10 @@ export default {
         this.users = responses[1].data.users;
         this.trakingStatuses = responses[2].data.trakingStatuses;
         this.years = responses[3].data.years;
-        this.months = responses[4].data.months;
-        this.actions = responses[5].data.actionsCusca;
-        this.role = responses[6].data.roles[0];
+        //this.months = responses[4].data.months;
+        this.actions = responses[4].data.actionsCusca;
+        this.role = responses[5].data.roles[0];
+        this.actualUser = responses[6].data.user;
 
         this.recordsFiltered = this.records;
       }
@@ -536,7 +540,7 @@ export default {
 
       this.editedItem.status_name = this.editedItem.status_name;
       this.editedItem.year_name = this.editedItem.year_name;
-      this.editedItem.month_name = this.editedItem.month_name;
+      //this.editedItem.month_name = this.editedItem.month_name;
       this.editedItem.action_description = this.editedItem.action_description;
       this.editedItem.observation = this.editedItem.observation;
       this.editedItem.executed =
@@ -685,7 +689,7 @@ export default {
       this.dialog = true;
 
       this.editedItem.month_name =
-        this.months[new Date().getMonth()].month_name;
+      //this.months[new Date().getMonth()].month_name;
       this.editedItem.year_name = new Date().getFullYear();
       this.editedItem.status_name = this.trakingStatuses[0].status_name;
       this.editedItem.action_description = this.actions[0].action_description;

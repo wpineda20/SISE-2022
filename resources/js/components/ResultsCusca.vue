@@ -279,7 +279,6 @@
 import userApi from "../apis/userApi";
 import organizationalUnitApi from "../apis/organizationalUnitApi";
 import indicatorApi from "../apis/indicatorApi";
-import axisCuscaApi from "../apis/axisCuscaApi";
 import resultsCuscaApi from "../apis/resultsCuscaApi";
 import periodApi from "../apis/periodApi";
 import yearApi from "../apis/yearApi";
@@ -314,7 +313,7 @@ export default {
       year_goal: "",
       executed: false,
       user_name: "",
-      axis_description: "",
+      // axis_description: "",
       indicator_name: "",
       ou_name: "",
       period_name: "",
@@ -327,7 +326,7 @@ export default {
       year_goal: "",
       executed: false,
       user_name: "",
-      axis_description: "",
+      //axis_description: "",
       indicator_name: "",
       ou_name: "",
       period_name: "",
@@ -339,7 +338,7 @@ export default {
     alertEvent: "success",
     showAlert: false,
     users: [],
-    axisCuscas: [],
+    //axisCuscas: [],
     indicators: [],
     organizationalUnits: [],
     periods: [],
