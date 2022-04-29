@@ -1,14 +1,11 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\ActionsCusca;
 use App\Models\TrackingCusca;
 use App\Models\User;
 use App\Models\Year;
-use App\Models\Month;
 use App\Models\TrakingStatus;
-use App\Models\TrackingObservationCusca;
 
 use Illuminate\Http\Request;
 

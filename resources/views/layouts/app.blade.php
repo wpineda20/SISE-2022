@@ -130,10 +130,6 @@
                                 @hasanyrole('Administrador|Enlace')
                                     <li><a href="{{ url('/trackingCuscatlan') }}">Seguimientos</a></li>
                                 @endhasanyrole
-                                @role('Administrador')
-                                    <li><a href="{{ url('/trackingObservationsCuscatlan') }}">Observaciones de
-                                            seguimientos</a></li>
-                                @endrole
                             </ul>
                         </li>
                         <!-- Plan Cuscatlán -->

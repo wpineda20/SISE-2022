@@ -25,8 +25,8 @@ class CreateActionsCuscasTable extends Migration
             $table->double('budget_executed', 8, 2);
             $table->foreignId('user_id')->references('id')->on('users');
             $table->foreignId('results_cusca_id')->references('id')->on('results_cusca');
-            $table->foreignId('month_id')->references('id')->on('months');
-            $table->foreignId('year_id')->references('id')->on('years');
+            //$table->foreignId('month_id')->references('id')->on('months');
+            //$table->foreignId('year_id')->references('id')->on('years');
             //$table->foreignId('financings_id')->references('id')->on('financings');
             $table->softDeletes();
             $table->timestamps();

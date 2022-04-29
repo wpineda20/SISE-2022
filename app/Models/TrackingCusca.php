@@ -22,12 +22,13 @@ class TrackingCusca extends Model
         'executed',
         'monthly_actions',
         'budget_executed',
+        'observation',
+        'reply',
         'user_id',        
         'year_id',        
         //'month_id',        
         'traking_status_id',        
-        'actions_cusca_id',        
-        'tracking_observation_cusca_id',        
+        'actions_cusca_id',     
     ];
     public $hidden = [
         'created_at',

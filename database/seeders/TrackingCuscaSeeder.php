@@ -23,8 +23,7 @@ class TrackingCuscaSeeder extends Seeder
                 'monthly_actions' => 10,
                 'budget_executed' => 50000,
                 'observation'=>'Ninguna',
-                'reply'='null',
-
+                'reply'=>'null',
                 'user_id' => 1,
                 'year_id' => 1,
                 //'month_id' => 1,
@@ -35,13 +34,13 @@ class TrackingCuscaSeeder extends Seeder
                 'updated_at' => Carbon::now()
             ],
             [
-                'id' => 1,
+                'id' => 2,
                 'tracking_detail' =>  'Detalle del seguimiento dos',
                 'executed'=> 'NO',
                 'monthly_actions' => 10,
                 'budget_executed' => 50000,
                 'observation'=>'Ninguna',
-                'reply'='null',
+                'reply'=>'null',
                 'user_id' => 1,
                 'year_id' => 1,
                 //'month_id' => 1,

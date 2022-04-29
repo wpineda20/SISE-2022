@@ -504,7 +504,7 @@ export default {
         }),
         trakingStatusApi.get(),
         yearApi.get(),
-        monthApi.get(),
+        //monthApi.get(),
         actionsCuscaApi.get(),
         roleApi.get("/user"),
         userApi.post("/actualUser"),
@@ -728,4 +728,3 @@ export default {
   },
 };
 </script>
-
