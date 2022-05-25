@@ -53,14 +53,14 @@ const Validations = {
             required,
             minLength: minLength(1),
           },
-          month_name: {
+          /*month_name: {
             required,
             minLength: minLength(1),
           },
           year_name: {
             required,
             minLength: minLength(1),
-          },
+          },*/
     }
     
 }

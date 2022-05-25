@@ -30,17 +30,17 @@ class ActionsCuscaController extends Controller
             'budget_executed',
             'user_name',
             'result_description',
-            'month_name',
-            'year_name',
+            //'month_name',
+            //'year_name',
         )
         ->join('users as u', 'actions_cusca.user_id', '=', 'u.id')
         ->join('results_cusca as rs', 'actions_cusca.results_cusca_id', '=', 'rs.id')
-        ->join('months as m', 'actions_cusca.month_id', '=', 'm.id')
-        ->join('years as y', 'actions_cusca.year_id', '=', 'y.id')
+        //->join('months as m', 'actions_cusca.month_id', '=', 'm.id')
+        //->join('years as y', 'actions_cusca.year_id', '=', 'y.id')
         ->get();
         
         $actionsCusca = EncryptController::encryptArray($actionsCusca, ['id', 'user_id', 
-        'results_cusca_id','month_id','year_id']);
+        'results_cusca_id'/*,'month_id','year_id'*/]);
 
         return response()->json(['message' => 'success', 'actionsCusca'=>$actionsCusca]);
         
@@ -64,18 +64,17 @@ class ActionsCuscaController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except(['user_name', 'result_description','month_name','year_name']);
-
+        $data = $request->except(['user_name', 'result_description'/*,'month_name','year_name'*/]);
         $users = User::where('user_name', $request->user_name)->first();
         $resultsCusca = ResultsCusca::where('result_description', $request->result_description)->first();
-        $months = Month::where('month_name', $request->month_name)->first();
-        $years = Year::where('year_name', $request->year_name)->first();
+        //$months = Month::where('month_name', $request->month_name)->first();
+        //$years = Year::where('year_name', $request->year_name)->first();
         
         // dd($data);
         $data['user_id'] = $users->id;
         $data['results_cusca_id'] = $resultsCusca->id;
-        $data['month_id'] = $months->id;
-        $data['year_id'] = $years->id;
+        //$data['month_id'] = $months->id;
+        //$data['year_id'] = $years->id;
         $data['executed'] = ($data['executed'])?"SI":"NO";
 
         ActionsCusca::insert($data);
@@ -113,20 +112,20 @@ class ActionsCuscaController extends Controller
      */
     public function update(Request $request)
     {
-        $data = $request->except(['user_name', 'result_description','month_name','year_name']);
+    $data = $request->except(['user_name', 'result_description'/*,'month_name','year_name'*/]);
 
         $users = User::where('user_name', $request->user_name)->first();
         $resultsCusca = ResultsCusca::where('result_description', $request->result_description)->first();
-        $years = Year::where('year_name', $request->year_name)->first();
-        $months = Month::where('month_name', $request->month_name)->first();
+        //$years = Year::where('year_name', $request->year_name)->first();
+        //$months = Month::where('month_name', $request->month_name)->first();
 
-        $data = EncryptController::decryptModel($request->except(['user_name', 'result_description','month_name',
-         'year_name']), 'id');
+        $data = EncryptController::decryptModel($request->except(['user_name', 'result_description'
+/*,'month_name','year_name'*/]), 'id');
 
         $data['user_id'] = $users->id;
         $data['results_cusca_id'] = $resultsCusca->id;
-        $data['month_id'] = $months->id;
-        $data['year_id'] = $years->id;
+        //$data['month_id'] = $months->id;
+        //$data['year_id'] = $years->id;
         $data['executed'] = ($data['executed'])?"SI":"NO";
 
 

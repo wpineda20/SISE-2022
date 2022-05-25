@@ -28,8 +28,8 @@ class ActionsCusca extends Model
         'budget_executed',
         'user_id',
         'results_cusca_id',
-        'month_id',
-        'year_id'
+        //'month_id',
+        //'year_id'
     ];
     public $hidden = [
         'created_at',

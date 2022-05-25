@@ -1,10 +1,10 @@
 import userApi from "../../apis/userApi";
 import resultsCuscaApi from "../../apis/resultsCuscaApi";
-import monthApi from "../../apis/monthApi";
-import yearApi from "../../apis/yearApi";
+//import monthApi from "../../apis/monthApi";
+//import yearApi from "../../apis/yearApi";
 import actionsCuscaApi from "../../apis/actionsCuscaApi";
 import lib from "../../libs/function";
-import moment from "moment"
+//import moment from "moment"
 
 export default {
     async initialize() {
@@ -17,8 +17,8 @@ export default {
           params: { skip: 0, take: 200 },
         }),
         resultsCuscaApi.get(),
-        yearApi.get(),
-        monthApi.get(),
+        //yearApi.get(),
+        //monthApi.get(),
         userApi.get("/actualUserRole"),
         userApi.post("/actualUser"),
       ];
@@ -34,10 +34,10 @@ export default {
         this.records = responses[0].data.actionsCusca;
         this.users = responses[1].data.users;
         this.resultsCusca = responses[2].data.resultsCusca;
-        this.years = responses[3].data.years;
-        this.months = responses[4].data.months;
+        //this.years = responses[3].data.years;
+        //this.months = responses[4].data.months;
         console.log(responses);
-        this.actualUser = responses[6].data.user;
+        this.actualUser = responses[3].data.user;
 
         this.recordsFiltered = this.records;
       }
@@ -49,8 +49,8 @@ export default {
       this.editedItem = Object.assign({}, item);
       this.$v.editedItem.user_name = item.user_name;
       this.$v.editedItem.result_description = item.result_description;
-       this.$v.editedItem.month_name = item.month_name;
-      this.$v.editedItem.year_name = item.year_name;
+      //this.$v.editedItem.month_name = item.month_name;
+      //this.$v.editedItem.year_name = item.year_name;
      
     },
 
@@ -187,10 +187,10 @@ export default {
       this.editedItem.result_description =
       this.resultsCusca[0].result_description;
       this.editedItem.user_name = this.actualUser.user_name;
-      this.editedItem.year_name = new Date().getFullYear();
+      //this.editedItem.year_name = new Date().getFullYear();
 
-      const month_name = moment().format("MMMM");
-      this.editedItem.month_name = month_name.charAt(0).toUpperCase() + month_name.slice(1);
+      //const month_name = moment().format("MMMM");
+      //this.editedItem.month_name = month_name.charAt(0).toUpperCase() + month_name.slice(1);
 
       this.editedItem.action_description = "";
       this.editedItem.responsable_name = "";

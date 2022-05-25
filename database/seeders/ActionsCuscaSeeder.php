@@ -28,8 +28,8 @@ class ActionsCuscaSeeder extends Seeder
                 'budget_executed'=>520,
                 'user_id' => 1,
                 'results_cusca_id' => 1,
-                'month_id' => 1,
-                'year_id' => 1,
+                //'month_id' => 1,
+                //'year_id' => 1,
                 //'financings_id' => 1,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
@@ -46,9 +46,9 @@ class ActionsCuscaSeeder extends Seeder
                 'budget_executed'=>5200,
                 'user_id' => 2,
                 'results_cusca_id' => 2,
-                'month_id' => 2,
+                /*'month_id' => 2,
                 'year_id' => 1,
-                //'financings_id' => 1,
+                'financings_id' => 1,*/
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],

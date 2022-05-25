@@ -196,7 +196,7 @@
                       />
                     </v-col>
                     <!-- Results -->
-                    <!-- Months -->
+                    <!-- Months
                     <v-col cols="12" sm="6" md="6">
                       <base-select
                         label="Mes"
@@ -206,8 +206,8 @@
                         :validation="$v.editedItem.month_name"
                       />
                     </v-col>
-                    <!-- Months -->
-                    <!-- Years -->
+                    Months -->
+                    <!-- Years
                     <v-col cols="12" sm="6" md="6">
                       <base-select
                         label="Año"
@@ -217,7 +217,7 @@
                         :validation="$v.editedItem.year_name"
                       />
                     </v-col>
-                    <!-- Years -->
+                    Years -->
                     
                   </v-row>
                   <!-- Form -->
@@ -310,8 +310,8 @@ export default {
       { text: "PRESUPUESTO EJECUTADO", value: "budget_executed" },
       { text: "USUARIO", value: "user_name" },
       { text: "RESULTADO", value: "result_description" },
-      { text: "MES", value: "month_name" },
-      { text: "AÑO", value: "year_name" },
+      //{ text: "MES", value: "month_name" },
+      //{ text: "AÑO", value: "year_name" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
     records: [],
@@ -327,8 +327,8 @@ export default {
       budget_executed:0,
       user_name: "",
       result_description: "",
-      month_name: "",
-      year_name: "",
+      //month_name: "",
+      //year_name: "",
       executed: false,
     },
     defaultItem: {
@@ -341,8 +341,8 @@ export default {
       budget_executed:0,
       user_name: "",
       result_description: "",
-      month_name: "",
-      year_name: "",
+      //month_name: "",
+      //year_name: "",
       executed: false,
     },
 
@@ -351,8 +351,8 @@ export default {
     showAlert: false,
     users: [],
     resultsCusca: [],
-    months: [],
-    years: [],
+    //months: [],
+    //years: [],
     redirectSessionFinished: false,
     actualUser: {},
   }),
