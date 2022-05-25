@@ -20,7 +20,7 @@ class Programmatic_ObjectiveSeeder extends Seeder
                 'id' => 1,
                 'description' =>  'Objetivo programático Uno',
                 'executed' => 'SI',
-                'institution_id' => 1,
+                'axis_cusca_id' => 1,
                 'user_id' => 1,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
@@ -29,7 +29,7 @@ class Programmatic_ObjectiveSeeder extends Seeder
                 'id' => 2,
                 'description' =>  'Objetivo programático Dos',
                 'executed' => 'NO',
-                'institution_id' => 2,
+                'axis_cusca_id' => 2,
                 'user_id' => 2,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()

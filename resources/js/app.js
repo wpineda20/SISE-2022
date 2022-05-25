@@ -6,6 +6,7 @@ import es from "vuetify/src/locale/es.ts";
 import Vuelidate from "vuelidate";
 import VueMask from "v-mask";
 import EditableTable from "vuetify-editable-table";
+import moment from "moment";
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -68,6 +69,8 @@ export default new Vuetify({
         iconfont: "md",
     },
 });
+
+moment.locale('es');
 
 const app = new Vue({
     el: "#app",

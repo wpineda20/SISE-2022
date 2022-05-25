@@ -20,7 +20,7 @@ class PoaClosingController extends Controller
         $poaClosings = PoaClosing::all();
 
         foreach ($poaClosings as $poaClosing) {
-            $poaClosing->value = $poaClosing->year->value;
+            $poaClosing->year_name = $poaClosing->year->year_name;
         }
         $poaClosings->makeHidden(['year']);
 
@@ -39,7 +39,7 @@ class PoaClosingController extends Controller
     {
          // dd($request->all());
         $data = $request->except('year_name');
-        $year = Year::where('year_name', $request->value)->first();
+        $year = Year::where('year_name', $request->year_name)->first();
         $data['year_id'] = $year->id;
         PoaClosing::insert($data);
 
@@ -66,7 +66,7 @@ class PoaClosingController extends Controller
      */
     public function update(Request $request)
     {
-        $year = Year::where('year_name', $request->value)->first();
+        $year = Year::where('year_name', $request->year_name)->first();
         $data = EncryptController::decryptModel($request->except(['year_name']), 'id');
         // dd($data, $year);
 

@@ -79,18 +79,17 @@
                       />
                     </v-col>
                     <!-- Description -->
-                    <!-- Institution -->
+                    <!-- Eje -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select
-                        label="Institución"
-                        v-model.trim="$v.editedItem.institution_name.$model"
-                        :items="institutions"
-                        item="institution_name"
-                        :validation="$v.editedItem.institution_name"
-                        :readonly="false"
+                        label="Eje"
+                        v-model.trim="$v.editedItem.axis_description.$model"
+                        :items="axis"
+                        item="axis_description"
+                        :validation="$v.editedItem.axis_description" 
                       />
                     </v-col>
-                    <!-- Institution -->
+                    <!-- Eje -->
                     <!-- User
                     <v-col cols="12" sm="6" md="6">
                       <base-select
@@ -99,6 +98,7 @@
                         :items="users"
                         item="user_name"
                         :validation="$v.editedItem.user_name"
+                        :readonly="false"
                       />
                     </v-col>
                     User -->
@@ -181,7 +181,7 @@
 </template>
 
 <script>
-import institutionApi from "../apis/institutionApi";
+import axisCuscaApi from "../apis/axisCuscaApi";
 import userApi from "../apis/userApi";
 import programmaticObjectiveApi from "../apis/programmaticObjectiveApi";
 import lib from "../libs/function";
@@ -194,7 +194,7 @@ export default {
     dialogDelete: false,
     headers: [
       { text: "OBJETIVO PROGRAMÁTICO", value: "description" },
-      { text: "INSTITUCIÓN", value: "institution_name" },
+      { text: "EJE", value: "axis_description" },
       { text: "EJECUTADO", value: "executed" },
       { text: "USUARIO", value: "user_name" },
       { text: "ACCIONES", value: "actions", sortable: false },
@@ -204,13 +204,13 @@ export default {
     editedIndex: -1,
     editedItem: {
       /*user_name: "",*/
-      institution_name: "",
+      axis_description: "",
       description: "",
       executed: false,
     },
     defaultItem: {
       /*user_name: "",*/
-      institution_name: "",
+      axis_description: "",
       description: "",
       executed: false,
     },
@@ -218,7 +218,7 @@ export default {
     alertEvent: "success",
     showAlert: false,
     users: [],
-    institutions: [],
+    axis: [],
     redirectSessionFinished: false,
   }),
 
@@ -231,7 +231,7 @@ export default {
       /*user_name: {
         required,
       },*/
-      institution_name: {
+      axis_description: {
         required,
       },
       description: {
@@ -271,7 +271,7 @@ export default {
         userApi.get(null, {
           params: { skip: 0, take: 200 },
         }),
-        institutionApi.get(),
+        axisCuscaApi.get(),
         userApi.get("/actualUserRole"),
       ];
       let responses = await Promise.all(requests).catch((error) => {
@@ -285,9 +285,9 @@ export default {
       if (responses && responses[0].data.message == "success") {
         this.records = responses[0].data.programmatic_objectives;
         this.users = responses[1].data.users;
-        this.institutions = responses[2].data.institutions;
+        this.axis = responses[2].data.axisCuscas;
 
-        // console.log(responses);
+        console.log(responses);
 
         this.recordsFiltered = this.records;
       }
@@ -298,8 +298,8 @@ export default {
       this.editedIndex = this.recordsFiltered.indexOf(item);
       this.editedItem = Object.assign({}, item);
       //this.$v.editedItem.user_name.$model = this.editedItem.user_name;
-      this.$v.editedItem.institution_name.$model =
-        this.editedItem.institution_name;
+      this.$v.editedItem.axis_description.$model =
+        this.editedItem.axis_description;
     },
 
     deleteItem(item) {
@@ -353,7 +353,7 @@ export default {
 
     async save() {
       this.$v.$touch();
-      if (this.$v.$invalid || this.editedItem.institution_name == "") {
+      if (this.$v.$invalid || this.editedItem.axis_description == "") {
         this.updateAlert(true, "Campos obligatorios.", "fail");
         return;
       }
@@ -431,7 +431,7 @@ export default {
 
     openModal() {
       this.dialog = true;
-      this.editedItem.institution_name = this.institutions[0].institution_name;
+      this.editedItem.axis_description = this.axis[0].axis_description;
       this.editedItem.description = "";
       this.editedItem.executed = false;
     },

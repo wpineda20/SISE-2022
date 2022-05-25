@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTrackingObservationCuscasTable extends Migration
+class TrakingCuscaMonthYearAction extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,12 @@ class CreateTrackingObservationCuscasTable extends Migration
      */
     public function up()
     {
-        Schema::create('tracking_observation_cusca', function (Blueprint $table) {
+        Schema::create('traking_cusca_month_year_action', function (Blueprint $table) {
             $table->id();
-            $table->string('observation_reply', 500)->nullable();
-            $table->date('reply_date')->nullable();
-            $table->string('observation', 500)->nullable();
-            $table->string('reply', 500)->nullable();
+            $table->foreignId('tracking_cusca_id')->references('id')->on('tracking_cusca');
+            $table->foreignId('actions_cusca_id')->references('id')->on('actions_cusca');
             $table->foreignId('year_id')->references('id')->on('years');
             $table->foreignId('month_id')->references('id')->on('months');
-            // $table->foreignId('tracking_cusca_id')->references('id')->on('tracking_cusca');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -34,6 +31,6 @@ class CreateTrackingObservationCuscasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tracking_observation_cusca');
+        Schema::dropIfExists('traking_cusca_month_year_action');
     }
 }

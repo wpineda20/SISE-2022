@@ -14,7 +14,7 @@
     <v-data-table
       :headers="headers"
       :items="recordsFiltered"
-      sort-by="value"
+      sort-by="year_name"
       class="elevation-3 shadow p-3 mt-3"
     >
       <template v-slot:top>
@@ -78,8 +78,8 @@
                     <v-col cols="12" sm="6" md="6">
                       <base-input
                         label="Año"
-                        v-model.trim="$v.editedItem.value.$model"
-                        :validation="$v.editedItem.value"
+                        v-model.trim="$v.editedItem.year_name.$model"
+                        :validation="$v.editedItem.year_name"
                         v-mask="'####'"
                         type="number"
                         :validationsInput="{
@@ -172,7 +172,7 @@ export default {
     dialog: false,
     dialogDelete: false,
     headers: [
-      { text: "AÑO", value: "value" },
+      { text: "AÑO", value: "year_name" },
       { text: "PERIODO", value: "period_name" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
@@ -180,11 +180,11 @@ export default {
     recordsFiltered: [],
     editedIndex: -1,
     editedItem: {
-      value: "",
+      year_name: "",
       period_name: "",
     },
     defaultItem: {
-      value: "",
+      year_name: "",
       period_name: "",
     },
     textAlert: "",
@@ -197,7 +197,7 @@ export default {
   // Validations
   validations: {
     editedItem: {
-      value: {
+      year_name: {
         required,
         minLength: minLength(1),
         maxLength: maxLength(4),
@@ -353,8 +353,8 @@ export default {
       if (this.search != "") {
         this.records.forEach((record) => {
           let searchConcat = "";
-          for (let i = 0; i < record.value.length; i++) {
-            searchConcat += record.value[i].toUpperCase();
+          for (let i = 0; i < record.year_name.length; i++) {
+            searchConcat += record.year_name[i].toUpperCase();
             if (
               searchConcat === this.search.toUpperCase() &&
               !this.recordsFiltered.some((rec) => rec == record)

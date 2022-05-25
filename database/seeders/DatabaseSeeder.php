@@ -30,12 +30,11 @@ class DatabaseSeeder extends Seeder
             MonthlyClosingSeeder::class,
             UserSeeder::class,
             PoaClosingSeeder::class,
-            Programmatic_ObjectiveSeeder::class,
             AxisCuscaSeeder::class,
+            Programmatic_ObjectiveSeeder::class,  
             StrategyCuscaSeeder::class,
             ResultsCuscaSeeder::class,
             ActionsCuscaSeeder::class,
-            TrackingObservationCuscaSeeder::class,
             TrackingCuscaSeeder::class,
 
 

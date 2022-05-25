@@ -21,7 +21,7 @@ class AxisCusca extends Model
         'axis_description',
         'executed',
         'user_id',
-        'programmatic_objectives_id',
+        //'programmatic_objectives_id',
     ];
     public $hidden = [
         'created_at',

@@ -78,12 +78,12 @@
                       />
                     </v-col>
                     <!-- Result -->
-                    <!-- Responsible Name -->
+                    <!-- Mesure Unit -->
                     <v-col cols="12" sm="12" md="12">
                       <base-input
-                        label="Responsable"
-                        v-model="$v.editedItem.responsible_name.$model"
-                        :validation="$v.editedItem.responsible_name"
+                        label="Unidad de medida"
+                        v-model="$v.editedItem.mesure_unit.$model"
+                        :validation="$v.editedItem.mesure_unit"
                         validationTextType="default"
                         :validationsInput="{
                           required: true,
@@ -92,7 +92,58 @@
                         }"
                       />
                     </v-col>
-                    <!-- Responsible Name -->
+                    <!-- Mesure Unit -->
+                    <!-- Year Goal -->
+                    <v-col cols="12" sm="6" md="6">
+                      <base-input
+                        label="Número de metas al año"
+                        v-model.trim="$v.editedItem.year_goal.$model"
+                        :validation="$v.editedItem.year_goal"
+                        v-mask="'####'"
+                        type="number"
+                        :validationsInput="{
+                          required: true,
+                        }"
+                        :min="0"
+                        :max="2050"
+                      />
+                    </v-col>
+                    <!-- Year Goal -->
+                    <!-- Indicator -->
+                    <v-col cols="12" sm="6" md="6">
+                      <base-select-search
+                        label="Indicador"
+                        v-model.trim="$v.editedItem.indicator_name.$model"
+                        :items="indicators"
+                        item="indicator_name"
+                        :validation="$v.editedItem.indicator_name"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                        }"
+                      />
+                    </v-col>
+                    <!-- Indicator -->
+                     <!-- Executed -->
+                    <v-col cols="12" sm="6" md="6" class="pt-0">
+                      <v-checkbox
+                        v-model="$v.editedItem.executed.$model"
+                        label="Ejecutado"
+                      ></v-checkbox>
+                    </v-col>
+                    <!-- Executed-->
+                     <!-- Users -->
+                    <v-col cols="12" sm="6" md="6">
+                      <base-select
+                        label="Usuario"
+                        v-model.trim="$v.editedItem.user_name.$model"
+                        :items="users"
+                        item="user_name"
+                        :validation="$v.editedItem.user_name"
+                        :readonly="true"
+                      />
+                    </v-col>
+                    <!-- Users -->
                     <!-- Organizational Unit -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select-search
@@ -108,59 +159,6 @@
                       />
                     </v-col>
                     <!-- Organizational Unit -->
-                    <!-- Axis -->
-                    <v-col cols="12" sm="6" md="6">
-                      <base-select
-                        label="Eje"
-                        v-model.trim="$v.editedItem.axis_description.$model"
-                        :items="axisCuscas"
-                        item="axis_description"
-                        :validation="$v.editedItem.axis_description"
-                      />
-                    </v-col>
-                    <!-- Axis -->
-                    <!-- Indicator
-                    <v-col cols="12" sm="6" md="6">
-                      <base-select-search
-                        label="Indicador"
-                        v-model.trim="$v.editedItem.indicator_name.$model"
-                        :items="indicators"
-                        item="indicator_name"
-                        :validation="$v.editedItem.indicator_name"
-                        :validationsInput="{
-                          required: true,
-                          minLength: true,
-                        }"
-                      />
-                    </v-col>
-                    Indicator -->
-                    <!-- Users -->
-                    <v-col cols="12" sm="6" md="6">
-                      <base-select
-                        label="Usuario"
-                        v-model.trim="$v.editedItem.user_name.$model"
-                        :items="users"
-                        item="user_name"
-                        :validation="$v.editedItem.user_name"
-                        :readonly="true"
-                      />
-                    </v-col>
-                    <!-- Users -->
-                    <!-- Period -->
-                    <v-col cols="12" sm="6" md="6">
-                      <base-select-search
-                        label="Periodo"
-                        v-model.trim="$v.editedItem.period_name.$model"
-                        :items="periods"
-                        item="period_name"
-                        :validation="$v.editedItem.period_name"
-                        :validationsInput="{
-                          required: true,
-                          minLength: true,
-                        }"
-                      />
-                    </v-col>
-                    <!-- Period -->
                     <!-- Years -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select
@@ -176,14 +174,37 @@
                       />
                     </v-col>
                     <!-- Years -->
-                    <!-- Executed -->
-                    <v-col cols="12" sm="6" md="6" class="pt-0">
-                      <v-checkbox
-                        v-model="$v.editedItem.executed.$model"
-                        label="Ejecutado"
-                      ></v-checkbox>
+                    <!-- Period -->
+                    <v-col cols="12" sm="6" md="6">
+                      <base-select-search
+                        label="Periodo"
+                        v-model.trim="$v.editedItem.period_name.$model"
+                        :items="periods"
+                        item="period_name"
+                        :validation="$v.editedItem.period_name"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                        }"
+                      />
                     </v-col>
-                    <!-- Executed-->
+                    <!-- Period -->
+                    <!-- Strategy -->
+                    <v-col cols="12" sm="6" md="6">
+                      <base-select-search
+                        label="Estrategía"
+                        v-model.trim="$v.editedItem.description_strategy.$model"
+                        :items="strategys"
+                        item="description_strategy"
+                        :validation="$v.editedItem.description_strategy"
+                        :validationsInput="{
+                          required: true,
+                          minLength: true,
+                        }"
+                      />
+                    </v-col>
+                    <!-- Strategy -->
+                   
                   </v-row>
                   <!-- Form -->
                   <v-row>
@@ -257,11 +278,11 @@
 <script>
 import userApi from "../apis/userApi";
 import organizationalUnitApi from "../apis/organizationalUnitApi";
-//import indicatorApi from "../apis/indicatorApi";
-import axisCuscaApi from "../apis/axisCuscaApi";
+import indicatorApi from "../apis/indicatorApi";
 import resultsCuscaApi from "../apis/resultsCuscaApi";
 import periodApi from "../apis/periodApi";
 import yearApi from "../apis/yearApi";
+import strategyCuscaApi from "../apis/strategyCuscaApi";
 import lib from "../libs/function";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
 
@@ -272,14 +293,15 @@ export default {
     dialogDelete: false,
     headers: [
       { text: "RESULTADO", value: "result_description" },
-      { text: "EJE", value: "axis_description" },
-      //{ text: "INDICADOR", value: "indicator_name" },
-      { text: "UNIDAD ORGANIZATIVA", value: "ou_name" },
-      { text: "RESPONSABLE", value: "responsible_name" },
+      { text: "UNIDAD DE MEDIDA", value: "mesure_unit" },
+      { text: "METAS AL AÑO", value: "year_goal" },
       { text: "EJECUTADO", value: "executed" },
       { text: "USUARIO", value: "user_name" },
-      { text: "PERIODO", value: "period_name" },
+      { text: "INDICADOR", value: "indicator_name" },
+      { text: "UNIDAD ORGANIZATIVA", value: "ou_name" },
       { text: "AÑO", value: "year_name" },
+      { text: "PERIODO", value: "period_name" },
+      { text: "ESTRATEGIA", value: "description_strategy" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
     records: [],
@@ -287,36 +309,41 @@ export default {
     editedIndex: -1,
     editedItem: {
       result_description: "",
-      responsible_name: "",
+      mesure_unit: "",
+      year_goal: "",
       executed: false,
       user_name: "",
-      axis_description: "",
-      //indicator_name: "",
+      // axis_description: "",
+      indicator_name: "",
       ou_name: "",
       period_name: "",
       year_name: "",
+      description_strategy:""
     },
     defaultItem: {
       result_description: "",
-      responsible_name: "",
+      mesure_unit: "",
+      year_goal: "",
       executed: false,
       user_name: "",
-      axis_description: "",
-      //indicator_name: "",
+      //axis_description: "",
+      indicator_name: "",
       ou_name: "",
       period_name: "",
       year_name: "",
+      description_strategy:""
     },
 
     textAlert: "",
     alertEvent: "success",
     showAlert: false,
     users: [],
-    axisCuscas: [],
-    //indicators: [],
+    //axisCuscas: [],
+    indicators: [],
     organizationalUnits: [],
     periods: [],
     years: [],
+    strategys: [],
     redirectSessionFinished: false,
     actualUser: {},
   }),
@@ -329,10 +356,15 @@ export default {
         minLength: minLength(1),
         maxLength: maxLength(500),
       },
-      responsible_name: {
+      mesure_unit: {
         required,
         minLength: minLength(1),
         maxLength: maxLength(150),
+      },
+      year_goal: {
+        required,
+        minLength: minLength(1),
+        maxLength: maxLength(10),
       },
       executed: {
         required,
@@ -342,12 +374,12 @@ export default {
       user_name: {
         required,
       },
-      axis_description: {
+      description_strategy: {
         required,
-      } /*
+      }, 
       indicator_name: {
         required,
-      },*/,
+      },
       ou_name: {
         required,
       },
@@ -389,9 +421,9 @@ export default {
         userApi.get(null, {
           params: { skip: 0, take: 200 },
         }),
-        axisCuscaApi.get(),
+        strategyCuscaApi.get(),
         organizationalUnitApi.get(),
-        //indicatorApi.get(),
+        indicatorApi.get(),
         periodApi.get(),
         yearApi.get(),
         userApi.post("/actualUser"),
@@ -407,7 +439,7 @@ export default {
       if (responses && responses[0].data.message == "success") {
         this.records = responses[0].data.resultsCusca;
         this.users = responses[1].data.users;
-        this.axisCuscas = responses[2].data.axisCuscas;
+        this.strategys = responses[2].data.strategy_cusca;
         this.organizationalUnits = responses[3].data.organizationalUnits;
         this.indicators = responses[4].data.indicators;
         this.periods = responses[5].data.periods;
@@ -423,12 +455,11 @@ export default {
       this.editedIndex = this.recordsFiltered.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.$v.editedItem.user_name.$model = this.editedItem.user_name;
-      this.$v.editedItem.axis_description.$model =
-        this.editedItem.axis_description;
-      //this.$v.editedItem.indicator_name.$model = this.editedItem.indicator_name;
+      this.$v.editedItem.indicator_name.$model = this.editedItem.indicator_name;
       this.$v.editedItem.ou_name.$model = this.editedItem.ou_name;
       this.$v.editedItem.period_name.$model = this.editedItem.period_name;
       this.$v.editedItem.year_name.$model = this.editedItem.year_name;
+      this.$v.editedItem.description_strategy.$model = this.editedItem.description_strategy;
     },
 
     deleteItem(item) {
@@ -564,12 +595,12 @@ export default {
       this.editedItem.user_name = this.actualUser.user_name;
       this.editedItem.indicator_name = this.indicators[0].indicator_name;
       this.editedItem.period_name = this.periods[0].period_name;
-      this.editedItem.value = new Date().getFullYear();
+      this.editedItem.year_name = new Date().getFullYear();
       this.editedItem.ou_name = this.organizationalUnits[0].ou_name;
-      this.editedItem.axis_description = this.axisCuscas[0].axis_description;
+      this.editedItem.description_strategy = this.strategys[0].description_strategy;
       this.editedItem.executed = false;
       this.editedItem.result_description = "";
-      this.editedItem.responsible_name = "";
+      this.editedItem.mesure_unit = "";
     },
   },
 };

@@ -37,6 +37,7 @@
               <v-row>
                 <v-col align="end">
                   <v-btn
+                    v-if="actualUser.role == 'Administrador'"
                     class="mb-2 btn-normal"
                     rounded
                     @click="openModal"
@@ -96,7 +97,7 @@
                     <!-- Tracking Detail -->
 
                     <!-- Users -->
-                    <!-- <v-col cols="12" sm="6" md="6">
+                    <v-col cols="12" sm="6" md="6">
                       <base-select-search
                         label="Usuario"
                         v-model.trim="$v.editedItem.user_name.$model"
@@ -109,10 +110,10 @@
                         }"
                         :readonly="true"
                       />
-                    </v-col> -->
+                    </v-col>
                     <!-- Users -->
                     <!-- Month -->
-                    <v-col cols="12" sm="6" md="6">
+                    <!--<v-col cols="12" sm="6" md="6">
                       <base-select-search
                         label="Mes"
                         v-model.trim="$v.editedItem.month_name.$model"
@@ -124,9 +125,9 @@
                           minLength: true,
                         }"
                       />
-                    </v-col>
+                    </v-col>-->
                     <!-- Month -->
-                    <!-- Year -->
+                    <!-- Year 
                     <v-col cols="12" sm="6" md="6">
                       <base-select-search
                         label="Año"
@@ -139,14 +140,14 @@
                           minLength: true,
                         }"
                       />
-                    </v-col>
+                    </v-col>-->
                     <!-- Year -->
                     <!-- Tracking Status -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select-search
                         label="Estado de seguimiento"
                         v-model.trim="$v.editedItem.status_name.$model"
-                        :items="trakingStatuses"
+                        :items="traking_Statuses"
                         item="status_name"
                         :validation="$v.editedItem.status_name"
                         :validationsInput="{
@@ -156,7 +157,7 @@
                       />
                     </v-col>
                     <!-- Tracking Status -->
-                    <!-- Actions -->
+                    <!-- Actions
                     <v-col cols="12" sm="6" md="6">
                       <base-select-search
                         label="Acción"
@@ -170,7 +171,7 @@
                         }"
                       />
                     </v-col>
-                    <!-- Actions -->
+                    Actions -->
                     <!-- Observations -->
                     <v-col cols="12" sm="6" md="6">
                       <base-select-search
@@ -186,7 +187,7 @@
                       />
                     </v-col>
                     <!-- Observations -->
-                    <!-- Monthly Actions -->
+                    <!-- Monthly Actions
                     <v-col cols="12" sm="12" md="6">
                       <base-input
                         label="Acciones mensuales"
@@ -198,7 +199,7 @@
                         }"
                       />
                     </v-col>
-                    <!-- Monthly Actions -->
+                    Monthly Actions -->
                     <!-- Bubget executed -->
                     <v-col cols="12" sm="12" md="6">
                       <base-input
@@ -341,11 +342,11 @@
 
 <script>
 import userApi from "../apis/userApi";
-import yearApi from "../apis/yearApi";
-import monthApi from "../apis/monthApi";
+//import yearApi from "../apis/yearApi";
+//import monthApi from "../apis/monthApi";
 import trakingStatusApi from "../apis/trakingStatusApi";
 import trackingCuscaApi from "../apis/trackingCuscaApi";
-import actionsCuscaApi from "../apis/actionsCuscaApi";
+//import actionsCuscaApi from "../apis/actionsCuscaApi";
 import roleApi from "../apis/roleApi";
 import lib from "../libs/function";
 import {
@@ -362,15 +363,16 @@ export default {
     dialogDelete: false,
     headers: [
       { text: "SEGUIMIENTO", value: "tracking_detail" },
-      { text: "ACCIÓN", value: "action_description" },
-      { text: "MES", value: "month_name" },
-      { text: "AÑO", value: "year_name" },
-      { text: "ACCIONES MENSUALES", value: "monthly_actions" },
-      { text: "PRESUPUESTO", value: "budget_executed" },
-      { text: "USUARIO", value: "user_name" },
+      //{ text: "ACCIÓN", value: "action_description" },
+      //{ text: "MES", value: "month_name" },
+      //{ text: "AÑO", value: "year_name" },
+      //{ text: "ACCIONES MENSUALES", value: "monthly_actions" },
       { text: "EJECUTADO", value: "executed" },
-      { text: "ESTADO", value: "status_name" },
+      { text: "PRESUPUESTO", value: "budget_executed" },
       { text: "OBSERVACIÓN", value: "observation" },
+      { text: "RESPUESTA", value: "reply" },
+      { text: "USUARIO", value: "user_name" },
+      { text: "ESTADO", value: "status_name" },
       { text: "ACCIONES", value: "actions", sortable: false },
     ],
     records: [],
@@ -378,26 +380,26 @@ export default {
     editedIndex: -1,
     editedItem: {
       tracking_detail: "",
-      action_description: "",
-      month_name: "",
+      //action_description: "",
+      //month_name: "",
       budget_executed: 0,
-      // user_name: "",
-      year_name: "",
+      user_name: "",
+      //year_name: "",
       status_name: "",
-      monthly_actions: 0,
+      //monthly_actions: 0,
       executed: false,
       observation: "",
       reply: "",
     },
     defaultItem: {
       tracking_detail: "",
-      action_description: "",
-      month_name: "",
+      //action_description: "",
+      //month_name: "",
       budget_executed: 0,
-      // user_name: "",
-      year_name: "",
+      user_name: "",
+      //year_name: "",
       status_name: "",
-      monthly_actions: 0,
+      //monthly_actions: 0,
       executed: false,
       observation: "",
       reply: "",
@@ -407,16 +409,17 @@ export default {
     alertEvent: "success",
     showAlert: false,
     users: [],
-    months: [],
-    years: [],
-    actions: [],
-    trakingStatuses: [],
-    observations: [],
+    //months: [],
+    //years: [],
+    //actions: [],
+    traking_Statuses: [],
+    //observations: [],
 
     redirectSessionFinished: false,
     filter: "Mensuales",
     role: "",
     loadingDataForm: false,
+    actualUser: {}
   }),
 
   // Validations
@@ -501,10 +504,11 @@ export default {
           params: { skip: 0, take: 200 },
         }),
         trakingStatusApi.get(),
-        yearApi.get(),
-        monthApi.get(),
-        actionsCuscaApi.get(),
+        //yearApi.get(),
+        //monthApi.get(),
+        //actionsCuscaApi.get(),
         roleApi.get("/user"),
+        userApi.post("/actualUser"),
       ];
       let responses = await Promise.all(requests).catch((error) => {
         this.updateAlert(true, "No fue posible obtener los registros.", "fail");
@@ -518,10 +522,11 @@ export default {
         this.records = responses[0].data.trackingsCusca;
         this.users = responses[1].data.users;
         this.trakingStatuses = responses[2].data.trakingStatuses;
-        this.years = responses[3].data.years;
-        this.months = responses[4].data.months;
-        this.actions = responses[5].data.actionsCusca;
-        this.role = responses[6].data.roles[0];
+        //this.years = responses[3].data.years;
+        //this.months = responses[4].data.months;
+        //this.actions = responses[4].data.actionsCusca;
+        this.role = responses[3].data.roles[0];
+        this.actualUser = responses[4].data.user;
 
         this.recordsFiltered = this.records;
       }
@@ -535,9 +540,9 @@ export default {
       this.editedItem = Object.assign({}, item);
 
       this.editedItem.status_name = this.editedItem.status_name;
-      this.editedItem.year_name = this.editedItem.year_name;
-      this.editedItem.month_name = this.editedItem.month_name;
-      this.editedItem.action_description = this.editedItem.action_description;
+      //this.editedItem.year_name = this.editedItem.year_name;
+      //this.editedItem.month_name = this.editedItem.month_name;
+      //this.editedItem.action_description = this.editedItem.action_description;
       this.editedItem.observation = this.editedItem.observation;
       this.editedItem.executed =
         this.editedItem.executed == "SI" ? true : false;
@@ -685,15 +690,15 @@ export default {
       this.dialog = true;
 
       this.editedItem.month_name =
-        this.months[new Date().getMonth()].month_name;
-      this.editedItem.year_name = new Date().getFullYear();
+      //this.months[new Date().getMonth()].month_name;
+      //this.editedItem.year_name = new Date().getFullYear();
       this.editedItem.status_name = this.trakingStatuses[0].status_name;
-      this.editedItem.action_description = this.actions[0].action_description;
+      //this.editedItem.action_description = this.actions[0].action_description;
       this.editedItem.tracking_detail = "";
       this.editedItem.observation = "";
       this.editedItem.reply = "";
       this.editedItem.budget_executed = 0;
-      this.editedItem.monthly_actions = 0;
+      //this.editedItem.monthly_actions = 0;
       this.editedItem.executed = false;
     },
 
@@ -724,4 +729,3 @@ export default {
   },
 };
 </script>
-

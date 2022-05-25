@@ -1,14 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\ActionsCusca;
 use App\Models\TrackingCusca;
 use App\Models\User;
 use App\Models\Year;
-use App\Models\Month;
 use App\Models\TrakingStatus;
-use App\Models\TrackingObservationCusca;
 
 use Illuminate\Http\Request;
 
@@ -21,7 +17,7 @@ class TrackingCuscaController extends Controller
      */
     public function index(Request $request)
     {
-        $roles = RoleController::getAllowedRoles();
+        /*$roles = RoleController::getAllowedRoles();
         $filters = [];
         if (isset($roles[0])) {
             switch ($roles[0]) {
@@ -52,38 +48,33 @@ class TrackingCuscaController extends Controller
             }
         }
 
-        $filters['y.year_name'] = date('Y');
+        $filters['y.year_name'] = date('Y');*/
 
         $trackingsCusca = TrackingCusca::select(
             'tracking_cusca.id as id',
             'tracking_detail',
             'tracking_cusca.executed',
-            'monthly_actions',
-            'budget_executed',
-            'action_description',
-            'u.user_name',
-            'year_name',
-            'month_name',
-            'status_name',
+            //'monthly_actions',
+            'tracking_cusca.budget_executed',
             'tracking_cusca.observation',
             'reply'
         )
         ->join('users as u', 'tracking_cusca.user_id', '=', 'u.id')
-        ->join('years as y', 'tracking_cusca.year_id', '=', 'y.id')
-        ->join('months as m', 'tracking_cusca.month_id', '=', 'm.id')
-        ->join('actions_cusca as ac', 'tracking_cusca.actions_cusca_id', '=', 'ac.id')
-        ->join('results_cusca as re', 'ac.results_cusca_id', '=', 're.id')
-        ->join('organizational_units as ou', 're.organizational_units_id', '=', 'ou.id')
-        ->join('directions as di', 'ou.direction_id', '=', 'di.id')
-        ->join('institutions as inst', 'di.institution_id', '=', 'inst.id')
+        //->join('years as y', 'traking_cusca_month_year_action.year_id', '=', 'y.id')
+        //->join('months as m', 'traking_cusca_month_year_action.month_id', '=', 'm.id')
+        //->join('actions_cusca as ac', 'traking_cusca_month_year_action.actions_cusca_id', '=', 'ac.id')
+        //->join('results_cusca as re', 'ac.results_cusca_id', '=', 're.id')
+        //->join('organizational_units as ou', 're.organizational_units_id', '=', 'ou.id')
+        //->join('directions as di', 'ou.direction_id', '=', 'di.id')
+        //->join('institutions as inst', 'di.institution_id', '=', 'inst.id')
         ->join('traking_statuses as ts', 'tracking_cusca.traking_status_id', '=', 'ts.id')
-        ->where($filters)
-        ->whereRaw($month)
-        ->orderBy('id', 'desc')
+        //->where($filters)
+        //->whereRaw($month)
+        //->orderBy('id', 'desc')
         ->get();
 
-        $trackingsCusca = EncryptController::encryptArray($trackingsCusca, ['id', 'user_id', 'year_id',
-        'month_id', 'traking_status_id', 'actions_cusca_id', 'tracking_observation_cusca_id']);
+        $trackingsCusca = EncryptController::encryptArray($trackingsCusca, ['id', 'user_id', /*'year_id',
+        /*'month_id',*/ 'traking_status_id'/*, 'actions_cusca_id', 'tracking_observation_cusca_id'*/]);
 
         return response()->json(['message' => 'success', 'trackingsCusca'=>$trackingsCusca]);
     }
@@ -96,19 +87,25 @@ class TrackingCuscaController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        $data = $request->except(['user_name', 'action_description', 'month_name', 'year_name', 'status_name',
-        'observation']);
+        /*if(auth()->user()->getRoleNames()[0] != "Administrador"){
+            return response()->json([
+                'message'=>'success', 
+                "error"=>"El usuario no posee los permisos suficientes para esta acción."
+            ]);
+        }*/
+        
+        $data = $request->except(['user_name', /*'action_description', 'month_name',
+    'year_name', */'status_name'/*,'observation'*/]);
 
-        $month = Month::where('month_name', $request->month_name)->first();
-        $action_description = ActionsCusca::where('action_description', $request->action_description)->first();
-        $year = Year::where('year_name', $request->year_name)->first();
+        //$month = Month::where('month_name', $request->month_name)->first();
+        //$action_description = ActionsCusca::where('action_description', $request->action_description)->first();
+        //$year = Year::where('year_name', $request->year_name)->first();
         $status = TrakingStatus::where('status_name', $request->status_name)->first();
 
         $data['user_id'] = auth()->user()->id;
-        $data['month_id'] = $month->id;
-        $data['actions_cusca_id'] = $action_description->id;
-        $data['year_id'] = $year->id;
+        //$data['month_id'] = $month->id;
+        //$data['actions_cusca_id'] = $action_description->id;
+        // $data['year_id'] = $year->id;
         $data['traking_status_id'] = $status->id;
         $data['executed'] = ($data['executed'])?"SI":"NO";
         $data['observation'] = $request->observation;
@@ -140,24 +137,24 @@ class TrackingCuscaController extends Controller
      */
     public function update(Request $request)
     {
-        $data = $request->except(['user_name', 'action_description', 'month_name', 'year_name', 'status_name',
-        'observation']);
+        $data = $request->except(['user_name', /*'action_description', 'month_name', 'year_name',*/ 'status_name',
+        'observation', 'reply']);
         if (auth()->user()->user_name == $request->user_name || auth()->user()->hasRole('Administrador')) {
             $user = User::where('user_name', $request->user_name)->first();
 
-            $month = Month::where('month_name', $request->month_name)->first();
-            $year = Year::where('year_name', $request->year_name)->first();
-            $action_description = ActionsCusca::where('action_description', $request->action_description)->first();
+            //$month = Month::where('month_name', $request->month_name)->first();
+            //$year = Year::where('year_name', $request->year_name)->first();
+            //$action_description = ActionsCusca::where('action_description', $request->action_description)->first();
             $status = TrakingStatus::where('status_name', $request->status_name)->first();
 
-            $data = EncryptController::decryptModel($request->except(['user_name', 'month_name', 'action_description',
-            'year_name', 'status_name', 'observation']), 'id');
+            $data = EncryptController::decryptModel($request->except(['user_name', /*'month_name', 'action_description',
+            'year_name', */'status_name', 'observation', 'reply']), 'id');
 
             $model = TrackingCusca::where('id', $data['id'])->first();
             $model->user_id = $user->id;
-            $model->year_id = $year->id;
-            $model->month_id = $month->id;
-            $model->actions_cusca_id = $action_description->id;
+            //$model->year_id = $year->id;
+            //$model->month_id = $month->id;
+            //$model->actions_cusca_id = $action_description->id;
             $model->traking_status_id = $status->id;
             $model->executed = ($data['executed'])?"SI":"NO";
             $model->observation = $request->observation;

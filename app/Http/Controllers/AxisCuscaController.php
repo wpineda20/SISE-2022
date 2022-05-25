@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Crypt;
 use App\Models\AxisCusca;
+use App\Models\Institution;
 use App\Models\User;
 use App\Models\Programmatic_Objective;
 use Illuminate\Http\Request;
@@ -19,13 +20,12 @@ class AxisCuscaController extends Controller
     public function index()
     {
         $axisCuscas = AxisCusca::select('axis_cusca.id', 'axis_description', 'axis_cusca.executed', 
-        'user_name', 'description')
-
-        ->join('users as u', 'axis_cusca.user_id', '=', 'u.id')
-        ->join('programmatic_objectives as po', 'axis_cusca.programmatic_objectives_id', '=', 'po.id')
+        'institution_name','user_name')
+        ->join('institutions as institution', 'axis_cusca.institution_id', '=', 'institution.id')
+        ->join('users as u', 'axis_cusca.user_id', '=', 'u.id') 
         ->get();
 
-        $axisCuscas = EncryptController::encryptArray($axisCuscas, ['id', 'user_id', 'programmatic_objectives_id']);
+        $axisCuscas = EncryptController::encryptArray($axisCuscas, ['id', 'user_id', 'institution_id']);
 
         return response()->json(['message' => 'success', 'axisCuscas'=>$axisCuscas]);
     }
@@ -38,14 +38,14 @@ class AxisCuscaController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except(['user_name', 'description']);
+        $data = $request->except(['user_name', 'institution_name']);
 
         $user = User::where('user_name', $request->user_name)->first();
-        $description = Programmatic_Objective::where('description', $request->description)->first();
+        $institution = Institution::where('institution_name', $request->institution_name)->first();
 
         $data['executed'] = ($data['executed'])?"SI":"NO";
         $data['user_id'] = $user->id;
-        $data['programmatic_objectives_id'] = $description->id;
+        $data['institution_id'] = $institution->id;
 
         AxisCusca::insert($data);
 
@@ -73,15 +73,15 @@ class AxisCuscaController extends Controller
     public function update(Request $request)
     {
          // dd($request->all());
-        $data = $request->except(['user_name', 'description']);
+         $data = $request->except(['user_name', 'institution_name']);
         // dd($data);
         $user = User::where('user_name', $request->user_name)->first();
-        $description = Programmatic_Objective::where('description', $request->description)->first();
-        $data = EncryptController::decryptModel($request->except(['user_name', 'description']), 'id');
+        $institution = Institution::where('institution_name', $request->institution_name)->first();
+        $data = EncryptController::decryptModel($request->except(['user_name', 'institution_name']), 'id');
 
         $data['executed'] = ($data['executed'])?"SI":"NO";
         $data['user_id'] = $user->id;
-        $data['programmatic_objectives_id'] = $description->id;
+        $data['institution_id'] = $institution->id;
         // dd($data);
 
         AxisCusca::where('id', $data['id'])->update($data);
