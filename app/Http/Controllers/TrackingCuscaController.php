@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+
 use App\Models\ActionsCusca;
 use App\Models\TrackingCusca;
 use App\Models\User;
@@ -57,7 +58,9 @@ class TrackingCuscaController extends Controller
             //'monthly_actions',
             'tracking_cusca.budget_executed',
             'tracking_cusca.observation',
-            'reply'
+            'reply',
+            'user_name',
+            'status_name'
         )
         ->join('users as u', 'tracking_cusca.user_id', '=', 'u.id')
         //->join('years as y', 'traking_cusca_month_year_action.year_id', '=', 'y.id')
@@ -89,11 +92,11 @@ class TrackingCuscaController extends Controller
     {
         /*if(auth()->user()->getRoleNames()[0] != "Administrador"){
             return response()->json([
-                'message'=>'success', 
+                'message'=>'success',
                 "error"=>"El usuario no posee los permisos suficientes para esta acción."
             ]);
         }*/
-        
+
         $data = $request->except(['user_name', /*'action_description', 'month_name',
     'year_name', */'status_name'/*,'observation'*/]);
 

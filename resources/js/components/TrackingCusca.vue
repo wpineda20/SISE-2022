@@ -78,7 +78,7 @@
                   <!-- <v-row v-if="users.length > 0"> -->
                   <v-row>
                     <!-- Tracking Detail -->
-                    <v-col cols="12" sm="6" md="12">
+                    <v-col cols="12" sm="12" md="12">
                       <base-text-area
                         label="Detalle de seguimiento"
                         v-model.trim="$v.editedItem.tracking_detail.$model"
@@ -97,7 +97,7 @@
                     <!-- Tracking Detail -->
 
                     <!-- Users -->
-                    <v-col cols="12" sm="6" md="6">
+                    <v-col cols="12" sm="12" md="12">
                       <base-select-search
                         label="Usuario"
                         v-model.trim="$v.editedItem.user_name.$model"
@@ -106,14 +106,14 @@
                         :validation="$v.editedItem.user_name"
                         :validationsInput="{
                           required: true,
-                          minLength: true
+                          minLength: true,
                         }"
                         :readonly="true"
                       />
                     </v-col>
                     <!-- Users -->
                     <!-- Month -->
-                    <!--<v-col cols="12" sm="6" md="6">
+                    <!--<v-col cols="12" sm="12" md="12">
                       <base-select-search
                         label="Mes"
                         v-model.trim="$v.editedItem.month_name.$model"
@@ -127,8 +127,8 @@
                       />
                     </v-col>-->
                     <!-- Month -->
-                    <!-- Year 
-                    <v-col cols="12" sm="6" md="6">
+                    <!-- Year
+                    <v-col cols="12" sm="12" md="12">
                       <base-select-search
                         label="Año"
                         v-model.trim="$v.editedItem.year_name.$model"
@@ -143,11 +143,11 @@
                     </v-col>-->
                     <!-- Year -->
                     <!-- Tracking Status -->
-                    <v-col cols="12" sm="6" md="6">
+                    <v-col cols="12" sm="12" md="12">
                       <base-select-search
                         label="Estado de seguimiento"
                         v-model.trim="$v.editedItem.status_name.$model"
-                        :items="traking_Statuses"
+                        :items="trakingStatuses"
                         item="status_name"
                         :validation="$v.editedItem.status_name"
                         :validationsInput="{
@@ -158,7 +158,7 @@
                     </v-col>
                     <!-- Tracking Status -->
                     <!-- Actions
-                    <v-col cols="12" sm="6" md="6">
+                    <v-col cols="12" sm="12" md="12">
                       <base-select-search
                         label="Acción"
                         v-model.trim="$v.editedItem.action_description.$model"
@@ -173,19 +173,17 @@
                     </v-col>
                     Actions -->
                     <!-- Observations -->
-                    <v-col cols="12" sm="6" md="6">
-                      <base-select-search
+                    <!-- <v-col cols="12" sm="12" md="12">
+                      <base-input
                         label="Observación"
                         v-model.trim="$v.editedItem.observation.$model"
-                        :items="observations"
-                        item="observation"
                         :validation="$v.editedItem.observation"
                         :validationsInput="{
                           required: true,
                           minLength: true,
                         }"
                       />
-                    </v-col>
+                    </v-col> -->
                     <!-- Observations -->
                     <!-- Monthly Actions
                     <v-col cols="12" sm="12" md="6">
@@ -201,7 +199,7 @@
                     </v-col>
                     Monthly Actions -->
                     <!-- Bubget executed -->
-                    <v-col cols="12" sm="12" md="6">
+                    <v-col cols="12" sm="12" md="12">
                       <base-input
                         label="Presupuesto ejecutado"
                         v-model.trim="$v.editedItem.budget_executed.$model"
@@ -215,7 +213,7 @@
                     <!-- Bubget executed -->
 
                     <!-- Executed -->
-                    <v-col cols="12" sm="6" md="6" class="pt-0">
+                    <v-col cols="12" sm="12" md="12" class="pt-0">
                       <v-checkbox
                         v-model="$v.editedItem.executed.$model"
                         label="Ejecutado"
@@ -234,11 +232,9 @@
                         label="Observación"
                         v-model.trim="$v.editedItem.observation.$model"
                         :validation="$v.editedItem.observation"
-                        validationTextType="default"
+                        validationTextType="none"
                         :validationsInput="{
-                          required: true,
-                          minLength: true,
-                          maxLength: true,
+                          required: false,
                         }"
                         :min="1"
                         :max="500"
@@ -260,7 +256,7 @@
                         :validation="$v.editedItem.reply"
                         validationTextType="default"
                         :validationsInput="{
-                          required: true,
+                          required: false,
                           minLength: true,
                           maxLength: true,
                         }"
@@ -412,14 +408,14 @@ export default {
     //months: [],
     //years: [],
     //actions: [],
-    traking_Statuses: [],
+    trakingStatuses: [],
     //observations: [],
 
     redirectSessionFinished: false,
     filter: "Mensuales",
     role: "",
     loadingDataForm: false,
-    actualUser: {}
+    actualUser: {},
   }),
 
   // Validations
@@ -431,30 +427,33 @@ export default {
         maxLength: maxLength(500),
       },
 
-      monthly_actions: {
-        required,
-        minLength: minLength(1),
-        maxLength: maxLength(10),
-      },
+      //   monthly_actions: {
+      //     required,
+      //     minLength: minLength(1),
+      //     maxLength: maxLength(10),
+      //   },
       budget_executed: {
         required,
         minLength: minLength(1),
         maxLength: maxLength(10),
       },
-      // user_name: {
-      //   required,
-      // },
-      month_name: {
+      user_name: {
         required,
+        minLength: minLength(1),
       },
-      year_name: {
-        required,
-      },
-      action_description: {
-        required,
-      },
+      //   month_name: {
+      //     required,
+      //   },
+      //   year_name: {
+      //     required,
+      //   },
+      //   action_description: {
+      //     required,
+      //   },
       status_name: {
         required,
+        minLength: minLength(1),
+        maxLength: maxLength(255),
       },
       executed: {},
       observation: {
@@ -527,6 +526,8 @@ export default {
         //this.actions = responses[4].data.actionsCusca;
         this.role = responses[3].data.roles[0];
         this.actualUser = responses[4].data.user;
+
+        this.editedItem.user_name = this.actualUser.user_name;
 
         this.recordsFiltered = this.records;
       }
@@ -689,16 +690,18 @@ export default {
     openModal() {
       this.dialog = true;
 
-      this.editedItem.month_name =
+      //   this.editedItem.month_name =
       //this.months[new Date().getMonth()].month_name;
       //this.editedItem.year_name = new Date().getFullYear();
+      console.log(this.actualUser);
+      this.editedItem.user_name = "leolopez48";
       this.editedItem.status_name = this.trakingStatuses[0].status_name;
       //this.editedItem.action_description = this.actions[0].action_description;
-      this.editedItem.tracking_detail = "";
+      //   this.editedItem.tracking_detail = "";
       this.editedItem.observation = "";
       this.editedItem.reply = "";
       this.editedItem.budget_executed = 0;
-      //this.editedItem.monthly_actions = 0;
+      //   //this.editedItem.monthly_actions = 0;
       this.editedItem.executed = false;
     },
 
