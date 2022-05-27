@@ -24,7 +24,7 @@ class CreateTrackingCuscasTable extends Migration
             //$table->foreignId('year_id')->references('id')->on('years');
             //$table->foreignId('month_id')->references('id')->on('months');
             $table->foreignId('traking_status_id')->references('id')->on('traking_statuses');
-            //$table->foreignId('actions_cusca_id')->references('id')->on('actions_cusca');
+            $table->foreignId('actions_cusca_id')->references('id')->on('actions_cusca');
             // $table->foreignId('tracking_observation_cusca_id')->references('id')->on('tracking_observation_cusca');
             $table->softDeletes();
             $table->timestamps();

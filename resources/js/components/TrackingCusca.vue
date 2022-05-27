@@ -16,8 +16,8 @@
       <v-row>
         <v-tabs>
           <v-tab @click="filterTracking('Mensuales')">Mensuales</v-tab>
-          <v-tab @click="filterTracking('Atrasado')">Atrasados</v-tab>
-          <v-tab @click="filterTracking('Completado')">Completados</v-tab>
+          <v-tab @click="filterTracking('Atrasados')">Atrasados</v-tab>
+          <v-tab @click="filterTracking('Completados')">Completados</v-tab>
         </v-tabs>
       </v-row>
     </div>
@@ -157,7 +157,7 @@
                       />
                     </v-col>
                     <!-- Tracking Status -->
-                    <!-- Actions
+                    <!-- Actions -->
                     <v-col cols="12" sm="12" md="12">
                       <base-select-search
                         label="Acción"
@@ -171,7 +171,7 @@
                         }"
                       />
                     </v-col>
-                    Actions -->
+                    <!--Actions -->
                     <!-- Observations -->
                     <!-- <v-col cols="12" sm="12" md="12">
                       <base-input
@@ -266,6 +266,22 @@
                       />
                     </v-col>
                     <!-- Reply -->
+                    <!-- Meses -->
+                    <v-col
+                      cols="12"
+                      sm="12"
+                      md="4"
+                      v-for="(month, index) in months"
+                      :key="index"
+                    >
+                      <v-checkbox
+                        v-model="month.value"
+                        :label="month.name"
+                        @click="addMonth(month)"
+                      ></v-checkbox>
+                    </v-col>
+
+                    <!-- Meses -->
                   </v-row>
                   <!-- Form -->
                   <v-row>
@@ -342,7 +358,7 @@ import userApi from "../apis/userApi";
 //import monthApi from "../apis/monthApi";
 import trakingStatusApi from "../apis/trakingStatusApi";
 import trackingCuscaApi from "../apis/trackingCuscaApi";
-//import actionsCuscaApi from "../apis/actionsCuscaApi";
+import actionsCuscaApi from "../apis/actionsCuscaApi";
 import roleApi from "../apis/roleApi";
 import lib from "../libs/function";
 import {
@@ -359,7 +375,7 @@ export default {
     dialogDelete: false,
     headers: [
       { text: "SEGUIMIENTO", value: "tracking_detail" },
-      //{ text: "ACCIÓN", value: "action_description" },
+      { text: "ACCIÓN", value: "action_description" },
       //{ text: "MES", value: "month_name" },
       //{ text: "AÑO", value: "year_name" },
       //{ text: "ACCIONES MENSUALES", value: "monthly_actions" },
@@ -376,7 +392,7 @@ export default {
     editedIndex: -1,
     editedItem: {
       tracking_detail: "",
-      //action_description: "",
+      action_description: "",
       //month_name: "",
       budget_executed: 0,
       user_name: "",
@@ -389,7 +405,7 @@ export default {
     },
     defaultItem: {
       tracking_detail: "",
-      //action_description: "",
+      action_description: "",
       //month_name: "",
       budget_executed: 0,
       user_name: "",
@@ -407,7 +423,7 @@ export default {
     users: [],
     //months: [],
     //years: [],
-    //actions: [],
+    actions: [],
     trakingStatuses: [],
     //observations: [],
 
@@ -416,6 +432,57 @@ export default {
     role: "",
     loadingDataForm: false,
     actualUser: {},
+    months: [
+      {
+        name: "Enero",
+        value: false,
+      },
+      {
+        name: "Febrero",
+        value: false,
+      },
+      {
+        name: "Marzo",
+        value: false,
+      },
+      {
+        name: "Abril",
+        value: false,
+      },
+      {
+        name: "Mayo",
+        value: false,
+      },
+      {
+        name: "Junio",
+        value: false,
+      },
+      {
+        name: "Julio",
+        value: false,
+      },
+      {
+        name: "Agosto",
+        value: false,
+      },
+      {
+        name: "Septiembre",
+        value: false,
+      },
+      {
+        name: "Octubre",
+        value: false,
+      },
+      {
+        name: "Noviembre",
+        value: false,
+      },
+      {
+        name: "Diciembre",
+        value: false,
+      },
+    ],
+    monthsTracking: [],
   }),
 
   // Validations
@@ -447,9 +514,9 @@ export default {
       //   year_name: {
       //     required,
       //   },
-      //   action_description: {
-      //     required,
-      //   },
+      action_description: {
+        required,
+      },
       status_name: {
         required,
         minLength: minLength(1),
@@ -505,7 +572,7 @@ export default {
         trakingStatusApi.get(),
         //yearApi.get(),
         //monthApi.get(),
-        //actionsCuscaApi.get(),
+        actionsCuscaApi.get(),
         roleApi.get("/user"),
         userApi.post("/actualUser"),
       ];
@@ -523,9 +590,9 @@ export default {
         this.trakingStatuses = responses[2].data.trakingStatuses;
         //this.years = responses[3].data.years;
         //this.months = responses[4].data.months;
-        //this.actions = responses[4].data.actionsCusca;
-        this.role = responses[3].data.roles[0];
-        this.actualUser = responses[4].data.user;
+        this.actions = responses[3].data.actionsCusca;
+        this.role = responses[4].data.roles[0];
+        this.actualUser = responses[5].data.user;
 
         this.editedItem.user_name = this.actualUser.user_name;
 
@@ -543,7 +610,7 @@ export default {
       this.editedItem.status_name = this.editedItem.status_name;
       //this.editedItem.year_name = this.editedItem.year_name;
       //this.editedItem.month_name = this.editedItem.month_name;
-      //this.editedItem.action_description = this.editedItem.action_description;
+      this.editedItem.action_description = this.editedItem.action_description;
       this.editedItem.observation = this.editedItem.observation;
       this.editedItem.executed =
         this.editedItem.executed == "SI" ? true : false;
@@ -696,7 +763,7 @@ export default {
       console.log(this.actualUser);
       this.editedItem.user_name = "leolopez48";
       this.editedItem.status_name = this.trakingStatuses[0].status_name;
-      //this.editedItem.action_description = this.actions[0].action_description;
+      this.editedItem.action_description = this.actions[0].action_description;
       //   this.editedItem.tracking_detail = "";
       this.editedItem.observation = "";
       this.editedItem.reply = "";
@@ -728,6 +795,17 @@ export default {
 
       this.records = response.data.trackingsCusca;
       this.recordsFiltered = this.records;
+    },
+
+    addMonth(month = "") {
+      const containsMonth = this.monthsTracking.some((m) => m == month);
+
+      if (!containsMonth) {
+        this.monthsTracking.push(month);
+        return;
+      }
+
+      this.monthsTracking.splice(month, 1);
     },
   },
 };

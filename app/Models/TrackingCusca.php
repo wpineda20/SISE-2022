@@ -28,7 +28,7 @@ class TrackingCusca extends Model
         //'year_id',        
         //'month_id',        
         'traking_status_id',        
-        //'actions_cusca_id',     
+         'actions_cusca_id',     
     ];
     public $hidden = [
         'created_at',
